@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["tests/**/*.int.test.ts"],
-    exclude: ["tests/e2e/**", "node_modules/**"],
+    setupFiles: ["tests/setup.int.ts"],
     testTimeout: 30000,
   },
   resolve: {

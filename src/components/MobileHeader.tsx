@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 import { Logo } from "./illustrations";
+import { createClient } from "@/lib/supabase/client";
 
 export function MobileHeader({
   title,
@@ -17,6 +18,17 @@ export function MobileHeader({
   const router = useRouter();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLogout = async () => {
+    if (onLogout) {
+      onLogout();
+      return;
+    }
+    const supabase = createClient();
+    await supabase.auth.signOut({ scope: "local" });
+    router.push("/login");
+    router.refresh();
+  };
 
   let defaultTitle = "Learn";
   if (pathname?.startsWith("/words")) {
@@ -48,13 +60,7 @@ export function MobileHeader({
           >
             <button
               className="w-full text-left px-3 py-2 text-sm text-[var(--danger-text)] hover:bg-[var(--surface-2)] flex items-center gap-2"
-              onClick={() => {
-                if (onLogout) {
-                  onLogout();
-                } else {
-                  router.push("/login");
-                }
-              }}
+              onClick={handleLogout}
             >
               <LogOut className="w-4 h-4" />
               Log out

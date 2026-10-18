@@ -28,7 +28,7 @@ V0 Preflight ─▶ V1 Scaffold + design system ─▶ V2 Supabase + auth ─▶
   - `git init`, private GitHub repo `RHRONY05/Vocab_App`, first commit pushed.
   - **AC:** `npm run build`, `typecheck`, `lint`, `test` pass; a sample Playwright test opens the home page on both projects; the shell matches the header/tab bar in `design/` at 1440 and 390, light and dark; repo is private.
 
-- [ ] **V2 Supabase, auth, proxy**
+- [x] **V2 Supabase, auth, proxy**
   - Create the free Supabase project `vocab` (region `ap-southeast-1`) via MCP. Put URL + anon key + service-role key in `.env.local`.
   - Migration from 03-DATABASE.md → `apply_migration` → generate types → `get_advisors` (fix all warnings).
   - Disable sign-ups (or list it as a human step). Generate `OWNER_PASSWORD`, `E2E_PASSWORD`, `CRON_SECRET` into `.env.local`. `scripts/create-user.ts` creates the owner (`ALLOWED_EMAIL`) and, with `--e2e`, the e2e user (`E2E_EMAIL`, e.g. `e2e+vocab@<owner's domain>`; any address works, it is never emailed).
@@ -36,7 +36,7 @@ V0 Preflight ─▶ V1 Scaffold + design system ─▶ V2 Supabase + auth ─▶
   - **Tests:** `auth.spec.ts`; integration: 401 cases.
   - **AC:** logged out, `/` redirects to `/login`; login with the owner works; advisors clean; login page matches the design.
 
-- [ ] **V3 Lookup + Learn page**
+- [ ] **V3 Lookup + Learn page** — in progress: Antigravity
   - `lib/ai.ts` (+ `AI_MOCK` fixtures in `tests/fixtures/ai/`), `lib/prompts.ts`, schemas, `POST /api/lookup` (including the saved-word shortcut), `lib/words.ts` (normalise + repeat-lookup rule).
   - Learn page per 06-UI.md and design `02-learn` / `03-learn-empty` (desktop + mobile), including the empty state (it may show zeros until V4 adds stats): `WordCard`, `MessageList`, `Composer`, follow-ups with `currentWord`, sentence feedback, Bangla toggle, typo banner, `?q=`, `/` and `Esc` shortcuts, skeleton, error banner with Retry.
   - **Tests:** unit `words.test.ts`; integration for `/api/lookup`; e2e `learn.spec.ts`.

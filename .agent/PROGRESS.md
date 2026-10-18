@@ -8,11 +8,11 @@
 ## Now
 | | |
 |---|---|
-| **Phase** | Building (V1 done, V2 next) |
-| **Next task** | V2 Supabase, auth, proxy |
+| **Phase** | Building (V2 done, V3 next) |
+| **Next task** | V3 Lookup + Learn page |
 | **Blocked on** | — |
 | **Production URL** | — |
-| **Last updated** | 2026-10-19 by Antigravity (V1 Scaffold + design system complete) |
+| **Last updated** | 2026-10-19 by Antigravity (V2 Supabase, auth, proxy complete) |
 
 ## Preflight check (V0)
 | Item | Status | Notes |
@@ -38,7 +38,7 @@ Things only the human can do. Agents add to this list; the human ticks them.
 | Item | Value |
 |---|---|
 | GitHub repo | RHRONY05/Vocab_App (private) |
-| Supabase project ref / region | — / ap-southeast-1 |
+| Supabase project ref / region | vnadntttnwylvarcqwhe / ap-southeast-1 |
 | Vercel project / URL | — |
 | Gemini model | gemini-2.5-flash |
 | Node / npm | v20.19.2 / 10.8.2 |
@@ -48,6 +48,7 @@ Agents append one line per choice the docs didn't cover (newest last). If it cha
 - 2026-10-19 — Planning: see `AGENTS.md` "Key decisions".
 - 2026-10-19 — V0 Preflight: selected `gemini-2.5-flash` for `GEMINI_MODEL` (supports structured outputs and fast Flash-class inference).
 - 2026-10-19 — V1 Scaffold: converted AppLayout to a Server Component with Suspense boundaries around client headers/tabbar to support Next.js 16 Partial Prerendering and dynamic routes. Added explicit 768px media queries in `globals.css` for desktop topbar and mobile header/tabbar.
+- 2026-10-19 — V2 Supabase & Auth: Configured Next.js 16 `src/proxy.ts` (using proxy convention). Disabled signups via Supabase Management API. Used `supabase.auth.signOut({ scope: "local" })` so browser logout leaves other test sessions intact. Handled `cookies()` safely outside request scope for tests.
 
 ## Session log
 Newest at the bottom. One entry per task. Keep entries short.
@@ -78,3 +79,10 @@ Tests: typecheck ✅ lint ✅ unit ✅ (2 passed) build ✅ e2e ✅ (4 passed: d
 Commits: feat: scaffold Next.js 16 app and design system
 Problems / surprises: in Next.js 16 with PPR/Turbopack, AppLayout must be Server Component with Suspense around usePathname() client consumers; solved cleanly.
 Next: V2 Supabase, auth, proxy.
+
+### 2026-10-19 03:25 — Antigravity — V2 Supabase, auth, proxy
+Did: created Supabase project `vocab` (ref: `vnadntttnwylvarcqwhe`, ap-southeast-1). Applied migration 20261019031100_init.sql with RLS, triggers, indexes. Generated TypeScript types. Verified security advisors (0 warnings). Disabled public sign-ups. Created Owner and E2E users via `scripts/create-user.ts`. Implemented `src/proxy.ts` session refresh & route gating, `src/lib/auth.ts` (`requireOwner`), `src/app/login/page.tsx` with error banner & redirect, and logout with local session scoping. Added test helper `tests/helpers/reset.ts`, Playwright auth setup project, integration tests (`tests/auth.int.test.ts`), and e2e auth spec (`tests/e2e/auth.spec.ts`).
+Tests: typecheck ✅ lint ✅ unit ✅ (2 passed) int ✅ (6 passed) e2e ✅ (11 passed: desktop + mobile) build ✅
+Commits: feat: implement supabase auth, proxy and login flow
+Problems / surprises: Supabase global logout revoked storage state session token across test files; switched to local session scope for browser signOut.
+Next: V3 Lookup + Learn page.

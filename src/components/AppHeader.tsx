@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Keyboard, LogOut } from "lucide-react";
 import { Logo } from "./illustrations";
 import { ShortcutsDialog } from "./ShortcutsDialog";
+import { createClient } from "@/lib/supabase/client";
 
 export function AppHeader({
   dueNow = 0,
@@ -18,6 +19,17 @@ export function AppHeader({
   const router = useRouter();
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLogout = async () => {
+    if (onLogout) {
+      onLogout();
+      return;
+    }
+    const supabase = createClient();
+    await supabase.auth.signOut({ scope: "local" });
+    router.push("/login");
+    router.refresh();
+  };
 
   const isLearn = pathname === "/" || pathname === "";
   const isWords = pathname?.startsWith("/words");
@@ -72,13 +84,7 @@ export function AppHeader({
               >
                 <button
                   className="w-full text-left px-3 py-2 text-sm text-[var(--danger-text)] hover:bg-[var(--surface-2)] flex items-center gap-2"
-                  onClick={() => {
-                    if (onLogout) {
-                      onLogout();
-                    } else {
-                      router.push("/login");
-                    }
-                  }}
+                  onClick={handleLogout}
                 >
                   <LogOut className="w-4 h-4" />
                   Log out

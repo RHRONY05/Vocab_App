@@ -1,10 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { CircleAlert } from "lucide-react";
 import { Illustration, PageDecor } from "@/components/illustrations";
 import { Button } from "@/components/ui";
+import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -14,8 +18,26 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    // V2 will implement real Supabase auth
-    setLoading(false);
+
+    try {
+      const supabase = createClient();
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+
+      if (signInError) {
+        setError("Wrong email or password. Try again.");
+        setLoading(false);
+        return;
+      }
+
+      router.push("/");
+      router.refresh();
+    } catch {
+      setError("Wrong email or password. Try again.");
+      setLoading(false);
+    }
   }
 
   return (
@@ -23,7 +45,7 @@ export default function LoginPage() {
       <PageDecor corners={["tr", "bl"]} />
       <form
         onSubmit={handleSubmit}
-        className="card w-full max-w-[400px] p-8 md:p-9 relative z-10"
+        className="card w-full max-w-[400px] p-6 md:p-[36px_32px_32px] relative z-10"
       >
         <div className="flex flex-col items-center gap-2 mb-6.5 text-center">
           <Illustration name="book-sprout" size="sm" />
@@ -32,12 +54,6 @@ export default function LoginPage() {
           </h1>
           <p className="hint">Sign in to continue</p>
         </div>
-
-        {error && (
-          <div className="banner banner-danger mb-4 text-sm" role="alert">
-            {error}
-          </div>
-        )}
 
         <div className="flex flex-col gap-4">
           <div className="field">
@@ -67,6 +83,13 @@ export default function LoginPage() {
               required
             />
           </div>
+
+          {error && (
+            <div className="banner banner-danger text-sm" role="alert">
+              <CircleAlert className="i-sm w-4 h-4 shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
 
           <Button
             type="submit"
