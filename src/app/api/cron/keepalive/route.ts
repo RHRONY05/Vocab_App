@@ -12,9 +12,9 @@ export async function GET(req: NextRequest) {
 
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-    const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
     // Trivial read query to keep the Supabase project active
     await supabase.from("words").select("id").limit(1);
 
