@@ -19,7 +19,7 @@ V0 Preflight ─▶ V1 Scaffold + design system ─▶ V2 Supabase + auth ─▶
   - Check the current Gemini docs and choose `GEMINI_MODEL` (02-ARCHITECTURE.md). Record it.
   - **AC:** a preflight table in PROGRESS.md (item · ✅/❌ · what the agent did / what the human must do).
 
-- [ ] **V1 Scaffold + design system**
+- [x] **V1 Scaffold + design system** — Next.js 16, Tailwind v4, tokens, base components, app shell, robots.ts, vitest and playwright all verified.
   - Next.js 16 + TypeScript strict + Tailwind v4 + shadcn/ui (only the primitives in 02), Zod, `@supabase/ssr`, `@google/genai`, `lucide-react`, Vitest (unit + `vitest.int.config.ts`), Playwright (`desktop` + `mobile` projects, 09-TESTING.md). Folder skeleton from 02. Scripts from 09-TESTING.md.
   - The folder already has `AGENTS.md`, `CLAUDE.md` and `.agent/`, so `create-next-app` may refuse to run here. Scaffold in a temporary folder and move the files in. **Never overwrite our `AGENTS.md` or `CLAUDE.md`**: if Next.js generates its own agent-rules block, add that block at the top of our `AGENTS.md` and commit it.
   - Design system: copy `design/tokens.css` into `globals.css` + Tailwind `@theme`; fonts via `next/font`; build the base components from the design README's component map (`Button`, `Kbd`, `Chip`, `Segmented`, `Switch`, `Banner`, `Skeleton`, `StatusDot`, `BoxMeter`, `Logo`, `Illustration`, `PageDecor` from `design/illustrations/sprite.svg`) and the app shell (`AppHeader` ≥ 768 px, `MobileHeader` + `TabBar` < 768 px) with placeholder pages.

@@ -8,11 +8,11 @@
 ## Now
 | | |
 |---|---|
-| **Phase** | Building (V0 done, V1 next) |
-| **Next task** | V1 Scaffold + design system |
+| **Phase** | Building (V1 done, V2 next) |
+| **Next task** | V2 Supabase, auth, proxy |
 | **Blocked on** | — |
 | **Production URL** | — |
-| **Last updated** | 2026-10-19 by Antigravity (V0 Preflight complete) |
+| **Last updated** | 2026-10-19 by Antigravity (V1 Scaffold + design system complete) |
 
 ## Preflight check (V0)
 | Item | Status | Notes |
@@ -47,6 +47,7 @@ Things only the human can do. Agents add to this list; the human ticks them.
 Agents append one line per choice the docs didn't cover (newest last). If it changes a doc, update the doc too.
 - 2026-10-19 — Planning: see `AGENTS.md` "Key decisions".
 - 2026-10-19 — V0 Preflight: selected `gemini-2.5-flash` for `GEMINI_MODEL` (supports structured outputs and fast Flash-class inference).
+- 2026-10-19 — V1 Scaffold: converted AppLayout to a Server Component with Suspense boundaries around client headers/tabbar to support Next.js 16 Partial Prerendering and dynamic routes. Added explicit 768px media queries in `globals.css` for desktop topbar and mobile header/tabbar.
 
 ## Session log
 Newest at the bottom. One entry per task. Keep entries short.
@@ -70,3 +71,10 @@ Tests: preflight checks ✅
 Commits: docs: complete V0 preflight
 Problems / surprises: none. All preflight requirements satisfied.
 Next: V1 Scaffold + design system.
+
+### 2026-10-19 03:08 — Antigravity — V1 Scaffold + design system
+Did: scaffolded Next.js 16.4 + TypeScript strict + Tailwind v4 + Shadcn primitives + Zod + Vitest + Playwright. Added Next.js agent block to top of AGENTS.md. Built tokens in globals.css, base components (Button, Kbd, Chip, Segmented, Switch, Banner, Skeleton, StatusDot, BoxMeter), inline SVGs (Logo, Illustration, PageDecor), responsive App Shell (AppHeader, MobileHeader, TabBar, ShortcutsDialog), placeholder routes (/login, /, /words, /words/[id], /review), robots.ts disallow all.
+Tests: typecheck ✅ lint ✅ unit ✅ (2 passed) build ✅ e2e ✅ (4 passed: desktop + mobile)
+Commits: feat: scaffold Next.js 16 app and design system
+Problems / surprises: in Next.js 16 with PPR/Turbopack, AppLayout must be Server Component with Suspense around usePathname() client consumers; solved cleanly.
+Next: V2 Supabase, auth, proxy.
