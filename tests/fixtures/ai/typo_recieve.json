@@ -1,0 +1,30 @@
+{
+  "type": "word",
+  "card": {
+    "word": "recieve",
+    "partOfSpeech": "verb",
+    "meaningEn": "To get or be given something.",
+    "meaningBn": "গ্রহণ করা, পাওয়া",
+    "register": "neutral",
+    "howUsed": "Common everyday verb for getting messages, items, or visitors.",
+    "collocations": [
+      "receive a message",
+      "receive payment",
+      "receive support",
+      "receive an award"
+    ],
+    "patterns": [
+      "receive sth from sb",
+      "receive sth"
+    ],
+    "examples": [
+      "I received your email yesterday.",
+      "Did you receive the package from the courier?",
+      "The open-source project received generous funding.",
+      "She received an award for her academic contributions."
+    ],
+    "dontConfuse": [],
+    "isRealWord": false,
+    "suggestion": "receive"
+  }
+}

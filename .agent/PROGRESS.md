@@ -8,11 +8,11 @@
 ## Now
 | | |
 |---|---|
-| **Phase** | Building (V2 done, V3 next) |
-| **Next task** | V3 Lookup + Learn page |
+| **Phase** | Building (V3 done, V4 next) |
+| **Next task** | V4 Save + Words pages |
 | **Blocked on** | — |
 | **Production URL** | — |
-| **Last updated** | 2026-10-19 by Antigravity (V2 Supabase, auth, proxy complete) |
+| **Last updated** | 2026-10-19 by Antigravity (V3 Lookup + Learn page complete) |
 
 ## Preflight check (V0)
 | Item | Status | Notes |
@@ -26,7 +26,7 @@
 | Chrome DevTools MCP | ✅ | `lighthouse_audit` and browser tools available. |
 | Playwright | ✅ | v1.64.1 installed and runnable. |
 | GEMINI_API_KEY | ✅ | Present in `.env.local` (length: 53 chars, kept secret). |
-| GEMINI_MODEL | ✅ | Selected `gemini-2.5-flash` (fast, low-cost Flash model with structured JSON output). |
+| GEMINI_MODEL | ✅ | Updated to `gemini-3.8-flash` (`gemini-2.5-flash` was deprecated by Google for new users). |
 | Design gallery | ✅ | Gallery, tokens, illustrations and component specs inspected. |
 
 ## Human steps
@@ -40,7 +40,7 @@ Things only the human can do. Agents add to this list; the human ticks them.
 | GitHub repo | RHRONY05/Vocab_App (private) |
 | Supabase project ref / region | vnadntttnwylvarcqwhe / ap-southeast-1 |
 | Vercel project / URL | — |
-| Gemini model | gemini-2.5-flash |
+| Gemini model | gemini-3.8-flash |
 | Node / npm | v20.19.2 / 10.8.2 |
 
 ## Decisions made during the build
@@ -49,6 +49,7 @@ Agents append one line per choice the docs didn't cover (newest last). If it cha
 - 2026-10-19 — V0 Preflight: selected `gemini-2.5-flash` for `GEMINI_MODEL` (supports structured outputs and fast Flash-class inference).
 - 2026-10-19 — V1 Scaffold: converted AppLayout to a Server Component with Suspense boundaries around client headers/tabbar to support Next.js 16 Partial Prerendering and dynamic routes. Added explicit 768px media queries in `globals.css` for desktop topbar and mobile header/tabbar.
 - 2026-10-19 — V2 Supabase & Auth: Configured Next.js 16 `src/proxy.ts` (using proxy convention). Disabled signups via Supabase Management API. Used `supabase.auth.signOut({ scope: "local" })` so browser logout leaves other test sessions intact. Handled `cookies()` safely outside request scope for tests.
+- 2026-10-19 — V3 Lookup & Learn: Google Gemini returned 404 for `gemini-2.5-flash` indicating it is no longer available to new users and recommending `gemini-3.8-flash`; updated default model to `gemini-3.8-flash`. Added explicit `required` properties list to the `card` schema object so Gemini populates all structured card fields.
 
 ## Session log
 Newest at the bottom. One entry per task. Keep entries short.
@@ -86,3 +87,10 @@ Tests: typecheck ✅ lint ✅ unit ✅ (2 passed) int ✅ (6 passed) e2e ✅ (11
 Commits: feat: implement supabase auth, proxy and login flow
 Problems / surprises: Supabase global logout revoked storage state session token across test files; switched to local session scope for browser signOut.
 Next: V3 Lookup + Learn page.
+
+### 2026-10-19 03:42 — Antigravity — V3 Lookup + Learn page
+Did: implemented `src/lib/prompts.ts`, `src/lib/words.ts` (normaliseWord, isPotentialWordLookup, applyRepeatLookupRule), `src/lib/ai.ts` (GoogleGenAI SDK, gemini-3.8-flash, structured JSON schema output, 1 retry, error handling, AI_MOCK fixtures), AI mock fixtures in `tests/fixtures/ai/`, route `POST /api/lookup` (saved-word instant return, repeat-lookup rule, AI lookup with match fallback), components `WordCard.tsx`, `Composer.tsx`, `MessageList.tsx`, and `src/app/(app)/page.tsx` (empty state, conversation stream, Bangla toggle with localStorage, ?q= param, / shortcut, error banner with retry). Verified live with real Gemini API for all 4 Acceptance Criteria cases.
+Tests: typecheck ✅ lint ✅ unit ✅ (9 passed) int ✅ (10 passed) e2e ✅ (22 passed: desktop + mobile) build ✅
+Commits: feat: implement lookup API, AI integration and Learn page
+Problems / surprises: Google deprecated gemini-2.5-flash for new users (404); switched to gemini-3.8-flash. Added explicit required fields array in responseSchema so Gemini fills all card properties.
+Next: V4 Save + Words pages.

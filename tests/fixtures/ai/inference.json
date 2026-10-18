@@ -1,0 +1,35 @@
+{
+  "type": "word",
+  "card": {
+    "word": "inference",
+    "partOfSpeech": "noun",
+    "meaningEn": "A conclusion reached on the basis of evidence and reasoning.",
+    "meaningBn": "অনুমান, সিদ্ধান্ত",
+    "register": "formal",
+    "howUsed": "Widely used in science, logic, and especially machine learning (where running a trained model on new data is called 'inference').",
+    "collocations": [
+      "draw an inference",
+      "statistical inference",
+      "valid inference",
+      "direct inference"
+    ],
+    "patterns": [
+      "draw an inference from sth",
+      "make an inference about sth"
+    ],
+    "examples": [
+      "The researcher drew an inference from the survey results.",
+      "In deep learning, model inference latency must be kept under 50 milliseconds.",
+      "What inference can we make from this sudden drop in website traffic?",
+      "His conclusion was based on careful logical inference rather than guesswork."
+    ],
+    "dontConfuse": [
+      {
+        "word": "implication",
+        "difference": "an implication is what is suggested or hinted at; an inference is the conclusion the listener draws."
+      }
+    ],
+    "isRealWord": true,
+    "suggestion": null
+  }
+}

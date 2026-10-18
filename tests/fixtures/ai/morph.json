@@ -1,0 +1,30 @@
+{
+  "type": "word",
+  "card": {
+    "word": "morph",
+    "partOfSpeech": "verb",
+    "meaningEn": "To change gradually from one form or character into another.",
+    "meaningBn": "রূপান্তরিত হওয়া, রূপ বদলানো",
+    "register": "informal",
+    "howUsed": "Originally from computer graphics animation, now widely used when things, people or ideas gradually transform into something else.",
+    "collocations": [
+      "morph into sth",
+      "gradually morph",
+      "slowly morph",
+      "seamlessly morph"
+    ],
+    "patterns": [
+      "morph into sth",
+      "morph from A to B"
+    ],
+    "examples": [
+      "Over the years, the casual meetup morphed into a full-scale tech conference.",
+      "The small startup morphed into a major enterprise software provider.",
+      "In the animated video, the caterpillar slowly morphed into a butterfly.",
+      "What started as a friendly debate morphed into a heated argument."
+    ],
+    "dontConfuse": [],
+    "isRealWord": true,
+    "suggestion": null
+  }
+}

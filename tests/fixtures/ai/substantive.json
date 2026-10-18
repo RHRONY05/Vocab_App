@@ -1,0 +1,37 @@
+{
+  "type": "word",
+  "card": {
+    "word": "substantive",
+    "partOfSpeech": "adjective",
+    "meaningEn": "Having real importance, value or effect; about the actual content of something, not just its form.",
+    "meaningBn": "সারগর্ভ, মৌলিক, বাস্তব গুরুত্বপূর্ণ",
+    "register": "formal",
+    "howUsed": "Common in academic, legal and professional writing to say something is real and meaningful, not surface-level or procedural. In everyday speech people usually say “real” or “meaningful” instead.",
+    "collocations": [
+      "substantive changes",
+      "substantive issue",
+      "substantive discussion",
+      "substantive feedback",
+      "substantive evidence"
+    ],
+    "patterns": [
+      "make substantive progress on sth",
+      "have a substantive discussion about sth",
+      "no substantive difference between A and B"
+    ],
+    "examples": [
+      "The reviewer gave substantive feedback on my methodology, not just grammar fixes.",
+      "We need a substantive discussion about the budget before we sign the contract.",
+      "After three meetings, there has been no substantive progress on the project.",
+      "Version 2 includes substantive changes to the API, so read the release notes."
+    ],
+    "dontConfuse": [
+      {
+        "word": "substantial",
+        "difference": "large in size, amount or importance: “a substantial increase in cost”."
+      }
+    ],
+    "isRealWord": true,
+    "suggestion": null
+  }
+}

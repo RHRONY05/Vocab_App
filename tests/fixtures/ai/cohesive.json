@@ -1,0 +1,31 @@
+{
+  "type": "word",
+  "card": {
+    "word": "cohesive",
+    "partOfSpeech": "adjective",
+    "meaningEn": "Forming a united whole; when the parts fit and work together well.",
+    "meaningBn": "সুসংহত, সংঘবদ্ধ",
+    "register": "neutral",
+    "howUsed": "Used for teams, groups, writing and designs whose parts connect well. Common in academic writing (“a cohesive argument”) and in software (“a cohesive module” does one clear job).",
+    "collocations": [
+      "cohesive team",
+      "cohesive unit",
+      "cohesive argument",
+      "highly cohesive"
+    ],
+    "patterns": [
+      "be cohesive",
+      "form a cohesive whole",
+      "make sth more cohesive"
+    ],
+    "examples": [
+      "After the retreat, the team felt much more cohesive.",
+      "Your essay needs a more cohesive structure.",
+      "The engineering team maintained a cohesive workflow throughout the sprint.",
+      "Each microservice should have cohesive responsibilities."
+    ],
+    "dontConfuse": [],
+    "isRealWord": true,
+    "suggestion": null
+  }
+}

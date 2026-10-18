@@ -36,13 +36,13 @@ V0 Preflight ─▶ V1 Scaffold + design system ─▶ V2 Supabase + auth ─▶
   - **Tests:** `auth.spec.ts`; integration: 401 cases.
   - **AC:** logged out, `/` redirects to `/login`; login with the owner works; advisors clean; login page matches the design.
 
-- [ ] **V3 Lookup + Learn page** — in progress: Antigravity
+- [x] **V3 Lookup + Learn page**
   - `lib/ai.ts` (+ `AI_MOCK` fixtures in `tests/fixtures/ai/`), `lib/prompts.ts`, schemas, `POST /api/lookup` (including the saved-word shortcut), `lib/words.ts` (normalise + repeat-lookup rule).
   - Learn page per 06-UI.md and design `02-learn` / `03-learn-empty` (desktop + mobile), including the empty state (it may show zeros until V4 adds stats): `WordCard`, `MessageList`, `Composer`, follow-ups with `currentWord`, sentence feedback, Bangla toggle, typo banner, `?q=`, `/` and `Esc` shortcuts, skeleton, error banner with Retry.
   - **Tests:** unit `words.test.ts`; integration for `/api/lookup`; e2e `learn.spec.ts`.
   - **AC (in the browser, real Gemini):** "inference" → full card that mentions the ML sense; follow-up "is it formal?" → short reply, no question back; "I made a inference from data" → corrected sentence; "recieve" → "Did you mean receive?"; matches the design at 1440 and 390, light and dark.
 
-- [ ] **V4 Save + Words pages**
+- [ ] **V4 Save + Words pages** — in progress: Antigravity
   - `POST /api/words` with quiz generation; `GET /api/words`, `/api/words/stats` (incl. `duePreview`, `nextDue`), `/api/words/[id]`, DELETE. Wire the stats into the Learn empty state and the header badge.
   - Save button + `Ctrl+S`; Save states; repeat-lookup banners.
   - Words page per design `04-words` (desktop two panes) and `03-words` / `04-word-detail` (mobile), `ProgressStrip`, tabs with counts, search, delete confirmation dialog.

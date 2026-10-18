@@ -1,0 +1,38 @@
+[
+  {
+    "kind": "meaning",
+    "prompt": "What does 'substantive' mean in the sentence: 'The reviewer provided substantive comments on the proposal'?",
+    "options": [
+      "Important and meaningful content rather than superficial formatting",
+      "Brief and informal notes",
+      "Large physical dimensions or volume",
+      "Negative criticism without suggestions"
+    ],
+    "answerIndex": 0,
+    "explanation": "'Substantive' means having real importance, value, or substance rather than just surface appearance."
+  },
+  {
+    "kind": "fill_blank",
+    "prompt": "The two teams had a ____ discussion about architecture before finalizing the database schema.",
+    "options": [
+      "substantive",
+      "substantively",
+      "substantiate",
+      "substance"
+    ],
+    "answerIndex": 0,
+    "explanation": "'Substantive' is the adjective describing a discussion with meaningful depth and real content."
+  },
+  {
+    "kind": "usage",
+    "prompt": "Which sentence uses 'substantive' correctly?",
+    "options": [
+      "After hours of debate, the committee made substantive progress toward resolving the dispute.",
+      "She ordered a substantive pizza with extra cheese for dinner.",
+      "The car was substantive broken down on the highway.",
+      "He spoke very substantive during the quick phone call."
+    ],
+    "answerIndex": 0,
+    "explanation": "'Substantive progress' is a standard formal collocation meaning meaningful, concrete advancement."
+  }
+]
