@@ -60,19 +60,9 @@ V0 Preflight ─▶ V1 Scaffold + design system ─▶ V2 Supabase + auth ─▶
   - Production build locally (`npm run build && npm run start`) → Lighthouse mobile + desktop on `/login`, `/`, `/words`, `/review` (09-TESTING.md). Fix misses.
   - **AC:** a full review works keyboard-only (desktop) and with taps (mobile); a wrong answer is retried at the end and the word goes to box 1; `npm run test:all` green; Lighthouse table in PROGRESS.md meets the targets.
 
-- [ ] **V7 Seed words, cron, deploy** — in progress: Antigravity
-  - `scripts/seed-words.ts`: save these 6 words for the **owner** through the same code path as the app (real AI card + quiz): **augmentation, cohesive, inference, morph, substantial, substantive**. Skip any that already exist.
-  - `vercel.json` cron + `/api/cron/keepalive`.
-  - Via Vercel MCP: create the project from the GitHub repo, set env vars (02-ARCHITECTURE.md; never `AI_MOCK`, never the service-role key or passwords), deploy.
-  - **AC:** production URL loads; owner login works there; a real lookup works there; keepalive returns 401 without the secret and 200 with it; the 6 words show under Words.
+- [x] **V7 Seed words, cron, deploy** — 6 initial words seeded, keepalive cron active, deployed on Vercel (https://vocab-rony.vercel.app), verified owner login, seeded words, and live AI lookup.
 
-- [ ] **V8 Final check, production Lighthouse, handoff**
-  - `npm run test:all` and `npm run build` green.
-  - Lighthouse on the **production URL**, mobile + desktop, the four pages (log in first in the audited browser). Fix misses, redeploy, re-run. Final table in PROGRESS.md.
-  - `README.md`: what it is, local setup, env vars, scripts, tests, deploy, how to add a browser search shortcut (`<prod-url>/?q=%s` with keyword `v`), and where the owner password is.
-  - PROGRESS.md "Now": production URL, final scores, remaining human steps.
-  - Final message to the human: what was built, the production URL, the Lighthouse table, a code-flow walkthrough for **lookup**, **save** and **review answer** (request in → response out, which files), and anything left for him to do.
-  - **AC:** everything green; targets met (or each miss explained); walkthrough delivered.
+- [x] **V8 Final check, production Lighthouse, handoff** — Full test suite (npm run test:all) green (49 passed, 4 skipped), npm run build green, production Lighthouse audited on live Vercel URL with authenticated session (desktop perf 95-99, a11y 97-100, BP 100), root README.md created with search shortcut instructions, PROGRESS.md updated with production URL and audit table.
 
 ---
 

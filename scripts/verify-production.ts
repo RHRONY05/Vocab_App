@@ -99,7 +99,7 @@ async function verify() {
     console.log(`✓ Live AI response received and card rendered for '${wordText}'!`);
 
     // Verify card content elements
-    const def = await page.locator(".card-def").textContent();
+    const def = await page.locator(".meaning").first().textContent();
     console.log("Definition preview:", def?.slice(0, 60));
 
     console.log("🎉 ALL PRODUCTION CHECKS PASSED SUCCESSFULLY!");
