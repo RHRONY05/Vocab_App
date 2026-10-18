@@ -12,7 +12,7 @@ V0 Preflight ─▶ V1 Scaffold + design system ─▶ V2 Supabase + auth ─▶
 
 ---
 
-- [ ] **V0 Preflight**
+- [x] **V0 Preflight** — Node, git, Supabase, Vercel, GitHub, Chrome DevTools, Playwright, GEMINI_API_KEY verified; GEMINI_MODEL=gemini-2.5-flash selected.
   - Read `AGENTS.md`, every file in `.agent/`, and open the design gallery (`.agent/design/README.md` → "How to view").
   - Check: Node ≥ 20, git, Supabase MCP (list orgs/projects, `get_cost` for a new free project), Vercel MCP (list teams/projects), GitHub access for `RHRONY05`, Chrome DevTools MCP (`lighthouse_audit` available), Playwright can install Chromium.
   - Check `.env.local` has a non-empty `GEMINI_API_KEY` (check the length only; never print it).
