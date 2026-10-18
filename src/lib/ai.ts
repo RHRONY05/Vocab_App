@@ -171,7 +171,7 @@ export async function lookupWithAi(params: {
 
   const attemptCall = async (): Promise<LookupAiResult> => {
     const response = await ai.models.generateContent({
-      model: env.GEMINI_MODEL,
+      model: process.env.GEMINI_MODEL || env.GEMINI_MODEL,
       contents: userPrompt,
       config: {
         systemInstruction: LOOKUP_SYSTEM_PROMPT,
@@ -247,7 +247,7 @@ export async function generateQuizWithAi(
 
   const attemptCall = async (): Promise<QuizQuestion[]> => {
     const response = await ai.models.generateContent({
-      model: env.GEMINI_MODEL,
+      model: process.env.GEMINI_MODEL || env.GEMINI_MODEL,
       contents: userPrompt,
       config: {
         systemInstruction: QUIZ_SYSTEM_PROMPT,

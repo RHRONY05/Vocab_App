@@ -5,7 +5,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1).optional(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
   GEMINI_API_KEY: z.string().min(1).optional(),
-  GEMINI_MODEL: z.string().default("gemini-3.8-flash"),
+  GEMINI_MODEL: z.string().default("gemini-3.5-flash"),
   ALLOWED_EMAIL: z.string().email().default("muhammadrony147@gmail.com"),
   OWNER_PASSWORD: z.string().optional(),
   CRON_SECRET: z.string().optional(),
