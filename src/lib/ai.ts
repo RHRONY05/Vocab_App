@@ -201,8 +201,9 @@ export async function lookupWithAi(params: {
     try {
       return await attemptCall();
     } catch (secondErr) {
-      console.error("Second Gemini lookup attempt failed:", secondErr);
-      throw new AiError("ai_unavailable", 502);
+      const msg = secondErr instanceof Error ? secondErr.message : String(secondErr);
+      console.error("Second Gemini lookup attempt failed:", msg);
+      throw new AiError(msg, 502);
     }
   }
 }
