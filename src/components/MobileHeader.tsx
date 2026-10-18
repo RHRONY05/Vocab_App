@@ -2,9 +2,10 @@
 
 import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { LogOut } from "lucide-react";
+import { LogOut, X } from "lucide-react";
 import { Logo } from "./illustrations";
 import { createClient } from "@/lib/supabase/client";
+import { useStats } from "@/lib/stats-context";
 
 export function MobileHeader({
   title,
@@ -18,10 +19,31 @@ export function MobileHeader({
   const router = useRouter();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { activeSession } = useStats();
 
   // Dedicated routes render their own specialized headers
   if (pathname !== "/words" && pathname?.startsWith("/words/")) return null;
   if (pathname?.startsWith("/review/session")) return null;
+
+  if (activeSession) {
+    return (
+      <header className="m-header md:hidden" style={{ gap: 12 }}>
+        <button
+          className="icon-btn"
+          aria-label="End session"
+          onClick={activeSession.onEnd}
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <div className="grow bar">
+          <i style={{ width: `${activeSession.progress}%` }} />
+        </div>
+        <span className="hint num font-semibold">
+          {activeSession.current} / {activeSession.total}
+        </span>
+      </header>
+    );
+  }
 
   const handleLogout = async () => {
     if (onLogout) {

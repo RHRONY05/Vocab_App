@@ -14,15 +14,24 @@ export interface WordStatsData {
     id: string;
     word: string;
     lookupCount: number;
-    weaknessScore: number;
+    weaknessScore?: number;
   }>;
-  nextDue?: { date: string; count: number } | null;
+  nextDue?: { at: string; count: number } | null;
+}
+
+export interface ActiveReviewSession {
+  current: number;
+  total: number;
+  progress: number;
+  onEnd: () => void;
 }
 
 interface StatsContextType {
   stats: WordStatsData;
   refreshStats: () => Promise<void>;
   loading: boolean;
+  activeSession: ActiveReviewSession | null;
+  setActiveSession: (session: ActiveReviewSession | null) => void;
 }
 
 const defaultStats: WordStatsData = {
@@ -39,11 +48,14 @@ const StatsContext = createContext<StatsContextType>({
   stats: defaultStats,
   refreshStats: async () => {},
   loading: false,
+  activeSession: null,
+  setActiveSession: () => {},
 });
 
 export function StatsProvider({ children }: { children: React.ReactNode }) {
   const [stats, setStats] = useState<WordStatsData>(defaultStats);
   const [loading, setLoading] = useState(false);
+  const [activeSession, setActiveSession] = useState<ActiveReviewSession | null>(null);
 
   const refreshStats = useCallback(async () => {
     try {
@@ -81,7 +93,15 @@ export function StatsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <StatsContext.Provider value={{ stats, refreshStats, loading }}>
+    <StatsContext.Provider
+      value={{
+        stats,
+        refreshStats,
+        loading,
+        activeSession,
+        setActiveSession,
+      }}
+    >
       {children}
     </StatsContext.Provider>
   );

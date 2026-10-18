@@ -1,7 +1,9 @@
 import { test, expect } from "@playwright/test";
+import { resetE2EUser } from "../helpers/reset";
 
 test.describe("Learn Page", () => {
   test.beforeEach(async ({ page }) => {
+    await resetE2EUser();
     // Clear chat history before each test to start fresh on empty state
     await page.goto("/");
     await page.evaluate(() => localStorage.removeItem("vocab_chat"));

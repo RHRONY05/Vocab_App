@@ -54,13 +54,13 @@ V0 Preflight ─▶ V1 Scaffold + design system ─▶ V2 Supabase + auth ─▶
   - **Tests:** unit `srs.test.ts`, `score.test.ts`, `select.test.ts` (07 §7); integration for `/api/quiz*`.
   - **AC:** all tests pass; review mode returns only due words; practice never returns duplicates.
 
-- [ ] **V6 Review UI + local Lighthouse**
+- [x] **V6 Review UI + local Lighthouse** — Review start, MCQ, recall (hidden + revealed), end screens, retry queue, shortcuts, e2e review/a11y/visual tests green, and local Lighthouse targets met (A11y 100, BP 96-100, desktop perf 99).
   - Review start (incl. the "All caught up" variant), MCQ, recall (hidden + revealed), end screens (both variants) per design `05`–`08` and 06-UI.md (desktop + mobile; tab bar hidden during a session on mobile), Review badge, keyboard shortcuts, shortcuts dialog.
   - **Tests:** e2e `review.spec.ts`, `a11y.spec.ts`, `visual.spec.ts` (create baselines after comparing with the design by eye).
   - Production build locally (`npm run build && npm run start`) → Lighthouse mobile + desktop on `/login`, `/`, `/words`, `/review` (09-TESTING.md). Fix misses.
   - **AC:** a full review works keyboard-only (desktop) and with taps (mobile); a wrong answer is retried at the end and the word goes to box 1; `npm run test:all` green; Lighthouse table in PROGRESS.md meets the targets.
 
-- [ ] **V7 Seed words, cron, deploy**
+- [ ] **V7 Seed words, cron, deploy** — in progress: Antigravity
   - `scripts/seed-words.ts`: save these 6 words for the **owner** through the same code path as the app (real AI card + quiz): **augmentation, cohesive, inference, morph, substantial, substantive**. Skip any that already exist.
   - `vercel.json` cron + `/api/cron/keepalive`.
   - Via Vercel MCP: create the project from the GitHub repo, set env vars (02-ARCHITECTURE.md; never `AI_MOCK`, never the service-role key or passwords), deploy.

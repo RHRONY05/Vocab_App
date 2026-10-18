@@ -51,7 +51,7 @@
   --line-strong: #CFC2AC;
   --ink: #1F2B2B;            /* deep green-black ink */
   --ink-2: #4F5C5A;
-  --ink-3: #87918D;
+  --ink-3: #505F5B;
 
   --accent: #1E6B70;         /* deep teal: primary actions, focus, selection */
   --accent-hover: #17585C;
@@ -409,7 +409,7 @@ kbd {
 .wc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .meaning { margin-top: 16px; font-size: var(--text-lg); line-height: var(--leading-lg); font-weight: 500; }
 .bangla { margin-top: 6px; display: flex; gap: 10px; align-items: baseline; font-family: var(--font-bn); font-size: 17px; line-height: 28px; color: var(--ink-2); }
-.bangla .tag { font-family: var(--font-bn); font-size: 12px; font-weight: 600; color: var(--ink-3); padding: 0 6px; border-radius: 6px; background: var(--surface-2); line-height: 22px; }
+.bangla .tag { font-family: var(--font-bn); font-size: 12px; font-weight: 600; color: var(--ink-2); padding: 0 6px; border-radius: 6px; background: var(--surface-2); line-height: 22px; }
 .wc-body { margin-top: 20px; padding-top: 4px; border-top: 1px solid var(--line); }
 .wc-sec { display: grid; grid-template-columns: 136px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); }
 .wc-sec:last-child { border-bottom: 0; padding-bottom: 0; }
@@ -489,6 +489,7 @@ mark.w { color: inherit; font-weight: 650; padding: 0 2px; border-radius: 3px; b
 .wrow { display: grid; grid-template-columns: 8px 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border-radius: var(--radius-md); cursor: pointer; transition: background var(--dur-fast) var(--ease); }
 .wrow:hover { background: var(--surface-2); }
 .wrow.on { background: var(--accent-soft); }
+.wrow.on .pos, .wrow.on .meta { color: var(--accent-text); }
 .wrow .w { font-weight: 600; font-size: 15px; line-height: 20px; }
 .wrow .pos { font-size: 12.5px; color: var(--ink-3); font-weight: 500; margin-left: 6px; }
 .wrow .m { font-size: 13.5px; line-height: 20px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

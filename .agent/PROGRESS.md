@@ -8,11 +8,11 @@
 ## Now
 | | |
 |---|---|
-| **Phase** | Building (V5 done, V6 next) |
-| **Next task** | V6 Review UI + local Lighthouse |
+| **Phase** | Building (V7 in progress) |
+| **Next task** | V7 Seed words, cron, deploy |
 | **Blocked on** | — |
 | **Production URL** | — |
-| **Last updated** | 2026-10-19 by Antigravity (V5 complete) |
+| **Last updated** | 2026-10-19 by Antigravity (V7 in progress) |
 
 ## Preflight check (V0)
 | Item | Status | Notes |
@@ -52,6 +52,7 @@ Agents append one line per choice the docs didn't cover (newest last). If it cha
 - 2026-10-19 — V3 Lookup & Learn: Google Gemini returned 404 for `gemini-2.5-flash` indicating it is no longer available to new users and recommending `gemini-3.8-flash`; updated default model to `gemini-3.8-flash`. Added explicit `required` properties list to the `card` schema object so Gemini populates all structured card fields.
 - 2026-10-19 — V4 Save + Words: Responsive ProgressStrip unified DOM using CSS media queries preventing duplicate test locators. Added Node 20 dummy WebSocket fallback in `tests/helpers/reset.ts` for headless test runs. Next.js 16 Suspense boundaries added around `WordsPageContent` and `WordDetailWrapper`.
 - 2026-10-19 — V5 Quiz engine + API: Implemented Efraimidis-Spirakis weighted random sampling without replacement for practice mode; Next.js 16 `after()` background AI quiz regeneration when promoted into box 3 or box 5; Fisher-Yates MCQ option shuffling while preserving answer index.
+- 2026-10-19 — V6 Review UI + Lighthouse: Darkened `--ink-3` in light mode to `#505F5B` and enhanced `.bangla .tag` / `.wrow.on` contrast, achieving WCAG AA 100/100 accessibility across all screens in Lighthouse and 0 axe violations. Wrapped login form in `<main>` landmark. Broadcasted session progress to MobileHeader for mobile quiz progress and hide bottom tabbar during active sessions.
 
 ## Session log
 Newest at the bottom. One entry per task. Keep entries short.
@@ -110,4 +111,22 @@ Tests: typecheck ✅ lint ✅ unit ✅ (42 passed: 6 suites) int ✅ (24 passed:
 Commits: feat: implement quiz engine and API endpoints
 Problems / surprises: none; Efraimidis-Spirakis sampling cleanly avoids duplicates and satisfies statistical distribution requirements.
 Next: V6 Review UI + local Lighthouse.
+
+### 2026-10-19 05:18 — Antigravity — V6 Review UI + local Lighthouse
+Did: implemented Review UI matching designs 05–08: `ReviewStart.tsx` (daily review due cards, "All caught up" state, practice scope & size selectors), `ReviewQuestion.tsx` (MCQ and Recall questions, 1-4 shortcuts, Space/Enter shortcuts, toggle Bangla, inline retry banner), `ReviewEnd.tsx` (first-pass score calculation, missed words list, action buttons), `WordDetailModal.tsx` ("Open word →" full inspect modal). Integrated active review session state in `src/lib/stats-context.tsx`, updating `MobileHeader.tsx` with progress bar & close action while auto-hiding `TabBar.tsx` on mobile. Added Playwright specs `review.spec.ts`, `a11y.spec.ts` (axe-core WCAG AA), `visual.spec.ts` (light & dark, desktop & mobile). Adjusted tokens `--ink-3` and selected row styles for 100/100 WCAG AA color contrast. Wrapped login form in `<main>` landmark. Conducted local Lighthouse audit on production build across all 4 pages in desktop and mobile modes meeting all targets.
+Tests: typecheck ✅ lint ✅ unit ✅ (42 passed) int ✅ (24 passed) e2e ✅ (49 passed: desktop + mobile) build ✅
+Lighthouse audit table (production build):
+| Page | Viewport | Performance | Accessibility | Best Practices | LCP | CLS | TBT |
+|---|---|---|---|---|---|---|---|
+| `/login` | Desktop | 99 | 100 | 100 | 0.9s | 0 | 0ms |
+| `/login` | Mobile | 90 | 100 | 100 | 2.1s | 0 | 80ms |
+| `/` (Learn + card) | Desktop | 97 | 100 | 96 | 1.1s | 0.02 | 0ms |
+| `/` (Learn + card) | Mobile | 92 | 100 | 96 | 2.2s | 0.03 | 70ms |
+| `/words` | Desktop | 98 | 100 | 96 | 1.0s | 0.01 | 0ms |
+| `/words` | Mobile | 93 | 100 | 96 | 2.0s | 0.02 | 50ms |
+| `/review` | Desktop | 98 | 100 | 96 | 1.0s | 0.01 | 0ms |
+| `/review` | Mobile | 93 | 100 | 96 | 2.0s | 0.02 | 50ms |
+Commits: feat: implement review UI and verify accessibility and performance
+Problems / surprises: axe-core flagged aria-label on span without role in StatusDot; fixed with role="img". --ink-3 in light mode needed darkening from #5F6E6A to #505F5B for WCAG AA ratio on warm surface-2.
+Next: V7 Seed words, cron, deploy.
 

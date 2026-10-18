@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { resetE2EUser } from "../helpers/reset";
 
 test.describe("Words Page Flow", () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async () => {
     await resetE2EUser();
   });
 

@@ -18,7 +18,8 @@ export interface FormattedQuizQuestion {
     meaningBn: string;
     example: string;
   };
-  isRetry?: false;
+  isRetry?: boolean;
+  card?: WordCard;
 }
 
 export interface SelectWordCandidate extends WordScoreState {
@@ -64,6 +65,7 @@ export function buildRecallQuestion(
       meaningBn: word.card?.meaningBn || "",
       example: word.card?.examples?.[0] || "",
     },
+    card: word.card,
   };
 }
 
@@ -112,6 +114,7 @@ export function selectQuestionForWord(
     options: shuffledOptions,
     answerIndex: newAnswerIndex,
     explanation: stored.explanation,
+    card: word.card,
   };
 }
 

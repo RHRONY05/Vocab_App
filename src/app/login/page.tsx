@@ -41,7 +41,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center p-4 bg-[var(--bg)] text-[var(--ink)]">
+    <main className="relative min-h-screen flex items-center justify-center p-4 bg-[var(--bg)] text-[var(--ink)]">
       <PageDecor corners={["tr", "bl"]} />
       <form
         onSubmit={handleSubmit}
@@ -103,6 +103,6 @@ export default function LoginPage() {
           </Button>
         </div>
       </form>
-    </div>
+    </main>
   );
 }

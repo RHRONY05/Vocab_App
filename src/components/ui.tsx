@@ -224,6 +224,7 @@ export function StatusDot({
 }) {
   return (
     <span
+      role="img"
       className={cn("dot", status, className)}
       title={`Status: ${status}`}
       aria-label={`Status: ${status}`}

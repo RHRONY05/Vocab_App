@@ -7,13 +7,13 @@ import { BookOpen, Library, Repeat2 } from "lucide-react";
 import { useStats } from "@/lib/stats-context";
 
 export function TabBar({ dueNow = 0 }: { dueNow?: number }) {
-  const { stats } = useStats();
+  const { stats, activeSession } = useStats();
   const effectiveDueNow = dueNow || stats?.dueNow || 0;
   const pathname = usePathname();
 
   // Hide the tab bar during an active review session
   const isReviewSession = pathname?.startsWith("/review/session");
-  if (isReviewSession) return null;
+  if (isReviewSession || activeSession) return null;
 
   const isLearn = pathname === "/" || pathname === "";
   const isWords = pathname?.startsWith("/words");

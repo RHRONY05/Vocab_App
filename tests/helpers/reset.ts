@@ -63,6 +63,72 @@ export async function resetE2EUser(): Promise<void> {
   console.log(`[resetE2EUser] Successfully reset words & quiz attempts for ${e2eEmail}`);
 }
 
+export async function seedE2EWords(
+  words: Array<{
+    word: string;
+    card: unknown;
+    quiz?: unknown[];
+    box?: number;
+    dueNow?: boolean;
+    lookup_count?: number;
+    wrong_count?: number;
+    correct_count?: number;
+  }>
+): Promise<string[]> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const e2eEmail = process.env.E2E_EMAIL;
+
+  if (!url || !serviceKey || !e2eEmail) {
+    throw new Error("Missing credentials in seedE2EWords");
+  }
+
+  const supabase = createClient<Database>(url, serviceKey, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+
+  const { data: usersData, error: listError } = await supabase.auth.admin.listUsers();
+  if (listError) throw listError;
+
+  const e2eUser = usersData.users.find(
+    (u) => u.email?.toLowerCase() === e2eEmail.toLowerCase()
+  );
+
+  if (!e2eUser) {
+    throw new Error(`e2e user ${e2eEmail} not found`);
+  }
+
+  const insertedIds: string[] = [];
+  const now = Date.now();
+
+  for (const item of words) {
+    const nextReviewAt = item.dueNow
+      ? new Date(now - 3600 * 1000).toISOString()
+      : new Date(now + 24 * 3600 * 1000).toISOString();
+
+    const { data, error } = await supabase
+      .from("words")
+      .insert({
+        user_id: e2eUser.id,
+        word: item.word,
+        card: item.card as unknown as Database["public"]["Tables"]["words"]["Insert"]["card"],
+        quiz: (item.quiz || []) as unknown as Database["public"]["Tables"]["words"]["Insert"]["quiz"],
+        box: item.box ?? 0,
+        next_review_at: nextReviewAt,
+        lookup_count: item.lookup_count ?? 1,
+        wrong_count: item.wrong_count ?? 0,
+        correct_count: item.correct_count ?? 0,
+      })
+      .select("id")
+      .single();
+
+    if (error) throw error;
+    if (data) insertedIds.push(data.id);
+  }
+
+  return insertedIds;
+}
+
 // Allow CLI execution
 if (process.argv[1]?.includes("reset")) {
   resetE2EUser().catch((err) => {
@@ -70,3 +136,4 @@ if (process.argv[1]?.includes("reset")) {
     process.exit(1);
   });
 }
+
