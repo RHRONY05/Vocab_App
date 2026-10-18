@@ -1,0 +1,169 @@
+/* ==========================================================================
+   Vocab — design tokens (source of truth)
+   Direction: "a calm study desk" — warm paper, deep teal ink, a marigold
+   highlighter, soft line illustrations in the margins.
+   Copy these variables into src/app/globals.css and map them in Tailwind's
+   @theme block. Components use ONLY these tokens: no raw hex values.
+   ========================================================================== */
+
+:root {
+  /* ---- Fonts ---- */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Source Serif 4", "Source Serif Pro", Georgia, serif;   /* headwords, titles, big numbers */
+  --font-bn: "Hind Siliguri", "Noto Sans Bengali", var(--font-sans);    /* Bangla text */
+  --font-mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace; /* <kbd> only */
+
+  /* ---- Type scale (size / line-height) ---- */
+  --text-xs: 12px;   --leading-xs: 16px;
+  --text-sm: 13px;   --leading-sm: 20px;
+  --text-base: 15px; --leading-base: 24px;   /* UI default */
+  --text-read: 16px; --leading-read: 26px;   /* explanations, examples */
+  --text-lg: 18px;   --leading-lg: 28px;     /* the meaning line */
+  --text-xl: 22px;   --leading-xl: 30px;     /* quiz prompt, page titles */
+  --text-2xl: 28px;  --leading-2xl: 36px;
+  --text-word: 38px; --leading-word: 44px;   /* headword (serif) */
+  --text-hero: 64px; --leading-hero: 68px;   /* due count, score (serif) */
+
+  /* ---- Radius ---- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --radius-full: 999px;
+
+  /* ---- Layout ---- */
+  --topbar-h: 60px;
+  --tabbar-h: 64px;
+  --content-w: 760px;
+  --list-w: 380px;
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --dur-fast: 120ms;
+  --dur: 200ms;
+
+  /* ---- Colours: light ---- */
+  --bg: #F4EFE5;             /* warm paper */
+  --surface: #FFFCF7;        /* cards (slightly warm white) */
+  --surface-2: #EEE7DA;      /* user bubbles, chips, inputs at rest */
+  --surface-3: #E5DCCB;      /* hover on surface-2, empty pips */
+  --line: #E4DACA;
+  --line-strong: #CFC2AC;
+  --ink: #1F2B2B;            /* deep green-black ink */
+  --ink-2: #4F5C5A;
+  --ink-3: #87918D;
+
+  --accent: #1E6B70;         /* deep teal: primary actions, focus, selection */
+  --accent-hover: #17585C;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #DDEDEB;
+  --accent-text: #175A5E;
+
+  --highlight: #E3A33B;      /* marigold highlighter: headword underline, due badge, stars */
+  --highlight-soft: #F9E9C8;
+  --highlight-text: #8A5A10;
+  --highlight-ink: #3A2A08;    /* text on marigold */
+
+  --success: #3F8C4F;  --success-soft: #E2F0E0;  --success-text: #2E6E3C;
+  --danger:  #C2553F;  --danger-soft:  #F7E2DA;  --danger-text:  #A3412D;
+  --warn:    #C98A1E;  --warn-soft:    #F9E9C8;  --warn-text:    #8A5A10;
+
+  --status-new: #A3A99F;
+  --status-learning: #E3A33B;
+  --status-mastered: #3F8C4F;
+
+  /* illustrations (line art + two soft fills) */
+  --illus-line: #2C3A39;
+  --illus-fill: #FFFCF7;
+  --illus-blob-a: #DDEDEB;   /* teal wash */
+  --illus-blob-b: #F9E9C8;   /* marigold wash */
+  --illus-leaf: #6FA77A;
+  --decor-opacity: 1;
+
+  --focus-ring: 0 0 0 3px rgba(30, 107, 112, .28);
+  --shadow-sm: 0 1px 2px rgba(60, 45, 20, .06);
+  --shadow-md: 0 2px 4px rgba(60, 45, 20, .04), 0 10px 28px rgba(60, 45, 20, .07);
+  --shadow-lg: 0 18px 50px rgba(60, 45, 20, .16);
+  --overlay: rgba(31, 43, 43, .40);
+  --glass: rgba(255, 252, 247, .78);  /* translucent top bar over the paper */
+}
+
+/* ---- Colours: dark ("desk lamp at night") ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101819;
+    --surface: #162123;
+    --surface-2: #1D2B2D;
+    --surface-3: #263739;
+    --line: #253436;
+    --line-strong: #3A4D4F;
+    --ink: #E9EFEB;
+    --ink-2: #B2BEBA;
+    --ink-3: #7E8B88;
+    --accent: #6CC2BE;
+    --accent-hover: #8BD3CF;
+    --accent-ink: #0B1C1D;
+    --accent-soft: #173638;
+    --accent-text: #8BD3CF;
+    --highlight: #F0B95A;
+    --highlight-soft: #3A2E17;
+    --highlight-text: #F4C877;
+    --highlight-ink: #241A06;
+    --success: #74C784;  --success-soft: #17301D;  --success-text: #93D7A0;
+    --danger:  #EE8D74;  --danger-soft:  #3A1F18;  --danger-text:  #F5A792;
+    --warn:    #F0B95A;  --warn-soft:    #3A2E17;  --warn-text:    #F4C877;
+    --status-new: #7E8B88;
+    --status-learning: #F0B95A;
+    --status-mastered: #74C784;
+    --illus-line: #A9B8B4;
+    --illus-fill: #1D2B2D;
+    --illus-blob-a: #173638;
+    --illus-blob-b: #33291A;
+    --illus-leaf: #74C784;
+    --decor-opacity: .85;
+    --focus-ring: 0 0 0 3px rgba(108, 194, 190, .35);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .3);
+    --shadow-md: 0 10px 28px rgba(0, 0, 0, .35);
+    --shadow-lg: 0 18px 50px rgba(0, 0, 0, .5);
+    --overlay: rgba(0, 0, 0, .6);
+    --glass: rgba(22, 33, 35, .78);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101819;
+  --surface: #162123;
+  --surface-2: #1D2B2D;
+  --surface-3: #263739;
+  --line: #253436;
+  --line-strong: #3A4D4F;
+  --ink: #E9EFEB;
+  --ink-2: #B2BEBA;
+  --ink-3: #7E8B88;
+  --accent: #6CC2BE;
+  --accent-hover: #8BD3CF;
+  --accent-ink: #0B1C1D;
+  --accent-soft: #173638;
+  --accent-text: #8BD3CF;
+  --highlight: #F0B95A;
+  --highlight-soft: #3A2E17;
+  --highlight-text: #F4C877;
+    --highlight-ink: #241A06;
+  --success: #74C784;  --success-soft: #17301D;  --success-text: #93D7A0;
+  --danger:  #EE8D74;  --danger-soft:  #3A1F18;  --danger-text:  #F5A792;
+  --warn:    #F0B95A;  --warn-soft:    #3A2E17;  --warn-text:    #F4C877;
+  --status-new: #7E8B88;
+  --status-learning: #F0B95A;
+  --status-mastered: #74C784;
+  --illus-line: #A9B8B4;
+  --illus-fill: #1D2B2D;
+  --illus-blob-a: #173638;
+  --illus-blob-b: #33291A;
+  --illus-leaf: #74C784;
+  --decor-opacity: .85;
+  --focus-ring: 0 0 0 3px rgba(108, 194, 190, .35);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .3);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, .35);
+  --shadow-lg: 0 18px 50px rgba(0, 0, 0, .5);
+  --overlay: rgba(0, 0, 0, .6);
+  --glass: rgba(22, 33, 35, .78);
+}

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>M08 · Review — session finished (more due)</title>
+<meta name="viewport" content="width=390">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../ui.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../mock.js"></script>
+</head>
+<body>
+<div class="frame-m">
+  <div class="decor" aria-hidden="true"><svg class="tr"><use href="../illustrations/sprite.svg#decor-tr"/></svg></div>
+
+  <header class="m-header">
+    <svg class="logo" aria-hidden="true"><use href="../illustrations/sprite.svg#logo"/></svg>
+    <h1 class="grow">Review</h1>
+  </header>
+
+  <main style="padding: 28px 16px 16px;" class="col">
+    <div class="col" style="align-items:center; text-align:center; gap: 10px;">
+      <svg class="illus sm" aria-hidden="true"><use href="../illustrations/sprite.svg#caught-up"/></svg>
+      <div class="serif num" style="font-size: 52px; line-height: 58px; font-weight: 600;">13 <span style="color: var(--ink-3); font-weight: 500;">/ 15</span></div>
+      <p class="muted">Great session. 9 words moved up.</p>
+    </div>
+
+    <section class="card" style="padding: 6px; margin-top: 20px;">
+      <div class="label" style="padding: 10px 12px 2px;">Missed · back tomorrow</div>
+      <a class="wrow" style="text-decoration:none; color:inherit;"><span class="dot learning"></span>
+        <div class="grow"><div class="w">sustainable</div><div class="m">Able to continue for a long time without harm</div></div>
+        <i data-lucide="chevron-right" class="i-sm" style="color:var(--ink-3)"></i></a>
+      <a class="wrow" style="text-decoration:none; color:inherit;"><span class="dot learning"></span>
+        <div class="grow"><div class="w">meticulous</div><div class="m">Very careful about every detail</div></div>
+        <i data-lucide="chevron-right" class="i-sm" style="color:var(--ink-3)"></i></a>
+    </section>
+
+    <div class="col" style="gap: 8px; margin-top: auto;">
+      <button class="btn btn-primary btn-lg btn-block">6 more due · Continue</button>
+      <button class="btn btn-secondary btn-lg btn-block">Back to Learn</button>
+    </div>
+  </main>
+
+  <nav class="tabbar" aria-label="Main">
+    <a><i data-lucide="book-open"></i>Learn</a>
+    <a><i data-lucide="library"></i>Words</a>
+    <a class="on"><i data-lucide="repeat-2"></i>Review<span class="count">6</span></a>
+  </nav>
+</div>
+</body>
+</html>

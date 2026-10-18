@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>M02 · Learn — repeat lookup</title>
+<meta name="viewport" content="width=390">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../ui.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../mock.js"></script>
+</head>
+<body>
+<div class="frame-m tall">
+  <header class="m-header">
+    <svg class="logo" aria-hidden="true"><use href="../illustrations/sprite.svg#logo"/></svg>
+    <h1 class="grow">Learn</h1>
+    <button class="icon-btn" aria-label="New chat"><i data-lucide="square-pen"></i></button>
+    <button class="icon-btn" aria-label="Account menu"><span class="avatar" style="width:28px;height:28px;font-size:12px;">R</span></button>
+  </header>
+
+  <main style="padding: 16px 12px 8px;">
+    <div class="thread" style="gap: 12px;">
+      <div class="bubble-user">cohesive</div>
+
+      <div class="banner banner-accent">
+        <i data-lucide="rotate-ccw" class="i-sm"></i>
+        <span>You've looked this up <b>3 times</b>. It's back in today's review.</span>
+      </div>
+
+      <article class="card wc compact">
+        <div class="wc-head">
+          <div class="grow">
+            <h2 class="headword">cohesive</h2>
+            <div class="wc-meta"><span class="chip">adjective</span><span class="chip">neutral</span></div>
+          </div>
+          <span class="btn btn-saved btn-sm"><i data-lucide="check" class="i-sm"></i>Saved</span>
+        </div>
+        <p class="meaning">Forming a united whole; when the parts fit and work together well.</p>
+        <p class="bangla"><span class="tag">বাংলা</span>সুসংহত, সংঘবদ্ধ</p>
+        <div class="wc-body">
+          <section class="wc-sec">
+            <span class="label">How it's used</span>
+            <p class="text">Used for teams, groups, writing and designs whose parts connect well. Common in academic writing (“a cohesive argument”) and in software (“a cohesive module” does one clear job).</p>
+          </section>
+          <section class="wc-sec">
+            <span class="label">Collocations</span>
+            <div class="collocs"><span class="chip">cohesive team</span><span class="chip">cohesive unit</span><span class="chip">cohesive argument</span><span class="chip">highly cohesive</span></div>
+          </section>
+          <section class="wc-sec">
+            <span class="label">Patterns</span>
+            <ul class="patterns"><li>be cohesive</li><li>form a cohesive whole</li><li>make sth more cohesive</li></ul>
+          </section>
+          <section class="wc-sec">
+            <span class="label">Examples</span>
+            <ol class="examples">
+              <li><span>After the retreat, the team felt much more <mark class="w">cohesive</mark>.</span></li>
+              <li><span>Your essay needs a more <mark class="w">cohesive</mark> structure.</span></li>
+              <li><span>A highly <mark class="w">cohesive</mark> module does one job well.</span></li>
+              <li><span>The new branding gives the site a <mark class="w">cohesive</mark> look.</span></li>
+            </ol>
+          </section>
+          <section class="wc-sec">
+            <span class="label">Don't confuse</span>
+            <div class="confuse"><p class="pair"><b>coherent</b> — clear and logical, easy to follow.</p></div>
+          </section>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <div class="composer-wrap" style="padding: 8px 12px 10px;">
+    <div class="composer" style="padding-left: 14px; border-radius: 16px;">
+      <input type="text" placeholder="Look up a word…" aria-label="Look up a word" style="font-size:16px;">
+      <button class="send idle" aria-label="Send"><i data-lucide="arrow-up"></i></button>
+    </div>
+    <div class="composer-meta" style="margin-top: 8px;">
+      <span class="switch on"><i></i>Bangla</span>
+    </div>
+  </div>
+
+  <nav class="tabbar" aria-label="Main">
+    <a class="on"><i data-lucide="book-open"></i>Learn</a>
+    <a><i data-lucide="library"></i>Words</a>
+    <a><i data-lucide="repeat-2"></i>Review<span class="count">7</span></a>
+  </nav>
+</div>
+</body>
+</html>

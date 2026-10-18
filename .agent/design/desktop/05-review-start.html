@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D05 · Review — start</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../ui.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../mock.js"></script>
+</head>
+<body>
+<div class="frame-d">
+  <div class="decor" aria-hidden="true"><svg class="tr"><use href="../illustrations/sprite.svg#decor-tr"/></svg><svg class="bl"><use href="../illustrations/sprite.svg#decor-bl"/></svg></div>
+
+  <header class="topbar">
+    <div class="side"><div class="brand"><svg class="logo" aria-hidden="true"><use href="../illustrations/sprite.svg#logo"/></svg>Vocab</div></div>
+    <nav class="tabs" aria-label="Main">
+      <button class="tab"><i data-lucide="book-open"></i>Learn</button>
+      <button class="tab"><i data-lucide="library"></i>Words</button>
+      <button class="tab on"><i data-lucide="repeat-2"></i>Review<span class="count">7</span></button>
+    </nav>
+    <div class="side end">
+      <button class="icon-btn" aria-label="Keyboard shortcuts"><i data-lucide="keyboard"></i></button>
+      <button class="icon-btn" aria-label="Account menu"><span class="avatar">R</span></button>
+    </div>
+  </header>
+
+  <main style="padding: 48px 24px;">
+    <div class="col" style="max-width: 640px; margin: 0 auto; gap: 20px;">
+
+      <!-- Daily review -->
+      <section class="card" style="padding: 32px; position: relative; overflow: hidden;">
+        <svg class="illus sm" style="position:absolute; right: 20px; top: 22px;" aria-hidden="true"><use href="../illustrations/sprite.svg#book-sprout"/></svg>
+        <span class="label">Daily review</span>
+        <div class="row" style="gap: 20px; margin: 10px 0 22px;">
+          <span class="serif num" style="font-size: var(--text-hero); line-height: var(--leading-hero); font-weight: 600; color: var(--accent-text);">7</span>
+          <div>
+            <div style="font-size: var(--text-xl); line-height: var(--leading-xl); font-weight: 600;">words due today</div>
+            <div class="hint" style="font-size: 14px;">About 3 minutes · weakest words first</div>
+          </div>
+        </div>
+        <div class="row" style="gap: 6px; flex-wrap: wrap; margin-bottom: 24px;">
+          <span class="chip">sustainable <span class="xbadge" style="height:18px">×2</span></span>
+          <span class="chip">cohesive <span class="xbadge" style="height:18px">×3</span></span>
+          <span class="chip">inference</span>
+          <span class="chip">augmentation</span>
+          <span class="chip chip-outline">+3 more</span>
+        </div>
+        <button class="btn btn-primary btn-lg">Start review <kbd>Enter</kbd></button>
+      </section>
+
+      <!-- Practice -->
+      <section class="card" style="padding: 28px 32px;">
+        <div class="row" style="justify-content:space-between; margin-bottom: 4px;">
+          <h2 style="font-size: 17px;">Practice</h2>
+        </div>
+        <p class="hint" style="font-size: 14px; margin-bottom: 20px;">Extra practice any time. Weaker words come up more often.</p>
+
+        <div class="col" style="gap: 16px;">
+          <div class="row" style="gap: 16px;">
+            <span class="label" style="width: 80px;">Words</span>
+            <div class="seg">
+              <button class="on">This week</button>
+              <button>This month</button>
+              <button>All words</button>
+              <button>Weak words</button>
+            </div>
+          </div>
+          <div class="row" style="gap: 16px;">
+            <span class="label" style="width: 80px;">Questions</span>
+            <div class="seg">
+              <button>5</button>
+              <button class="on">10</button>
+              <button>20</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="gap: 14px; margin-top: 24px;">
+          <button class="btn btn-secondary">Start practice</button>
+          <span class="hint">12 words this week</span>
+        </div>
+      </section>
+
+      <div class="row" style="gap: 18px; justify-content:center;" >
+        <span class="row hint" style="gap:6px;"><span class="dot new"></span>New 6</span>
+        <span class="row hint" style="gap:6px;"><span class="dot learning"></span>Learning 21</span>
+        <span class="row hint" style="gap:6px;"><span class="dot mastered"></span>Mastered 15</span>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

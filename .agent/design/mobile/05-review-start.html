@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>M05 · Review — start</title>
+<meta name="viewport" content="width=390">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../ui.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../mock.js"></script>
+</head>
+<body>
+<div class="frame-m">
+  <div class="decor" aria-hidden="true"><svg class="tr"><use href="../illustrations/sprite.svg#decor-tr"/></svg></div>
+
+  <header class="m-header">
+    <svg class="logo" aria-hidden="true"><use href="../illustrations/sprite.svg#logo"/></svg>
+    <h1 class="grow">Review</h1>
+    <button class="icon-btn" aria-label="Account menu"><span class="avatar" style="width:28px;height:28px;font-size:12px;">R</span></button>
+  </header>
+
+  <main style="padding: 16px 12px;" class="col">
+    <section class="card" style="padding: 22px 20px; margin-bottom: 12px; position: relative; overflow: hidden;">
+      <svg class="illus xs" style="position:absolute; right: 10px; top: 14px;" aria-hidden="true"><use href="../illustrations/sprite.svg#book-sprout"/></svg>
+      <span class="label">Daily review</span>
+      <div class="row" style="gap: 14px; margin: 8px 0 16px;">
+        <span class="serif num" style="font-size: 52px; line-height: 56px; font-weight: 600; color: var(--accent-text);">7</span>
+        <div>
+          <div style="font-size: 19px; line-height: 26px; font-weight: 600;">words due today</div>
+          <div class="hint">About 3 minutes</div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-lg btn-block">Start review</button>
+    </section>
+
+    <section class="card" style="padding: 20px;">
+      <h2 style="font-size: 16px;">Practice</h2>
+      <p class="hint" style="margin: 2px 0 14px;">Weaker words come up more often.</p>
+      <span class="label">Words</span>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 6px 0 14px;">
+        <button class="btn btn-sm" style="background:var(--accent-soft); color:var(--accent-text); height:36px;">This week</button>
+        <button class="btn btn-sm" style="background:var(--surface-2); color:var(--ink-2); height:36px;">This month</button>
+        <button class="btn btn-sm" style="background:var(--surface-2); color:var(--ink-2); height:36px;">All words</button>
+        <button class="btn btn-sm" style="background:var(--surface-2); color:var(--ink-2); height:36px;">Weak words</button>
+      </div>
+      <span class="label">Questions</span>
+      <div class="seg full" style="margin: 6px 0 18px;">
+        <button>5</button><button class="on">10</button><button>20</button>
+      </div>
+      <button class="btn btn-secondary btn-block">Start practice</button>
+    </section>
+
+    <div class="row" style="gap: 14px; justify-content:center; margin-top: 14px;">
+      <span class="row hint" style="gap:6px;"><span class="dot new"></span>New 6</span>
+      <span class="row hint" style="gap:6px;"><span class="dot learning"></span>Learning 21</span>
+      <span class="row hint" style="gap:6px;"><span class="dot mastered"></span>Mastered 15</span>
+    </div>
+  </main>
+
+  <nav class="tabbar" aria-label="Main">
+    <a><i data-lucide="book-open"></i>Learn</a>
+    <a><i data-lucide="library"></i>Words</a>
+    <a class="on"><i data-lucide="repeat-2"></i>Review<span class="count">7</span></a>
+  </nav>
+</div>
+</body>
+</html>

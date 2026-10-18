@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>M03 · Words — list</title>
+<meta name="viewport" content="width=390">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../ui.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../mock.js"></script>
+</head>
+<body>
+<div class="frame-m">
+  <header class="m-header">
+    <svg class="logo" aria-hidden="true"><use href="../illustrations/sprite.svg#logo"/></svg>
+    <h1 class="grow">Words</h1>
+    <button class="icon-btn" aria-label="Account menu"><span class="avatar" style="width:28px;height:28px;font-size:12px;">R</span></button>
+  </header>
+
+  <main style="overflow:hidden; padding: 14px 12px 0;">
+    <!-- ProgressStrip (mobile: 3 + 3 grid) -->
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
+      <div class="stat" style="padding:10px 12px;"><div class="k" style="font-size:12px;"><span class="dot new"></span>New</div><div class="v" style="font-size:20px;line-height:26px;">6</div></div>
+      <div class="stat" style="padding:10px 12px;"><div class="k" style="font-size:12px;"><span class="dot learning"></span>Learning</div><div class="v" style="font-size:20px;line-height:26px;">21</div></div>
+      <div class="stat" style="padding:10px 12px;"><div class="k" style="font-size:12px;"><span class="dot mastered"></span>Mastered</div><div class="v" style="font-size:20px;line-height:26px;">15</div></div>
+      <div class="stat" style="padding:10px 12px;"><div class="k" style="font-size:12px;">Total</div><div class="v" style="font-size:20px;line-height:26px;">42</div></div>
+      <div class="stat hl" style="padding:10px 12px;"><div class="k" style="font-size:12px;">Due now</div><div class="v" style="font-size:20px;line-height:26px;">7</div></div>
+      <div class="stat" style="padding:10px 12px;"><div class="k" style="font-size:12px;">Reviewed</div><div class="v" style="font-size:20px;line-height:26px;">12</div></div>
+    </div>
+
+    <div class="seg full" style="margin-bottom: 10px;">
+      <button>Today 3</button><button class="on">Week 12</button><button>Month 30</button><button>All 42</button>
+    </div>
+    <div class="input-icon" style="margin-bottom: 4px;">
+      <i data-lucide="search"></i>
+      <input class="input" type="search" placeholder="Search words">
+    </div>
+
+    <div class="label group-label">Today</div>
+    <div class="wrow"><span class="dot new"></span>
+      <div class="grow"><div class="w">substantive<span class="pos">adj</span></div><div class="m">Having real importance, value or effect</div></div>
+      <i data-lucide="chevron-right" class="i-sm" style="color:var(--ink-3)"></i></div>
+    <div class="wrow"><span class="dot learning"></span>
+      <div class="grow"><div class="w">cohesive<span class="pos">adj</span> <span class="xbadge" style="margin-left:4px;">×3</span></div><div class="m">Forming a united whole; parts that work together</div></div>
+      <i data-lucide="chevron-right" class="i-sm" style="color:var(--ink-3)"></i></div>
+    <div class="wrow"><span class="dot new"></span>
+      <div class="grow"><div class="w">morph<span class="pos">verb</span></div><div class="m">To change gradually from one form into another</div></div>
+      <i data-lucide="chevron-right" class="i-sm" style="color:var(--ink-3)"></i></div>
+    <div class="label group-label">Earlier this week</div>
+    <div class="wrow"><span class="dot learning"></span>
+      <div class="grow"><div class="w">inference<span class="pos">noun</span></div><div class="m">A conclusion reached from evidence and reasoning</div></div>
+      <i data-lucide="chevron-right" class="i-sm" style="color:var(--ink-3)"></i></div>
+    <div class="wrow"><span class="dot learning"></span>
+      <div class="grow"><div class="w">sustainable<span class="pos">adj</span> <span class="xbadge" style="margin-left:4px;">×2</span></div><div class="m">Able to continue for a long time without harm</div></div>
+      <i data-lucide="chevron-right" class="i-sm" style="color:var(--ink-3)"></i></div>
+  </main>
+
+  <nav class="tabbar" aria-label="Main">
+    <a><i data-lucide="book-open"></i>Learn</a>
+    <a class="on"><i data-lucide="library"></i>Words</a>
+    <a><i data-lucide="repeat-2"></i>Review<span class="count">7</span></a>
+  </nav>
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vocab UI design</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  body { margin: 0; background: var(--surface-2); color: var(--ink); font-family: var(--font-sans); }
+  header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 16px; padding: 14px 28px; background: var(--surface); border-bottom: 1px solid var(--line); }
+  header h1 { font-size: 17px; margin: 0; }
+  header p { margin: 0; font-size: 13px; color: var(--ink-3); }
+  .theme { margin-left: auto; display: flex; gap: 4px; background: var(--surface-2); padding: 3px; border-radius: 10px; }
+  .theme button { border: 0; background: transparent; padding: 6px 12px; border-radius: 8px; font: inherit; font-size: 13px; color: var(--ink-2); cursor: pointer; }
+  .theme button.on { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-sm); }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); margin: 32px 28px 12px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 28px; padding: 0 28px; }
+  figure { margin: 0; }
+  figcaption { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  figcaption a { color: var(--accent-text); font-weight: 500; margin-left: 6px; text-decoration: none; }
+  .clip { overflow: hidden; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); box-shadow: var(--shadow-md); }
+  iframe { border: 0; display: block; transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Vocab · UI design</h1>
+  <p>Desktop shown at 50%, mobile at 75%. Click a title to open the screen at full size.</p>
+  <div class="theme" role="group" aria-label="Theme">
+    <button data-t="system" class="on">System</button>
+    <button data-t="light">Light</button>
+    <button data-t="dark">Dark</button>
+  </div>
+</header>
+
+<h2>Desktop · 1440 wide</h2>
+<div class="grid" id="desktop"></div>
+<h2>Mobile · 390 wide</h2>
+<div class="grid" id="mobile"></div>
+<h2>Components and states</h2>
+<div class="grid" id="states"></div>
+<div style="height:48px"></div>
+
+<script>
+  var screens = {
+    desktop: [
+      ["desktop/01-login.html", "D01 Login", 1440, 900],
+      ["desktop/02-learn.html", "D02 Learn — conversation", 1440, 1465],
+      ["desktop/03-learn-empty.html", "D03 Learn — empty", 1440, 900],
+      ["desktop/04-words.html", "D04 Words", 1440, 1113],
+      ["desktop/05-review-start.html", "D05 Review — start", 1440, 900],
+      ["desktop/06-review-question.html", "D06 Review — multiple choice", 1440, 900],
+      ["desktop/07-review-recall.html", "D07 Review — recall", 1440, 900],
+      ["desktop/08-review-end.html", "D08 Review — finished", 1440, 900]
+    ],
+    mobile: [
+      ["mobile/01-login.html", "M01 Login (error)", 390, 844],
+      ["mobile/02-learn.html", "M02 Learn — repeat lookup", 390, 1420],
+      ["mobile/03-words.html", "M03 Words", 390, 844],
+      ["mobile/04-word-detail.html", "M04 Word detail", 390, 970],
+      ["mobile/05-review-start.html", "M05 Review — start", 390, 844],
+      ["mobile/06-review-question.html", "M06 Review — multiple choice", 390, 844],
+      ["mobile/07-review-recall.html", "M07 Review — recall", 390, 844],
+      ["mobile/08-review-end.html", "M08 Review — finished", 390, 844]
+    ],
+    states: [["states.html", "S01 Components and states", 1440, 1356]]
+  };
+  var scale = { desktop: 0.5, mobile: 0.75, states: 0.5 };
+
+  function render(theme) {
+    Object.keys(screens).forEach(function (group) {
+      var el = document.getElementById(group);
+      el.innerHTML = "";
+      screens[group].forEach(function (s) {
+        var src = s[0] + (theme === "system" ? "" : "?theme=" + theme);
+        var k = scale[group];
+        var fig = document.createElement("figure");
+        fig.innerHTML =
+          '<figcaption>' + s[1] + '<a href="' + src + '" target="_blank">open ↗</a></figcaption>' +
+          '<div class="clip" style="width:' + s[2] * k + 'px;height:' + s[3] * k + 'px">' +
+          '<iframe src="' + src + '" width="' + s[2] + '" height="' + s[3] + '" style="transform:scale(' + k + ')" loading="lazy" title="' + s[1] + '"></iframe></div>';
+        el.appendChild(fig);
+      });
+    });
+  }
+
+  document.querySelectorAll(".theme button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll(".theme button").forEach(function (x) { x.classList.toggle("on", x === b); });
+      var t = b.dataset.t;
+      if (t === "system") document.documentElement.removeAttribute("data-theme");
+      else document.documentElement.setAttribute("data-theme", t);
+      render(t);
+    });
+  });
+  render("system");
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D06 · Review — multiple choice (answered)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../ui.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../mock.js"></script>
+</head>
+<body>
+<div class="frame-d">
+  <div class="decor" aria-hidden="true"><svg class="tr"><use href="../illustrations/sprite.svg#decor-tr"/></svg><svg class="bl"><use href="../illustrations/sprite.svg#decor-bl"/></svg></div>
+
+  <header class="topbar">
+    <div class="side"><div class="brand"><svg class="logo" aria-hidden="true"><use href="../illustrations/sprite.svg#logo"/></svg>Vocab</div></div>
+    <nav class="tabs" aria-label="Main">
+      <button class="tab"><i data-lucide="book-open"></i>Learn</button>
+      <button class="tab"><i data-lucide="library"></i>Words</button>
+      <button class="tab on"><i data-lucide="repeat-2"></i>Review<span class="count">7</span></button>
+    </nav>
+    <div class="side end">
+      <button class="icon-btn" aria-label="Keyboard shortcuts"><i data-lucide="keyboard"></i></button>
+      <button class="icon-btn" aria-label="Account menu"><span class="avatar">R</span></button>
+    </div>
+  </header>
+
+  <main style="padding: 36px 24px;">
+    <div class="page col" style="max-width: 680px; gap: 18px;">
+
+      <!-- Session progress -->
+      <div class="col" style="gap: 10px;">
+        <div class="row" style="justify-content:space-between;">
+          <span class="row" style="gap: 10px; font-size: 14px; font-weight: 600;">Daily review <span class="hint num">3 of 7</span></span>
+          <button class="btn btn-ghost btn-sm"><i data-lucide="x" class="i-sm"></i>End session</button>
+        </div>
+        <div class="bar"><i style="width: 43%"></i></div>
+      </div>
+
+      <!-- QuizCard -->
+      <section class="card" style="padding: 32px;">
+        <span class="label qkind"><i data-lucide="text-cursor-input" class="i-sm"></i>Fill in the blank</span>
+        <p class="prompt" style="margin: 12px 0 24px;">The reviewer asked for <span class="blank"></span> changes to the method, not just cosmetic edits to the wording.</p>
+
+        <div class="options">
+          <button class="option correct"><span class="key">1</span><span>substantive</span><i data-lucide="check" class="mk"></i></button>
+          <button class="option dim"><span class="key">2</span><span>subsidiary</span><span></span></button>
+          <button class="option wrong"><span class="key">3</span><span>subjective</span><i data-lucide="x" class="mk"></i></button>
+          <button class="option dim"><span class="key">4</span><span>subsequent</span><span></span></button>
+        </div>
+
+        <div class="explain" style="margin-top: 18px;">
+          <b>Substantive</b> means real and meaningful in content. “Not just cosmetic” tells you the changes affect the method itself, not only how it looks.
+          <a href="#" style="color: var(--accent-text); font-weight: 600; text-decoration: none; margin-left: 4px;">Open word →</a>
+        </div>
+      </section>
+
+      <div class="row" style="justify-content:space-between;">
+        <span class="hint row" style="gap:6px;"><kbd>1</kbd>–<kbd>4</kbd> answer</span>
+        <button class="btn btn-primary btn-lg">Next <kbd>Enter</kbd></button>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

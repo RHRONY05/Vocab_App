@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D07 · Review — recall (revealed)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../ui.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../mock.js"></script>
+</head>
+<body>
+<div class="frame-d">
+  <div class="decor" aria-hidden="true"><svg class="tr"><use href="../illustrations/sprite.svg#decor-tr"/></svg><svg class="bl"><use href="../illustrations/sprite.svg#decor-bl"/></svg></div>
+
+  <header class="topbar">
+    <div class="side"><div class="brand"><svg class="logo" aria-hidden="true"><use href="../illustrations/sprite.svg#logo"/></svg>Vocab</div></div>
+    <nav class="tabs" aria-label="Main">
+      <button class="tab"><i data-lucide="book-open"></i>Learn</button>
+      <button class="tab"><i data-lucide="library"></i>Words</button>
+      <button class="tab on"><i data-lucide="repeat-2"></i>Review<span class="count">7</span></button>
+    </nav>
+    <div class="side end">
+      <button class="icon-btn" aria-label="Keyboard shortcuts"><i data-lucide="keyboard"></i></button>
+      <button class="icon-btn" aria-label="Account menu"><span class="avatar">R</span></button>
+    </div>
+  </header>
+
+  <main style="padding: 36px 24px;">
+    <div class="page col" style="max-width: 680px; gap: 18px;">
+      <div class="col" style="gap: 10px;">
+        <div class="row" style="justify-content:space-between;">
+          <span class="row" style="gap: 10px; font-size: 14px; font-weight: 600;">Practice · This week <span class="hint num">8 of 10</span></span>
+          <button class="btn btn-ghost btn-sm"><i data-lucide="x" class="i-sm"></i>End session</button>
+        </div>
+        <div class="bar"><i style="width: 80%"></i></div>
+      </div>
+
+      <section class="card" style="padding: 32px; text-align:center;">
+        <span class="label qkind"><i data-lucide="brain" class="i-sm"></i>Recall</span>
+        <h2 class="headword" style="font-size: 48px; line-height: 56px; margin-top: 14px;">morph</h2>
+        <div class="wc-meta" style="justify-content:center;"><span class="chip">verb</span></div>
+
+        <!-- Revealed part (hidden until Show answer / Space) -->
+        <div style="margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); text-align:left;" class="col">
+          <p class="meaning" style="margin: 0;">To change gradually from one form or shape into another.</p>
+          <p class="bangla"><span class="tag">বাংলা</span>রূপান্তরিত হওয়া, ধীরে ধীরে বদলে যাওয়া</p>
+          <p style="margin-top: 14px; font-size: var(--text-read); line-height: var(--leading-read); color: var(--ink-2);">“The small side project slowly <mark class="w">morphed</mark> into a full product.”</p>
+        </div>
+      </section>
+
+      <div class="row" style="gap: 12px; justify-content:center;">
+        <span class="hint">Did you remember it?</span>
+      </div>
+      <div class="row" style="gap: 12px; justify-content:center;">
+        <button class="btn btn-danger-soft btn-lg" style="min-width: 200px;"><i data-lucide="x" class="i-sm"></i>I didn't know <kbd>1</kbd></button>
+        <button class="btn btn-success-soft btn-lg" style="min-width: 200px;"><i data-lucide="check" class="i-sm"></i>I knew it <kbd>2</kbd></button>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>S01 · Components and states</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="ui.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="mock.js"></script>
+<style>
+  .sheet { width: 1440px; padding: 40px 48px 60px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
+  .sheet h2 { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 14px; }
+  .box { background: var(--bg); border: 1px dashed var(--line-strong); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .sw { height: 54px; border-radius: 10px; border: 1px solid var(--line); display: flex; align-items: flex-end; padding: 6px 8px; font-size: 11px; font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <section class="box">
+    <h2>Colour tokens</h2>
+    <div class="swatches">
+      <div class="sw" style="background:var(--bg)">bg</div>
+      <div class="sw" style="background:var(--surface)">surface</div>
+      <div class="sw" style="background:var(--surface-2)">surface-2</div>
+      <div class="sw" style="background:var(--line)">line</div>
+      <div class="sw" style="background:var(--ink); color:var(--bg)">ink</div>
+      <div class="sw" style="background:var(--ink-2); color:var(--bg)">ink-2</div>
+      <div class="sw" style="background:var(--accent); color:var(--accent-ink)">accent</div>
+      <div class="sw" style="background:var(--accent-soft); color:var(--accent-text)">accent-soft</div>
+      <div class="sw" style="background:var(--highlight); color:var(--highlight-ink)">highlight</div>
+      <div class="sw" style="background:var(--success-soft); color:var(--success-text)">success</div>
+      <div class="sw" style="background:var(--danger-soft); color:var(--danger-text)">danger</div>
+      <div class="sw" style="background:var(--warn-soft); color:var(--warn-text)">warn</div>
+      <div class="sw" style="background:var(--surface)"><span class="dot new"></span>&nbsp;<span class="dot learning"></span>&nbsp;<span class="dot mastered"></span></div>
+    </div>
+    <div class="col" style="gap:4px; margin-top:6px;">
+      <span class="serif" style="font-size:36px; line-height:42px; font-weight:600;">Headword</span>
+      <span style="font-size:18px; font-weight:500;">Meaning line · Inter 18 / 500</span>
+      <span style="font-size:16px; line-height:26px;">Reading text · Inter 16 / 26</span>
+      <span class="bn" style="font-size:17px;">বাংলা · Hind Siliguri 17</span>
+      <span class="label">Section label · 12 / 600 caps</span>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2>Buttons</h2>
+    <div class="row" style="gap:8px; flex-wrap:wrap;">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-secondary">Secondary</button>
+      <button class="btn btn-ghost">Ghost</button>
+      <button class="btn btn-danger"><i data-lucide="trash-2" class="i-sm"></i>Delete</button>
+      <button class="btn btn-primary" disabled>Disabled</button>
+    </div>
+    <h2 style="margin-top:8px;">Save button states</h2>
+    <div class="row" style="gap:8px; flex-wrap:wrap;">
+      <button class="btn btn-primary"><i data-lucide="bookmark-plus" class="i-sm"></i>Save <kbd>Ctrl S</kbd></button>
+      <button class="btn btn-primary" style="opacity:.75;"><i data-lucide="loader-circle" class="i-sm"></i>Saving…</button>
+      <span class="btn btn-saved"><i data-lucide="check" class="i-sm"></i>Saved</span>
+      <span class="btn btn-saved"><i data-lucide="refresh-cw" class="i-sm"></i>Updated</span>
+    </div>
+    <h2 style="margin-top:8px;">Chips · segmented · switch</h2>
+    <div class="row" style="gap:8px; flex-wrap:wrap;">
+      <span class="chip">adjective</span><span class="chip chip-outline">outline</span>
+      <span class="xbadge">×3</span>
+      <span class="switch on"><i></i>Bangla</span><span class="switch"><i></i>Off</span>
+    </div>
+    <div class="seg"><button class="on">This week</button><button>This month</button><button>All</button></div>
+  </section>
+
+  <section class="box">
+    <h2>Banners (above a word card)</h2>
+    <div class="banner banner-accent"><i data-lucide="rotate-ccw" class="i-sm"></i><span>You've looked this up <b>3 times</b>. It's back in today's review.</span></div>
+    <div class="banner banner-neutral"><i data-lucide="bookmark-check" class="i-sm"></i><span>Saved on 12 Oct. You looked it up earlier today.</span></div>
+    <div class="banner banner-warn"><i data-lucide="spell-check" class="i-sm"></i><span>“recieve” isn't a word. Did you mean <a href="#" style="color:inherit;font-weight:650;">receive</a>?</span></div>
+    <div class="banner banner-danger" style="align-items:center;"><i data-lucide="circle-alert" class="i-sm"></i><span class="grow">Couldn't reach the AI. Check your connection.</span><button class="btn btn-secondary btn-sm">Retry</button></div>
+  </section>
+
+  <section class="box">
+    <h2>Loading (word card skeleton)</h2>
+    <div class="card wc" style="padding: 24px;">
+      <div class="sk" style="width: 46%; height: 34px;"></div>
+      <div class="row" style="gap:6px; margin-top:10px;"><div class="sk" style="width:70px;height:24px;"></div><div class="sk" style="width:56px;height:24px;"></div></div>
+      <div class="sk" style="width: 92%; height: 18px; margin-top: 18px;"></div>
+      <div class="sk" style="width: 64%; height: 18px; margin-top: 8px;"></div>
+      <div class="sk" style="width: 100%; height: 1px; margin: 20px 0 14px;"></div>
+      <div class="sk" style="width: 100%; height: 14px;"></div>
+      <div class="sk" style="width: 85%; height: 14px; margin-top: 8px;"></div>
+    </div>
+    <p class="hint">Shown instantly under the user's message. Respects reduced motion (no shimmer).</p>
+  </section>
+
+  <section class="box">
+    <h2>Toast</h2>
+    <div><span class="toast"><i data-lucide="check" class="i-sm ok"></i>Saved “substantive”</span></div>
+    <div><span class="toast"><i data-lucide="trash-2" class="i-sm"></i>Deleted “leverage”</span></div>
+    <h2 style="margin-top:8px;">Empty states</h2>
+    <div class="card col" style="align-items:center; text-align:center; padding: 28px 20px; gap: 8px;">
+      <svg class="illus xs" aria-hidden="true"><use href="illustrations/sprite.svg#book-sprout"/></svg>
+      <b>No words yet</b>
+      <p class="hint">Look one up on the Learn tab and press Save.</p>
+    </div>
+    <div class="card col" style="align-items:center; text-align:center; padding: 28px 20px; gap: 8px;">
+      <svg class="illus xs" aria-hidden="true"><use href="illustrations/sprite.svg#caught-up"/></svg>
+      <b>All caught up</b>
+      <p class="hint">Nothing due right now. Next review: tomorrow, 5 words.</p>
+      <button class="btn btn-secondary btn-sm" style="margin-top:6px;">Practice anyway</button>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2>Keyboard shortcuts dialog</h2>
+    <div class="dialog" style="padding: 22px 24px;">
+      <div class="row" style="justify-content:space-between; margin-bottom: 10px;">
+        <b style="font-size:16px;">Keyboard shortcuts</b>
+        <button class="icon-btn" aria-label="Close"><i data-lucide="x"></i></button>
+      </div>
+      <table class="kbd-table">
+        <tr><td>Focus the search box</td><td><kbd>/</kbd></td></tr>
+        <tr><td>Look up / send</td><td><kbd>Enter</kbd></td></tr>
+        <tr><td>Save the word</td><td><kbd>Ctrl</kbd> <kbd>S</kbd></td></tr>
+        <tr><td>Clear the input</td><td><kbd>Esc</kbd></td></tr>
+        <tr><td>Choose an answer</td><td><kbd>1</kbd>–<kbd>4</kbd></td></tr>
+        <tr><td>Show answer / next</td><td><kbd>Space</kbd> <kbd>Enter</kbd></td></tr>
+      </table>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

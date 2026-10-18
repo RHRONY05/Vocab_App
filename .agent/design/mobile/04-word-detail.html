@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>M04 · Word detail</title>
+<meta name="viewport" content="width=390">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../ui.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../mock.js"></script>
+</head>
+<body>
+<div class="frame-m tall">
+  <header class="m-header" style="padding-left: 4px;">
+    <button class="icon-btn" aria-label="Back to words"><i data-lucide="chevron-left"></i></button>
+    <h1 class="grow">Words</h1>
+    <button class="icon-btn" aria-label="Delete word" style="color: var(--danger-text)"><i data-lucide="trash-2"></i></button>
+  </header>
+
+  <main style="padding: 14px 12px 20px;" class="col">
+    <!-- WordStats (mobile: compact strip above the card) -->
+    <section class="card" style="padding: 14px 16px; margin-bottom: 12px;">
+      <div class="row" style="justify-content:space-between; margin-bottom: 8px;">
+        <span class="row" style="gap:8px; font-weight:600; font-size:14px;"><span class="dot learning"></span>Learning · box 2 of 5</span>
+        <span class="xbadge">×3 looked up</span>
+      </div>
+      <div class="pips" style="margin-bottom: 10px;"><i class="f"></i><i class="f"></i><i></i><i></i><i></i></div>
+      <div class="row hint" style="justify-content:space-between;">
+        <span>Next review <b style="color:var(--ink)">Tue, 21 Oct</b></span>
+        <span class="num"><span style="color:var(--success-text)">4</span> right · <span style="color:var(--danger-text)">2</span> wrong</span>
+      </div>
+    </section>
+
+    <article class="card wc compact">
+      <div class="wc-head">
+        <div class="grow">
+          <h2 class="headword">cohesive</h2>
+          <div class="wc-meta"><span class="chip">adjective</span><span class="chip">neutral</span></div>
+        </div>
+      </div>
+      <p class="meaning">Forming a united whole; when the parts fit and work together well.</p>
+      <p class="bangla"><span class="tag">বাংলা</span>সুসংহত, সংঘবদ্ধ</p>
+      <div class="wc-body">
+        <section class="wc-sec">
+          <span class="label">How it's used</span>
+          <p class="text">Used for teams, groups, writing and designs whose parts connect well. Common in academic writing and in software (“a cohesive module”).</p>
+        </section>
+        <section class="wc-sec">
+          <span class="label">Collocations</span>
+          <div class="collocs"><span class="chip">cohesive team</span><span class="chip">cohesive unit</span><span class="chip">cohesive argument</span><span class="chip">highly cohesive</span></div>
+        </section>
+        <section class="wc-sec">
+          <span class="label">Examples</span>
+          <ol class="examples">
+            <li><span>After the retreat, the team felt much more <mark class="w">cohesive</mark>.</span></li>
+            <li><span>Your essay needs a more <mark class="w">cohesive</mark> structure.</span></li>
+          </ol>
+        </section>
+      </div>
+      <p class="wc-foot"><i data-lucide="calendar" class="i-sm"></i>Saved 12 Oct 2026</p>
+    </article>
+  </main>
+
+  <nav class="tabbar" aria-label="Main">
+    <a><i data-lucide="book-open"></i>Learn</a>
+    <a class="on"><i data-lucide="library"></i>Words</a>
+    <a><i data-lucide="repeat-2"></i>Review<span class="count">7</span></a>
+  </nav>
+</div>
+</body>
+</html>

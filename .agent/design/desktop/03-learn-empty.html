@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D03 · Learn — empty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../ui.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../mock.js"></script>
+</head>
+<body>
+<div class="frame-d">
+  <div class="decor" aria-hidden="true"><svg class="tr"><use href="../illustrations/sprite.svg#decor-tr"/></svg><svg class="bl"><use href="../illustrations/sprite.svg#decor-bl"/></svg></div>
+
+  <header class="topbar">
+    <div class="side"><div class="brand"><svg class="logo" aria-hidden="true"><use href="../illustrations/sprite.svg#logo"/></svg>Vocab</div></div>
+    <nav class="tabs" aria-label="Main">
+      <button class="tab on"><i data-lucide="book-open"></i>Learn</button>
+      <button class="tab"><i data-lucide="library"></i>Words</button>
+      <button class="tab"><i data-lucide="repeat-2"></i>Review<span class="count">7</span></button>
+    </nav>
+    <div class="side end">
+      <button class="icon-btn" aria-label="Keyboard shortcuts"><i data-lucide="keyboard"></i></button>
+      <button class="icon-btn" aria-label="Account menu"><span class="avatar">R</span></button>
+    </div>
+  </header>
+
+  <main class="col" style="align-items:center; justify-content:center; padding: 0 24px;">
+    <div class="page col" style="align-items:center; text-align:center; gap: 14px; max-width: 560px;">
+      <svg class="illus " aria-hidden="true"><use href="../illustrations/sprite.svg#book-sprout"/></svg>
+      <h1 class="serif" style="font-size: 34px; line-height: 42px; font-weight: 600; letter-spacing:-.015em;">Met a new word?</h1>
+      <p class="muted" style="font-size: 16px; line-height: 26px;">Type it below. You'll get the meaning, how people really use it, and real examples.</p>
+
+      <div class="row" style="gap: 12px; margin-top: 20px;">
+        <div class="card row" style="gap: 12px; padding: 14px 18px; text-align:left;">
+          <i data-lucide="bookmark-check" style="color: var(--success)"></i>
+          <div><div style="font-weight:600;">3 saved today</div><div class="hint">42 words in total</div></div>
+        </div>
+        <a class="card row" style="gap: 12px; padding: 14px 18px; text-align:left; text-decoration:none; color: inherit;">
+          <i data-lucide="repeat-2" style="color: var(--accent-text)"></i>
+          <div><div style="font-weight:600;">7 due for review</div><div class="hint">About 3 minutes</div></div>
+          <i data-lucide="arrow-right" class="i-sm" style="color: var(--ink-3); margin-left: 6px;"></i>
+        </a>
+      </div>
+
+      <div class="col" style="gap: 8px; margin-top: 18px; align-items:center;">
+        <span class="label">Recently saved</span>
+        <div class="row" style="gap: 6px; flex-wrap: wrap; justify-content:center;">
+          <span class="chip chip-outline">substantive</span>
+          <span class="chip chip-outline">cohesive</span>
+          <span class="chip chip-outline">inference</span>
+          <span class="chip chip-outline">morph</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="composer-wrap">
+    <div class="composer focus">
+      <input type="text" placeholder="Look up a word, or ask about the current one…" aria-label="Look up a word">
+      <button class="send idle" aria-label="Send"><i data-lucide="arrow-up"></i></button>
+    </div>
+    <div class="composer-meta">
+      <span class="switch on"><i></i>Bangla</span>
+      <span class="hint"><kbd>/</kbd> focus <kbd>Enter</kbd> send <kbd>Ctrl S</kbd> save</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
