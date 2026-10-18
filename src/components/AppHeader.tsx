@@ -7,6 +7,7 @@ import { Keyboard, LogOut } from "lucide-react";
 import { Logo } from "./illustrations";
 import { ShortcutsDialog } from "./ShortcutsDialog";
 import { createClient } from "@/lib/supabase/client";
+import { useStats } from "@/lib/stats-context";
 
 export function AppHeader({
   dueNow = 0,
@@ -15,6 +16,8 @@ export function AppHeader({
   dueNow?: number;
   onLogout?: () => void;
 }) {
+  const { stats } = useStats();
+  const effectiveDueNow = dueNow || stats?.dueNow || 0;
   const pathname = usePathname();
   const router = useRouter();
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
@@ -54,7 +57,7 @@ export function AppHeader({
           </Link>
           <Link href="/review" className={`tab ${isReview ? "on" : ""}`}>
             Review
-            {dueNow > 0 && <span className="count">{dueNow}</span>}
+            {effectiveDueNow > 0 && <span className="count">{effectiveDueNow}</span>}
           </Link>
         </nav>
 

@@ -42,14 +42,14 @@ V0 Preflight ─▶ V1 Scaffold + design system ─▶ V2 Supabase + auth ─▶
   - **Tests:** unit `words.test.ts`; integration for `/api/lookup`; e2e `learn.spec.ts`.
   - **AC (in the browser, real Gemini):** "inference" → full card that mentions the ML sense; follow-up "is it formal?" → short reply, no question back; "I made a inference from data" → corrected sentence; "recieve" → "Did you mean receive?"; matches the design at 1440 and 390, light and dark.
 
-- [ ] **V4 Save + Words pages** — in progress: Antigravity
+- [x] **V4 Save + Words pages** — CRUD, stats, ProgressStrip, desktop two-pane & mobile detail views, toasts, Ctrl+S, and full tests verified.
   - `POST /api/words` with quiz generation; `GET /api/words`, `/api/words/stats` (incl. `duePreview`, `nextDue`), `/api/words/[id]`, DELETE. Wire the stats into the Learn empty state and the header badge.
   - Save button + `Ctrl+S`; Save states; repeat-lookup banners.
   - Words page per design `04-words` (desktop two panes) and `03-words` / `04-word-detail` (mobile), `ProgressStrip`, tabs with counts, search, delete confirmation dialog.
   - **Tests:** unit `dates.test.ts`; integration for `/api/words*`; e2e `save.spec.ts`, `words.spec.ts`.
   - **AC:** save "cohesive" → appears under Today with count 1; saving again → "Updated", still 1 row; looking it up again → saved card with no AI call and the "Saved on" banner; the row has 3 quiz questions; pages match the design.
 
-- [ ] **V5 Quiz engine + API**
+- [ ] **V5 Quiz engine + API** — in progress: Antigravity
   - `lib/quiz/srs.ts`, `score.ts`, `select.ts` exactly as 07-QUIZ-ENGINE.md. `GET /api/quiz`, `POST /api/quiz/answer` with `after()` regeneration on promotion into box 3/5.
   - **Tests:** unit `srs.test.ts`, `score.test.ts`, `select.test.ts` (07 §7); integration for `/api/quiz*`.
   - **AC:** all tests pass; review mode returns only due words; practice never returns duplicates.

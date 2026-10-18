@@ -19,6 +19,10 @@ export function MobileHeader({
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Dedicated routes render their own specialized headers
+  if (pathname !== "/words" && pathname?.startsWith("/words/")) return null;
+  if (pathname?.startsWith("/review/session")) return null;
+
   const handleLogout = async () => {
     if (onLogout) {
       onLogout();

@@ -462,10 +462,22 @@ mark.w { color: inherit; font-weight: 650; padding: 0 2px; border-radius: 3px; b
 .composer-meta .hint { margin-left: auto; display: flex; align-items: center; gap: 6px; }
 
 /* ---------- stats (ProgressStrip) ---------- */
-.stats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 14px 16px; }
-.stat .v { font-size: 26px; line-height: 32px; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
-.stat .k { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); font-weight: 500; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+@media (min-width: 768px) {
+  .stats { grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 20px; }
+}
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 10px 12px; }
+@media (min-width: 768px) {
+  .stat { padding: 14px 16px; }
+}
+.stat .v { font-size: 20px; line-height: 26px; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+@media (min-width: 768px) {
+  .stat .v { font-size: 26px; line-height: 32px; }
+}
+.stat .k { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-2); font-weight: 500; }
+@media (min-width: 768px) {
+  .stat .k { font-size: 13px; }
+}
 .stat.hl { background: var(--accent-soft); border-color: transparent; }
 .stat.hl .v { color: var(--accent-text); }
 

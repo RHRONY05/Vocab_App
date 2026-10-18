@@ -8,11 +8,11 @@
 ## Now
 | | |
 |---|---|
-| **Phase** | Building (V3 done, V4 next) |
-| **Next task** | V4 Save + Words pages |
+| **Phase** | Building (V4 done, V5 next) |
+| **Next task** | V5 Quiz engine + API |
 | **Blocked on** | — |
 | **Production URL** | — |
-| **Last updated** | 2026-10-19 by Antigravity (V3 Lookup + Learn page complete) |
+| **Last updated** | 2026-10-19 by Antigravity (V4 Save + Words pages complete) |
 
 ## Preflight check (V0)
 | Item | Status | Notes |
@@ -50,6 +50,7 @@ Agents append one line per choice the docs didn't cover (newest last). If it cha
 - 2026-10-19 — V1 Scaffold: converted AppLayout to a Server Component with Suspense boundaries around client headers/tabbar to support Next.js 16 Partial Prerendering and dynamic routes. Added explicit 768px media queries in `globals.css` for desktop topbar and mobile header/tabbar.
 - 2026-10-19 — V2 Supabase & Auth: Configured Next.js 16 `src/proxy.ts` (using proxy convention). Disabled signups via Supabase Management API. Used `supabase.auth.signOut({ scope: "local" })` so browser logout leaves other test sessions intact. Handled `cookies()` safely outside request scope for tests.
 - 2026-10-19 — V3 Lookup & Learn: Google Gemini returned 404 for `gemini-2.5-flash` indicating it is no longer available to new users and recommending `gemini-3.8-flash`; updated default model to `gemini-3.8-flash`. Added explicit `required` properties list to the `card` schema object so Gemini populates all structured card fields.
+- 2026-10-19 — V4 Save + Words: Responsive ProgressStrip unified DOM using CSS media queries preventing duplicate test locators. Added Node 20 dummy WebSocket fallback in `tests/helpers/reset.ts` for headless test runs. Next.js 16 Suspense boundaries added around `WordsPageContent` and `WordDetailWrapper`.
 
 ## Session log
 Newest at the bottom. One entry per task. Keep entries short.
@@ -94,3 +95,10 @@ Tests: typecheck ✅ lint ✅ unit ✅ (9 passed) int ✅ (10 passed) e2e ✅ (2
 Commits: feat: implement lookup API, AI integration and Learn page
 Problems / surprises: Google deprecated gemini-2.5-flash for new users (404); switched to gemini-3.8-flash. Added explicit required fields array in responseSchema so Gemini fills all card properties.
 Next: V4 Save + Words pages.
+
+### 2026-10-19 04:12 — Antigravity — V4 Save + Words pages
+Did: built `src/lib/dates.ts` (Asia/Dhaka date ranges, formatters), `src/lib/stats-context.tsx` (global stats state & live header review badge count), `src/lib/toast.tsx` (custom Sonner toasts matching design tokens), `src/components/ProgressStrip.tsx` (responsive stats bar), `src/components/WordStats.tsx` (progress meter, dates, attempt history), `src/components/DeleteConfirmDialog.tsx` (delete confirmation modal). Implemented `POST /api/words` with AI quiz generation, `GET /api/words` with range filters & counts, `GET /api/words/stats` (duePreview & nextDue), `GET /api/words/[id]`, and `DELETE /api/words/[id]` with cascade. Built desktop two-pane Words page (`04-words`) and mobile detail page (`04-word-detail`). Implemented Save button states, Ctrl+S shortcut, toast notifications, and repeat-lookup banners.
+Tests: typecheck ✅ lint ✅ unit ✅ (14 passed) int ✅ (16 passed) e2e ✅ (33 passed: desktop + mobile) build ✅
+Commits: feat: implement words CRUD, stats and words pages
+Problems / surprises: vitest.int.config.ts needed fileParallelism: false to prevent concurrent resets of the shared e2e user; fixed Node 20 WebSocket check for Supabase client in headless Playwright; refactored ProgressStrip to unified responsive DOM.
+Next: V5 Quiz engine + API.

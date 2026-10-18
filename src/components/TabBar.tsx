@@ -4,8 +4,11 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BookOpen, Library, Repeat2 } from "lucide-react";
+import { useStats } from "@/lib/stats-context";
 
 export function TabBar({ dueNow = 0 }: { dueNow?: number }) {
+  const { stats } = useStats();
+  const effectiveDueNow = dueNow || stats?.dueNow || 0;
   const pathname = usePathname();
 
   // Hide the tab bar during an active review session
@@ -29,7 +32,7 @@ export function TabBar({ dueNow = 0 }: { dueNow?: number }) {
       <Link href="/review" className={isReview ? "on" : ""}>
         <Repeat2 className="w-5 h-5" />
         Review
-        {dueNow > 0 && <span className="count">{dueNow}</span>}
+        {effectiveDueNow > 0 && <span className="count">{effectiveDueNow}</span>}
       </Link>
     </nav>
   );

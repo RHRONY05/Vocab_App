@@ -14,6 +14,8 @@ import { Illustration } from "@/components/illustrations";
 import { MessageList, ChatMessage } from "@/components/MessageList";
 import { Composer } from "@/components/Composer";
 import { WordCard as WordCardType } from "@/lib/schemas";
+import { useStats } from "@/lib/stats-context";
+import { showSavedToast } from "@/lib/toast";
 
 function subscribe() {
   return () => {};
@@ -57,30 +59,12 @@ function LearnPageContent() {
     }
   }, []);
 
-  const [stats, setStats] = useState<{
-    savedToday: number;
-    total: number;
-    dueNow: number;
-  }>({ savedToday: 0, total: 0, dueNow: 0 });
+  const { stats, refreshStats } = useStats();
   const [recentWords, setRecentWords] = useState<string[]>([]);
 
-  // Fetch quick stats and recently saved words (gracefully handled if V4 API not yet built)
+  // Fetch recently saved words on mount and when total changes
   useEffect(() => {
-    async function fetchStats() {
-      try {
-        const res = await fetch("/api/words/stats");
-        if (res.ok) {
-          const data = await res.json();
-          setStats({
-            savedToday: data.savedToday ?? 0,
-            total: data.total ?? 0,
-            dueNow: data.dueNow ?? 0,
-          });
-        }
-      } catch {
-        // Stats API will be fully functional in V4
-      }
-
+    async function fetchRecentWords() {
       try {
         const res = await fetch("/api/words?range=all&page=1");
         if (res.ok) {
@@ -90,12 +74,12 @@ function LearnPageContent() {
           }
         }
       } catch {
-        // Words API will be fully functional in V4
+        // Ignore network errors
       }
     }
 
-    fetchStats();
-  }, []);
+    fetchRecentWords();
+  }, [stats.total]);
 
   // Sync chat to localStorage (limit to last 20 messages)
   const saveMessagesToStorage = useCallback((updated: ChatMessage[]) => {
@@ -195,6 +179,10 @@ function LearnPageContent() {
         const updated = [...newMessages, assistantMsg];
         setMessages(updated);
         saveMessagesToStorage(updated);
+
+        if (data.type === "word" && (data.saved || data.repeatCounted)) {
+          refreshStats();
+        }
       } catch (err) {
         console.error("Lookup error:", err);
         setError("AI unavailable. Please try again.");
@@ -203,7 +191,7 @@ function LearnPageContent() {
         setLoading(false);
       }
     },
-    [currentWord, input, loading, messages, saveMessagesToStorage]
+    [currentWord, input, loading, messages, refreshStats, saveMessagesToStorage]
   );
 
   // Handle URL query parameter `?q=` on mount
@@ -217,46 +205,70 @@ function LearnPageContent() {
     }
   }, [searchParams, handleLookup]);
 
-  const handleSaveWord = async (card: WordCardType, messageId: string) => {
-    // Optimistically update message state
-    setMessages((prev) =>
-      prev.map((msg) =>
-        msg.id === messageId && msg.role === "assistant" && msg.type === "word"
-          ? { ...msg, isSaved: true, saveStatus: "created" }
-          : msg
-      )
-    );
+  const handleSaveWord = useCallback(
+    async (card: WordCardType, messageId: string) => {
+      // Set saving state
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === messageId && msg.role === "assistant" && msg.type === "word"
+            ? { ...msg, saving: true }
+            : msg
+        )
+      );
 
-    try {
-      const res = await fetch("/api/words", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ card }),
-      });
-      if (res.ok) {
-        const data = await res.json();
+      try {
+        const res = await fetch("/api/words", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ card }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          showSavedToast(card.word);
+          refreshStats();
+
+          setMessages((prev) => {
+            const updated = prev.map((msg) =>
+              msg.id === messageId && msg.role === "assistant" && msg.type === "word"
+                ? {
+                    ...msg,
+                    saving: false,
+                    isSaved: true,
+                    saveStatus: data.status,
+                    saved: {
+                      id: data.id,
+                      lookupCount: 1,
+                      box: 0,
+                      createdAt: new Date().toISOString(),
+                    },
+                  }
+                : msg
+            );
+            saveMessagesToStorage(updated);
+            return updated;
+          });
+        } else {
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === messageId && msg.role === "assistant" && msg.type === "word"
+                ? { ...msg, saving: false }
+                : msg
+            )
+          );
+        }
+      } catch (err) {
+        console.warn("Failed to save word:", err);
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === messageId && msg.role === "assistant" && msg.type === "word"
-              ? {
-                  ...msg,
-                  isSaved: true,
-                  saveStatus: data.status,
-                  saved: {
-                    id: data.id,
-                    lookupCount: 1,
-                    box: 0,
-                    createdAt: new Date().toISOString(),
-                  },
-                }
+              ? { ...msg, saving: false }
               : msg
           )
         );
       }
-    } catch {
-      // V4 will wire the full API
-    }
-  };
+    },
+    [refreshStats]
+  );
 
   const handleRetry = () => {
     if (lastFailedInput) {
@@ -264,7 +276,7 @@ function LearnPageContent() {
     }
   };
 
-  const handleSaveLatest = () => {
+  const handleSaveLatest = useCallback(() => {
     const latestWordMsg = [...messages]
       .reverse()
       .find(
@@ -275,7 +287,19 @@ function LearnPageContent() {
     if (latestWordMsg) {
       handleSaveWord(latestWordMsg.card, latestWordMsg.id);
     }
-  };
+  }, [messages, handleSaveWord]);
+
+  // Keyboard shortcut Ctrl+S / Cmd+S to save latest word
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        handleSaveLatest();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleSaveLatest]);
 
   // Minutes needed for due review: ceil(min(dueNow, 15) * 25s / 60)
   const reviewMinutes = Math.max(

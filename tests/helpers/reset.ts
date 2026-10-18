@@ -1,6 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/types/database";
 
+if (typeof WebSocket === "undefined") {
+  (globalThis as unknown as { WebSocket: unknown }).WebSocket = class DummyWebSocket {};
+}
+
 export async function resetE2EUser(): Promise<void> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
