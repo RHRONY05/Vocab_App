@@ -8,11 +8,11 @@
 ## Now
 | | |
 |---|---|
-| **Phase** | Building (V4 done, V5 next) |
-| **Next task** | V5 Quiz engine + API |
+| **Phase** | Building (V5 done, V6 next) |
+| **Next task** | V6 Review UI + local Lighthouse |
 | **Blocked on** | — |
 | **Production URL** | — |
-| **Last updated** | 2026-10-19 by Antigravity (V4 Save + Words pages complete) |
+| **Last updated** | 2026-10-19 by Antigravity (V5 complete) |
 
 ## Preflight check (V0)
 | Item | Status | Notes |
@@ -51,6 +51,7 @@ Agents append one line per choice the docs didn't cover (newest last). If it cha
 - 2026-10-19 — V2 Supabase & Auth: Configured Next.js 16 `src/proxy.ts` (using proxy convention). Disabled signups via Supabase Management API. Used `supabase.auth.signOut({ scope: "local" })` so browser logout leaves other test sessions intact. Handled `cookies()` safely outside request scope for tests.
 - 2026-10-19 — V3 Lookup & Learn: Google Gemini returned 404 for `gemini-2.5-flash` indicating it is no longer available to new users and recommending `gemini-3.8-flash`; updated default model to `gemini-3.8-flash`. Added explicit `required` properties list to the `card` schema object so Gemini populates all structured card fields.
 - 2026-10-19 — V4 Save + Words: Responsive ProgressStrip unified DOM using CSS media queries preventing duplicate test locators. Added Node 20 dummy WebSocket fallback in `tests/helpers/reset.ts` for headless test runs. Next.js 16 Suspense boundaries added around `WordsPageContent` and `WordDetailWrapper`.
+- 2026-10-19 — V5 Quiz engine + API: Implemented Efraimidis-Spirakis weighted random sampling without replacement for practice mode; Next.js 16 `after()` background AI quiz regeneration when promoted into box 3 or box 5; Fisher-Yates MCQ option shuffling while preserving answer index.
 
 ## Session log
 Newest at the bottom. One entry per task. Keep entries short.
@@ -102,3 +103,11 @@ Tests: typecheck ✅ lint ✅ unit ✅ (14 passed) int ✅ (16 passed) e2e ✅ (
 Commits: feat: implement words CRUD, stats and words pages
 Problems / surprises: vitest.int.config.ts needed fileParallelism: false to prevent concurrent resets of the shared e2e user; fixed Node 20 WebSocket check for Supabase client in headless Playwright; refactored ProgressStrip to unified responsive DOM.
 Next: V5 Quiz engine + API.
+
+### 2026-10-19 04:26 — Antigravity — V5 Quiz engine + API
+Did: implemented pure SRS state machine in `src/lib/quiz/srs.ts` (Leitner boxes 0-5 intervals, promotions, demotions, 12h repeat lookup rule), weakness score formula in `src/lib/quiz/score.ts` (box penalty, lookup penalty, attempt penalty, overdue cap at 10 days), word and question selection engine in `src/lib/quiz/select.ts` (review mode capped at 15 due words weakest first; practice mode scopes week/month/all/weak, Efraimidis-Spirakis weighted sampling without replacement; question kind rules by box; last-kind avoidance; recall generator; option shuffling with answerIndex tracking). Implemented `GET /api/quiz` and `POST /api/quiz/answer` with Next.js 16 `after()` background quiz regeneration on promotion to box 3 or 5. Wrote comprehensive unit tests (`tests/quiz/srs.test.ts`, `tests/quiz/score.test.ts`, `tests/quiz/select.test.ts`) and full integration tests (`tests/quiz.int.test.ts`).
+Tests: typecheck ✅ lint ✅ unit ✅ (42 passed: 6 suites) int ✅ (24 passed: 4 suites) e2e ✅ (33 passed: desktop + mobile) build ✅
+Commits: feat: implement quiz engine and API endpoints
+Problems / surprises: none; Efraimidis-Spirakis sampling cleanly avoids duplicates and satisfies statistical distribution requirements.
+Next: V6 Review UI + local Lighthouse.
+

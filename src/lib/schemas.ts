@@ -16,6 +16,9 @@ export type PartOfSpeech = z.infer<typeof partOfSpeechSchema>;
 export const registerSchema = z.enum(["formal", "neutral", "informal"]);
 export type Register = z.infer<typeof registerSchema>;
 
+export const wordStatusSchema = z.enum(["new", "learning", "mastered"]);
+export type WordStatus = z.infer<typeof wordStatusSchema>;
+
 export const dontConfuseItemSchema = z.object({
   word: z.string(),
   difference: z.string(),
@@ -83,3 +86,15 @@ export const quizAnswerRequestSchema = z.object({
   isRepeat: z.boolean(),
 });
 export type QuizAnswerRequest = z.infer<typeof quizAnswerRequestSchema>;
+
+export const quizQuerySchema = z.object({
+  mode: z.enum(["review", "practice"]),
+  scope: z.enum(["week", "month", "all", "weak"]).optional().default("week"),
+  size: z
+    .preprocess(
+      (val) => (val !== undefined && val !== null && val !== "" ? Number(val) : 10),
+      z.union([z.literal(5), z.literal(10), z.literal(20)])
+    )
+    .default(10),
+});
+export type QuizQuery = z.infer<typeof quizQuerySchema>;

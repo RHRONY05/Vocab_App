@@ -49,7 +49,7 @@ V0 Preflight ─▶ V1 Scaffold + design system ─▶ V2 Supabase + auth ─▶
   - **Tests:** unit `dates.test.ts`; integration for `/api/words*`; e2e `save.spec.ts`, `words.spec.ts`.
   - **AC:** save "cohesive" → appears under Today with count 1; saving again → "Updated", still 1 row; looking it up again → saved card with no AI call and the "Saved on" banner; the row has 3 quiz questions; pages match the design.
 
-- [ ] **V5 Quiz engine + API** — in progress: Antigravity
+- [x] **V5 Quiz engine + API** — Leitner SRS state transitions, weakness scoring, review/practice selection, after() background regeneration on promotion into box 3/5, GET /api/quiz, POST /api/quiz/answer, and full unit/integration test coverage.
   - `lib/quiz/srs.ts`, `score.ts`, `select.ts` exactly as 07-QUIZ-ENGINE.md. `GET /api/quiz`, `POST /api/quiz/answer` with `after()` regeneration on promotion into box 3/5.
   - **Tests:** unit `srs.test.ts`, `score.test.ts`, `select.test.ts` (07 §7); integration for `/api/quiz*`.
   - **AC:** all tests pass; review mode returns only due words; practice never returns duplicates.
