@@ -71,4 +71,28 @@ describe("Auth & Proxy integration", () => {
       mockCreateClient.mockRestore();
     });
   });
+
+  describe("GET /api/cron/keepalive", () => {
+    it("returns 401 without valid authorization secret", async () => {
+      const { GET } = await import("@/app/api/cron/keepalive/route");
+      const req = new NextRequest("http://localhost:3000/api/cron/keepalive");
+      const res = await GET(req);
+      expect(res.status).toBe(401);
+      const data = await res.json();
+      expect(data).toEqual({ error: "unauthorized" });
+    });
+
+    it("returns 200 with valid CRON_SECRET", async () => {
+      const { GET } = await import("@/app/api/cron/keepalive/route");
+      const req = new NextRequest("http://localhost:3000/api/cron/keepalive", {
+        headers: {
+          authorization: `Bearer ${process.env.CRON_SECRET}`,
+        },
+      });
+      const res = await GET(req);
+      expect(res.status).toBe(200);
+      const data = await res.json();
+      expect(data).toEqual({ ok: true });
+    });
+  });
 });
