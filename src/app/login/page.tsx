@@ -34,8 +34,11 @@ export default function LoginPage() {
 
       router.push("/");
       router.refresh();
-    } catch {
-      setError("Wrong email or password. Try again.");
+    } catch (err: unknown) {
+      console.error("Login network/auth failure:", err);
+      setError(
+        "Could not reach authentication server (DNS/network error). Please check your connection or enable Secure DNS (e.g. Cloudflare 1.1.1.1) in browser settings."
+      );
       setLoading(false);
     }
   }
