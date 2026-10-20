@@ -153,4 +153,14 @@ Commits: fix(ui): lock composer to viewport bottom and remove excessive empty-st
 Problems / surprises: none. Layout now strictly matches 06-UI spec ("Composer fixed at the bottom").
 Next: All tasks complete.
 
+### 2026-10-20 23:38 — Antigravity — Navbar spacing, Gemini 3x retry + fallback, corner illustration visibility
+Did: Addressed three user feedback items:
+1. Navbar spacing: added `pt-6 md:pt-10` to `MessageList.tsx` so user word bubbles have clean breathing room and never touch the navbar.
+2. AI retries: implemented `callGeminiWithRetry` with 3 retries, exponential backoff (1s, 2s) with jitter, and automatic fallback across candidate models (`[primary, gemini-3.5-flash, gemini-flash-latest, gemini-3.8-flash]`) to smoothly recover from transient 503 high-demand spikes.
+3. Corner vector illustration: changed `.composer-wrap` background from full-width gradient to `transparent` so it never cuts off the bottom-left art, and enhanced contrast of `.bl` elements (Bangla letter 'শ', book, waves, and dark-mode decor-opacity=1).
+Tests: typecheck ✅ lint ✅ unit ✅ (42 passed) build ✅
+Commits: fix(ui,ai): add thread top padding, transparent composer wrap with enhanced decor, and 3x Gemini retries with model fallback
+Problems / surprises: none. All 4 Gemini models verified and operational.
+Next: Ready for user verification.
+
 
