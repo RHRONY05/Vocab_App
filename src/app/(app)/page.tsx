@@ -320,10 +320,10 @@ function LearnPageContent() {
   return (
     <div className="relative h-[calc(100dvh-52px-var(--tabbar-h,64px))] md:h-[calc(100vh-56px)] flex flex-col justify-between overflow-hidden">
       {/* Thread content */}
-      <div className="w-full flex-1 min-h-0 overflow-y-auto flex flex-col items-center px-4 md:px-8">
+      <div className="w-full flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col items-center px-4 md:px-8">
         {messages.length === 0 ? (
           /* Empty State (D03 / M03) */
-          <div className="page flex flex-col items-center text-center gap-3.5 max-w-[560px] my-auto py-4 animate-fade-in">
+          <div className="page flex flex-col items-center text-center gap-3.5 max-w-[560px] my-auto py-1 animate-fade-in">
             <Illustration name="book-sprout" size="default" />
             <h1 className="serif text-[34px] leading-[42px] font-semibold tracking-[-0.015em]">
               Met a new word?
