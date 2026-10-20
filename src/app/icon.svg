@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect x="0" y="0" width="32" height="32" rx="8" fill="#1E6B70"/>
+  <!-- Open book pages -->
+  <path d="M6.5 12.5 C9.8 11.4 13.2 11.9 16 13.6 C18.8 11.9 22.2 11.4 25.5 12.5 L25.5 23 C22.2 21.9 18.8 22.4 16 24 C13.2 22.4 9.8 21.9 6.5 23 Z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Book spine -->
+  <path d="M16 13.6 V24" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+  <!-- Sprout stem -->
+  <path d="M16 13.4 C16 10.2 17.2 8.4 19.4 7.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Golden sprout leaf -->
+  <path d="M19.4 7.4 C21.6 6.6 23.6 7.5 24 9.4 C21.8 10.3 19.8 9.3 19.4 7.4Z" fill="#E3A33B"/>
+</svg>
