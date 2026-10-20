@@ -3,6 +3,7 @@
 import React, {
   useState,
   useEffect,
+  useRef,
   useCallback,
   useSyncExternalStore,
   Suspense,
@@ -307,13 +308,22 @@ function LearnPageContent() {
     Math.ceil((Math.min(stats.dueNow, 15) * 25) / 60)
   );
 
+  // Auto-scroll to bottom of thread when messages change or loading
+  const threadEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messages.length > 0 || loading) {
+      threadEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages.length, loading]);
+
   return (
-    <div className="relative min-h-[calc(100vh-64px)] flex flex-col justify-between">
+    <div className="relative h-[calc(100dvh-52px-var(--tabbar-h,64px))] md:h-[calc(100vh-56px)] flex flex-col justify-between overflow-hidden">
       {/* Thread content */}
-      <div className="w-full grow flex flex-col items-center justify-center p-4 md:p-8">
+      <div className="w-full flex-1 min-h-0 overflow-y-auto flex flex-col items-center px-4 md:px-8">
         {messages.length === 0 ? (
           /* Empty State (D03 / M03) */
-          <div className="page flex flex-col items-center text-center gap-3.5 max-w-[560px] py-12 md:py-20 animate-fade-in">
+          <div className="page flex flex-col items-center text-center gap-3.5 max-w-[560px] my-auto py-4 animate-fade-in">
             <Illustration name="book-sprout" size="default" />
             <h1 className="serif text-[34px] leading-[42px] font-semibold tracking-[-0.015em]">
               Met a new word?
@@ -393,6 +403,7 @@ function LearnPageContent() {
             onLookup={handleLookup}
           />
         )}
+        <div ref={threadEndRef} className="h-2 shrink-0" />
       </div>
 
       {/* Floating Composer */}

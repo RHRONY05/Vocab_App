@@ -448,7 +448,19 @@ mark.w { color: inherit; font-weight: 650; padding: 0 2px; border-radius: 3px; b
 .banner-neutral { background: var(--surface-2); color: var(--ink-2); }
 
 /* ---------- composer (Composer) ---------- */
-.composer-wrap { flex: none; padding: 12px 24px 18px; background: linear-gradient(to bottom, transparent, var(--bg) 30%); }
+.composer-wrap {
+  flex: none;
+  padding: 12px 24px 18px;
+  background: linear-gradient(to bottom, transparent, var(--bg) 30%);
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+}
+@media (max-width: 767px) {
+  .composer-wrap {
+    padding: 8px 12px 10px;
+  }
+}
 .composer {
   max-width: var(--content-w); margin: 0 auto; background: var(--surface); border: 1px solid var(--line-strong);
   border-radius: var(--radius-xl); box-shadow: var(--shadow-md); padding: 6px 6px 6px 18px; display: flex; align-items: center; gap: 10px;
