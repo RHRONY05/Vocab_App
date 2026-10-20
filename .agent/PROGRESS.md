@@ -163,10 +163,24 @@ Commits: fix(ui,ai): add thread top padding, transparent composer wrap with enha
 Problems / surprises: none. All 4 Gemini models verified and operational.
 Next: Ready for user verification.
 
+### 2026-10-21 00:22 — Antigravity — Hide thread container scrollbar and add custom theme-matched scrollbars
+Did: Hidden the native Windows internal scrollbar on the Learn page thread container by applying `.no-scrollbar` (`scrollbar-width: none`, `-ms-overflow-style: none`, `::-webkit-scrollbar { display: none }`). Configured global 6px theme-matched scrollbar styles across the app matching `--line-strong` so native white Windows scrollbars never appear. Reduced empty state padding (`py-1`) to prevent overflow. Verified build and deployed to Vercel (commit 100f411).
+Tests: typecheck ✅ lint ✅ unit ✅ (42 passed) build ✅
+Commits: fix(ui): hide thread container scrollbar and add custom theme-matched scrollbars
+Problems / surprises: none.
+Next: Ready for user verification.
+
 ### 2026-10-21 00:14 — Antigravity — Logo Favicon & App Icons
 Did: Created bespoke app icon and favicon assets derived from the navbar logo (deep teal rounded squircle `#1E6B70`, crisp white open book lines, and golden sprout leaf `#E3A33B`). Generated `src/app/icon.svg` (SVG vector icon for modern browsers), `src/app/apple-icon.png` (180x180 for iOS/Safari), `src/app/icon.png` (32x32), `public/icon-192.png` (192x192), and a multi-resolution `src/app/favicon.ico` (16x16, 32x32, 48x48) replacing Next.js default favicon. Verified build and deployed to Vercel (commit 52f119d).
 Tests: build ✅
 Commits: feat(branding): add Vocab logo favicon, SVG icon, and apple-touch-icon
+Problems / surprises: none.
+Next: Ready for user verification.
+
+### 2026-10-21 00:22 — Antigravity — Hide thread container scrollbar and add custom theme-matched scrollbars
+Did: Hidden the native Windows internal scrollbar on the Learn page thread container by applying `.no-scrollbar` (`scrollbar-width: none`, `-ms-overflow-style: none`, `::-webkit-scrollbar { display: none }`). Configured global 6px theme-matched scrollbar styles across the app matching `--line-strong` so native white Windows scrollbars never appear. Reduced empty state padding (`py-1`) to prevent overflow. Verified build and deployed to Vercel (commit 100f411).
+Tests: typecheck ✅ lint ✅ unit ✅ (42 passed) build ✅
+Commits: fix(ui): hide thread container scrollbar and add custom theme-matched scrollbars
 Problems / surprises: none.
 Next: Ready for user verification.
 
