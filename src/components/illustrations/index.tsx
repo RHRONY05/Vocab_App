@@ -316,17 +316,17 @@ export function PageDecor({ corners = ["tr", "bl"] }: { corners?: ("tr" | "bl")[
           <circle cx="176" cy="140" r="10" style={{ fill: "var(--illus-blob-a)" }} />
           <path
             d="M150 292 C172 232 232 200 304 212"
-            style={{ fill: "none", stroke: "var(--illus-line)", strokeWidth: 2.5, strokeLinecap: "round", strokeDasharray: "0.1 10", opacity: 0.35 }}
+            style={{ fill: "none", stroke: "var(--illus-line)", strokeWidth: 2.5, strokeLinecap: "round", strokeDasharray: "0.1 10", opacity: 0.6 }}
           />
           <path
             d="M30 168 C44 162 58 162 70 168 C82 162 96 162 110 168 V206 C96 200 82 200 70 206 C58 200 44 200 30 206 Z"
-            style={{ fill: "var(--illus-fill)", stroke: "var(--illus-line)", strokeWidth: 1.8, strokeLinejoin: "round", opacity: 0.9 }}
+            style={{ fill: "var(--illus-fill)", stroke: "var(--illus-line)", strokeWidth: 2, strokeLinejoin: "round", opacity: 1 }}
           />
           <path
             d="M70 168 V206"
-            style={{ fill: "none", stroke: "var(--illus-line)", strokeWidth: 1.8, opacity: 0.9 }}
+            style={{ fill: "none", stroke: "var(--illus-line)", strokeWidth: 2, opacity: 1 }}
           />
-          <g style={{ fill: "none", stroke: "var(--illus-line)", strokeWidth: 1.5, strokeLinecap: "round", opacity: 0.3 }}>
+          <g style={{ fill: "none", stroke: "var(--illus-line)", strokeWidth: 1.5, strokeLinecap: "round", opacity: 0.6 }}>
             <path d="M38 178 C46 175 54 175 62 178" />
             <path d="M38 188 C46 185 54 185 62 188" />
             <path d="M78 178 C86 175 94 175 102 178" />
@@ -334,12 +334,12 @@ export function PageDecor({ corners = ["tr", "bl"] }: { corners?: ("tr" | "bl")[
           </g>
           <path
             d="M36 248 q10 -8 20 0 t20 0 t20 0 t20 0"
-            style={{ fill: "none", stroke: "var(--highlight)", strokeWidth: 3, strokeLinecap: "round" }}
+            style={{ fill: "none", stroke: "var(--highlight)", strokeWidth: 3.5, strokeLinecap: "round" }}
           />
           <text
             x="134"
             y="262"
-            style={{ fontFamily: "var(--font-bn)", fontWeight: 600, fontSize: 34, fill: "var(--accent-text)", opacity: 0.45 }}
+            style={{ fontFamily: "var(--font-bn)", fontWeight: 600, fontSize: 34, fill: "var(--accent-text)", opacity: 0.8 }}
           >
             শ
           </text>

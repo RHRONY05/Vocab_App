@@ -30,6 +30,65 @@ function loadFixture<T>(filename: string): T {
   return JSON.parse(content) as T;
 }
 
+async function callGeminiWithRetry<T>(
+  actionName: string,
+  fn: (model: string) => Promise<T>
+): Promise<T> {
+  const primaryModel = process.env.GEMINI_MODEL || env.GEMINI_MODEL || "gemini-3.5-flash";
+  const candidateModels = [
+    primaryModel,
+    "gemini-3.5-flash",
+    "gemini-flash-latest",
+    "gemini-3.8-flash",
+  ];
+  const modelsToTry = Array.from(new Set(candidateModels));
+
+  let lastError: unknown = null;
+  const maxRetriesPerModel = 3;
+
+  for (const model of modelsToTry) {
+    for (let attempt = 1; attempt <= maxRetriesPerModel; attempt++) {
+      try {
+        return await fn(model);
+      } catch (err) {
+        lastError = err;
+        const status = (err as { status?: number })?.status;
+        const msg = err instanceof Error ? err.message : String(err);
+        const isTransient =
+          status === 503 ||
+          status === 429 ||
+          status === 500 ||
+          status === 504 ||
+          msg.includes("503") ||
+          msg.includes("429") ||
+          msg.includes("high demand") ||
+          msg.includes("UNAVAILABLE") ||
+          msg.includes("RESOURCE_EXHAUSTED") ||
+          msg.includes("overloaded");
+
+        console.warn(
+          `[Gemini ${actionName}] Attempt ${attempt}/${maxRetriesPerModel} with ${model} failed (status: ${status || "unknown"}): ${msg}`
+        );
+
+        if (!isTransient && status && status < 500 && status !== 429) {
+          // If 400 Bad Request or 401 or 404, don't retry same model
+          break;
+        }
+
+        if (attempt < maxRetriesPerModel) {
+          // Wait with exponential backoff + jitter before retrying
+          const delay = Math.min(1000 * Math.pow(2, attempt - 1) + Math.random() * 300, 3500);
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
+    }
+  }
+
+  const finalMsg = lastError instanceof Error ? lastError.message : String(lastError);
+  console.error(`[Gemini ${actionName}] All retries failed:`, finalMsg);
+  throw new AiError(finalMsg, 502);
+}
+
 export async function lookupWithAi(params: {
   input: string;
   currentWord?: string;
@@ -84,7 +143,7 @@ export async function lookupWithAi(params: {
     return base;
   }
 
-  // 2. Real Gemini API call
+  // 2. Real Gemini API call with 3 retries & model fallback
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     throw new AiError("Missing GEMINI_API_KEY");
@@ -169,9 +228,9 @@ export async function lookupWithAi(params: {
     required: ["type"],
   };
 
-  const attemptCall = async (): Promise<LookupAiResult> => {
+  return await callGeminiWithRetry("lookup", async (model) => {
     const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || env.GEMINI_MODEL,
+      model,
       contents: userPrompt,
       config: {
         systemInstruction: LOOKUP_SYSTEM_PROMPT,
@@ -192,20 +251,7 @@ export async function lookupWithAi(params: {
     }
 
     return validated.data;
-  };
-
-  try {
-    return await attemptCall();
-  } catch (firstErr) {
-    console.warn("First Gemini lookup attempt failed, retrying once...", firstErr);
-    try {
-      return await attemptCall();
-    } catch (secondErr) {
-      const msg = secondErr instanceof Error ? secondErr.message : String(secondErr);
-      console.error("Second Gemini lookup attempt failed:", msg);
-      throw new AiError(msg, 502);
-    }
-  }
+  });
 }
 
 export async function generateQuizWithAi(
@@ -245,9 +291,9 @@ export async function generateQuizWithAi(
     },
   };
 
-  const attemptCall = async (): Promise<QuizQuestion[]> => {
+  return await callGeminiWithRetry("quiz", async (model) => {
     const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || env.GEMINI_MODEL,
+      model,
       contents: userPrompt,
       config: {
         systemInstruction: QUIZ_SYSTEM_PROMPT,
@@ -268,17 +314,5 @@ export async function generateQuizWithAi(
     }
 
     return validated.data;
-  };
-
-  try {
-    return await attemptCall();
-  } catch (firstErr) {
-    console.warn("First Gemini quiz attempt failed, retrying once...", firstErr);
-    try {
-      return await attemptCall();
-    } catch (secondErr) {
-      console.error("Second Gemini quiz attempt failed:", secondErr);
-      throw new AiError("ai_unavailable", 502);
-    }
-  }
+  });
 }

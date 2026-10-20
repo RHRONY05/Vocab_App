@@ -56,7 +56,7 @@ export function MessageList({
   onLookup,
 }: MessageListProps) {
   return (
-    <div className="page thread flex flex-col gap-4 w-full max-w-[760px] mx-auto pb-32">
+    <div className="page thread flex flex-col gap-4 w-full max-w-[760px] mx-auto pt-6 md:pt-10 pb-32">
       {messages.map((msg) => {
         if (msg.role === "user") {
           return (

@@ -145,6 +145,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
     if (err instanceof AiError) {
+      console.error("[/api/lookup] AiError:", err.message);
       return NextResponse.json(
         { error: "ai_unavailable", detail: err.message },
         { status: 502 }
