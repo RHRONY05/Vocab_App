@@ -54,6 +54,7 @@ Agents append one line per choice the docs didn't cover (newest last). If it cha
 - 2026-10-19 — V5 Quiz engine + API: Implemented Efraimidis-Spirakis weighted random sampling without replacement for practice mode; Next.js 16 `after()` background AI quiz regeneration when promoted into box 3 or box 5; Fisher-Yates MCQ option shuffling while preserving answer index.
 - 2026-10-19 — V7 Seed & Deploy: Switched keepalive cron route to use NEXT_PUBLIC_SUPABASE_ANON_KEY to ping Supabase database without exposing SUPABASE_SERVICE_ROLE_KEY to Vercel production runtime. Seeded initial 6 owner words via real Gemini structured output. Linked GitHub repo RHRONY05/Vocab_App to Vercel project vocab-rony.
 - 2026-10-19 — V8 Final Check & Production Audit: Switched default GEMINI_MODEL to `gemini-3.5-flash` with dynamic fallback; `gemini-3.8-flash` free-tier has a temporary 20-request daily limit, whereas `gemini-3.5-flash` supports high throughput (1500 RPD) with fast response time (<6s) and structured outputs. Automated production Lighthouse auditing across all 4 pages in Desktop and Mobile modes with real authenticated session.
+- 2026-10-20 — UI Viewport Alignment: Locked the Composer component to the bottom of the visible viewport (`position: sticky; bottom: 0;` and `h-[calc(100vh-56px)] overflow-hidden`). Replaced fixed `py-12 md:py-20` on empty state with `my-auto` centering so the input box is always visible without scrolling on any screen height. Added auto-scroll to thread bottom on new messages.
 
 ## Session log
 Newest at the bottom. One entry per task. Keep entries short.
@@ -144,5 +145,12 @@ Production Lighthouse audit table (live https://vocab-rony.vercel.app):
 Commits: feat: complete V8 production check, lighthouse audit and handoff documentation
 Problems / surprises: gemini-3.8-flash free-tier quota is restricted to 20 RPD; switched to gemini-3.5-flash which provides 1500 RPD, fast sub-6s inference, and identical structured outputs. Mobile simulated latency from local machine to US-East (iad1) causes mobile LCP ~3.6s-4.2s while TBT is <90ms everywhere and desktop LCP is <0.9s.
 Next: Finished! Handoff to Muhammad Rony.
+
+### 2026-10-20 23:20 — Antigravity — Learn page viewport and composer pinning
+Did: Resolved user report where input box was pushed below the viewport fold requiring manual scroll. Updated Learn page layout (`src/app/(app)/page.tsx`) to lock height to visible viewport (`md:h-[calc(100vh-56px)]`, `h-[calc(100dvh-116px)]` on mobile), removed excessive `py-12 md:py-20` replacing with `my-auto`, added sticky positioning (`position: sticky; bottom: 0; z-index: 20;`) and mobile padding to `.composer-wrap` in `globals.css`, and added auto-scrolling to thread bottom on new messages. Verified typecheck, lint, and production build pass. Deployed to Vercel (commit 51fab58).
+Tests: typecheck ✅ lint ✅ unit ✅ (42 passed) build ✅
+Commits: fix(ui): lock composer to viewport bottom and remove excessive empty-state padding
+Problems / surprises: none. Layout now strictly matches 06-UI spec ("Composer fixed at the bottom").
+Next: All tasks complete.
 
 
