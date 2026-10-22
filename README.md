@@ -17,6 +17,7 @@
     <a href="https://ai.google.dev/"><img src="https://img.shields.io/badge/Google_Gemini-API-orange?style=flat-square&logo=google" alt="Google Gemini" /></a>
     <a href="https://supabase.com/"><img src="https://img.shields.io/badge/Supabase-PostgreSQL_%26_Auth-3ecf8e?style=flat-square&logo=supabase" alt="Supabase" /></a>
     <a href="https://vercel.com/"><img src="https://img.shields.io/badge/Vercel-Deployed-black?style=flat-square&logo=vercel" alt="Vercel" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square" alt="License: MIT" /></a>
   </p>
 </div>
 
@@ -162,4 +163,4 @@ Open [http://localhost:3000](http://localhost:3000) and log in with your configu
 
 ## License
 
-Private repository — created by [Muhammad Rony](https://github.com/RHRONY05).
+This project is open-source and available under the [MIT License](LICENSE) © 2026 [Muhammad Rony](https://github.com/RHRONY05).
