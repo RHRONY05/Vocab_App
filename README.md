@@ -1,15 +1,24 @@
-# Vocab
+<div align="center">
+  <a href="https://vocab.rhrony05.me">
+    <img src="public/icon-192.png" width="80" height="80" alt="Vocab Logo" style="border-radius: 18px;" />
+  </a>
+  <h1>Vocab</h1>
+  <p><strong>A private, intelligent vocabulary companion for daily reading, code study, and active recall.</strong></p>
+  <p>
+    <a href="https://vocab.rhrony05.me"><strong>🌐 vocab.rhrony05.me</strong></a>
+    &nbsp;•&nbsp;
+    <a href="https://vocab-rony.vercel.app">Vercel Mirror</a>
+  </p>
 
-[![Next.js 16](https://img.shields.io/badge/Next.js-16.4-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
-[![Google Gemini](https://img.shields.io/badge/Google_Gemini-API-orange?style=flat-square&logo=google)](https://ai.google.dev/)
-[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL_%26_Auth-3ecf8e?style=flat-square&logo=supabase)](https://supabase.com/)
-[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=flat-square&logo=vercel)](https://vercel.com/)
-
-> A private, single-user vocabulary web application built for daily laptop reading, code documentation study, client communication, and active recall practice.
-
-**Live Application:** [https://vocab-rony.vercel.app](https://vocab-rony.vercel.app)
+  <p>
+    <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16.4-black?style=flat-square&logo=next.js" alt="Next.js 16" /></a>
+    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript" alt="TypeScript" /></a>
+    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?style=flat-square&logo=tailwindcss" alt="Tailwind CSS v4" /></a>
+    <a href="https://ai.google.dev/"><img src="https://img.shields.io/badge/Google_Gemini-API-orange?style=flat-square&logo=google" alt="Google Gemini" /></a>
+    <a href="https://supabase.com/"><img src="https://img.shields.io/badge/Supabase-PostgreSQL_%26_Auth-3ecf8e?style=flat-square&logo=supabase" alt="Supabase" /></a>
+    <a href="https://vercel.com/"><img src="https://img.shields.io/badge/Vercel-Deployed-black?style=flat-square&logo=vercel" alt="Vercel" /></a>
+  </p>
+</div>
 
 ---
 

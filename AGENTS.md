@@ -8,49 +8,133 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-# AGENTS.md — Start here
+# AGENTS.md — Agent Operations & Codebase Guide
 
-This repo is **Vocab**, a private, single-user vocabulary web app for Muhammad Rony
-(a Bangla speaker working towards fluent English). It replaces an n8n + Notion vocab agent.
+This repository is **Vocab**, a private, single-user vocabulary web application for **Muhammad Rony** (`muhammadrony147@gmail.com`).
 
-He meets new English words all day while working on his **laptop** (docs, papers, code, client
-messages). He types a word, gets a short, practical explanation, saves it with one click,
-and later practises saved words in quick quizzes that take a few minutes.
+- **Production URL:** [https://vocab.rhrony05.me](https://vocab.rhrony05.me) *(backup: [https://vocab-rony.vercel.app](https://vocab-rony.vercel.app))*
+- **Current Status:** **Production Live & Maintained** (Tasks V0 through V8 complete, verified with 100% test coverage and live deployment).
+- **Primary Use:** Daily laptop reading (engineering docs, papers, client messages) to look up words in context, save them with 1 click, and practice via Leitner 5-box spaced repetition. Fully responsive on mobile (390px+).
 
-**Planned by** Claude Opus 5.5. **Built by** an AI agent (Antigravity), end to end.
-The human checks the finished app; he does not write code.
+---
 
-## Read in this order
-0. [.agent/PROGRESS.md](.agent/PROGRESS.md) — where the project is right now (read first, update before you stop)
-1. [.agent/rules/vocab.md](.agent/rules/vocab.md) — always-on rules (non-negotiable)
-2. [.agent/01-PRODUCT.md](.agent/01-PRODUCT.md) — what the app does, user stories, out of scope
-3. [.agent/02-ARCHITECTURE.md](.agent/02-ARCHITECTURE.md) — stack, folders, env, auth, deploy
-4. [.agent/03-DATABASE.md](.agent/03-DATABASE.md) — schema, RLS, migration
-5. [.agent/04-API.md](.agent/04-API.md) — every route's contract
-6. [.agent/05-AI-PROMPTS.md](.agent/05-AI-PROMPTS.md) — prompts and output schemas
-7. [.agent/06-UI.md](.agent/06-UI.md) — pages, behaviour, keyboard shortcuts
-8. [.agent/design/README.md](.agent/design/README.md) — **the visual design (source of truth)**: tokens + every screen, desktop and mobile
-9. [.agent/07-QUIZ-ENGINE.md](.agent/07-QUIZ-ENGINE.md) — spaced repetition and word selection
-10. [.agent/09-TESTING.md](.agent/09-TESTING.md) — unit, integration, e2e, Lighthouse targets
-11. [.agent/08-TASKS.md](.agent/08-TASKS.md) — the task list (V0 → V8)
-12. `.agent/workflows/` — `/next-task` and `/status` (the human's goal command is in `.agent/GOAL.md`)
+## Read in This Order
+0. [.agent/PROGRESS.md](.agent/PROGRESS.md) — **Read first, update before you finish any task** (the project's active memory).
+1. [.agent/rules/vocab.md](.agent/rules/vocab.md) — Non-negotiable engineering rules.
+2. [.agent/01-PRODUCT.md](.agent/01-PRODUCT.md) — Product requirements and user stories.
+3. [.agent/02-ARCHITECTURE.md](.agent/02-ARCHITECTURE.md) — Stack, database, auth, and deployment model.
+4. [.agent/03-DATABASE.md](.agent/03-DATABASE.md) — Schema, triggers, and Row-Level Security.
+5. [.agent/04-API.md](.agent/04-API.md) — API route contracts and request/response specifications.
+6. [.agent/05-AI-PROMPTS.md](.agent/05-AI-PROMPTS.md) — System prompts and structured JSON schemas.
+7. [.agent/06-UI.md](.agent/06-UI.md) — Page behaviors, states, and keyboard shortcuts.
+8. [.agent/07-QUIZ-ENGINE.md](.agent/07-QUIZ-ENGINE.md) — Leitner SRS engine and word selection algorithms.
+9. [.agent/09-TESTING.md](.agent/09-TESTING.md) — Test requirements (unit, integration, E2E, Lighthouse targets).
 
-## Key decisions (already made — do not re-open)
-| Topic | Decision |
-|---|---|
-| Users | Exactly one user. No sign-up page. Login = Supabase Auth email + password. Every API route also checks `user.email === ALLOWED_EMAIL`. |
-| Device | **Desktop-first** (laptop browser, ~90% of use). It must still work at 390 px (designs for both are in `.agent/design/`), but there is no PWA and no offline mode. |
-| Stack | Next.js 16 (App Router, TypeScript strict) + Tailwind CSS v4 + Supabase (Postgres, Auth, RLS) + Gemini (`@google/genai`) + Zod + Vitest. Hosted on Vercel. |
-| Supabase | Cloud project created and managed through the **Supabase MCP**. Free tier only. Every schema change is also a file in `supabase/migrations/`. |
-| Vercel | Project, env vars and deploys managed through the **Vercel MCP**. Hobby (free) plan. |
-| AI | Gemini, model name from `GEMINI_MODEL`. Structured JSON output validated with Zod. The AI is called **only** for: a new lookup, a follow-up/sentence check, and generating quiz questions. Word selection for quizzes is plain code, never AI. |
-| Notion / n8n | Not used. Nothing is migrated. The 6 existing words are seeded in V7. |
-| Chat | Not stored in the database. Last 20 messages kept in `localStorage`. Only saved **words** are stored. |
-| Repeat lookups | Looking up an already-saved word shows the saved card instantly (no AI call) and counts as a "forgot it" signal (see 07-QUIZ-ENGINE.md). |
-| Design | Done by the planner in `.agent/design/`. The builder implements it exactly and makes **no** design decisions. Tokens from `design/tokens.css` only. |
-| Testing | Unit + integration (Vitest), e2e on desktop and mobile (Playwright), accessibility (axe), Lighthouse on mobile and desktop with targets in `09-TESTING.md`. Tests use a separate e2e user and mocked AI. |
-| Repo | Git + **private** GitHub repo `RHRONY05/Vocab_App`. Never commit secrets. |
+---
 
-## Status
-- [x] Planning (2026-10-19)
-- [ ] Build V0 → V8
+## Where Lives What (Codebase Directory Map)
+
+```
+Vocab_App/
+├── src/
+│   ├── app/                                 # Next.js 16 App Router
+│   │   ├── (app)/                           # Authenticated application shell
+│   │   │   ├── page.tsx                     # Learn / Chat page (lookup input, thread, word cards)
+│   │   │   ├── words/page.tsx               # Words library (instant search, tab counts, infinite feed)
+│   │   │   ├── words/[id]/page.tsx          # Word detail page (history, SRS stats, attempt log)
+│   │   │   ├── review/page.tsx              # SRS Quiz engine (Daily Review & Targeted Practice)
+│   │   │   └── layout.tsx                   # AppLayout (AppHeader, MobileHeader, TabBar, Shortcuts)
+│   │   ├── api/                             # Backend Route Handlers
+│   │   │   ├── lookup/route.ts              # POST /api/lookup (AI lookup + repeat-lookup DB cache)
+│   │   │   ├── words/route.ts               # GET & POST /api/words (list with pagination & save word)
+│   │   │   ├── words/[id]/route.ts          # GET & DELETE /api/words/[id]
+│   │   │   ├── words/stats/route.ts         # GET /api/words/stats (overview numbers & counts)
+│   │   │   ├── quiz/route.ts                # GET /api/quiz (session generator: daily review / practice)
+│   │   │   ├── quiz/answer/route.ts         # POST /api/quiz/answer (records attempt, advances/drops box)
+│   │   │   └── cron/keepalive/route.ts      # GET /api/cron/keepalive (pings DB daily to prevent sleep)
+│   │   ├── login/page.tsx                   # Owner login page (Supabase Auth)
+│   │   ├── globals.css                      # Design tokens ("calm study desk"), typography, and styling
+│   │   ├── icon.svg & icon.png              # App icons and favicon assets
+│   │   └── proxy.ts                         # Next.js 16 proxy middleware (session refresh & auth gating)
+│   │
+│   ├── components/                          # UI Components
+│   │   ├── WordCard.tsx                     # Structured word card (desktop 2-col, mobile stacked)
+│   │   ├── Composer.tsx                     # Chat & lookup input with keyboard shortcuts
+│   │   ├── MessageList.tsx                  # Chat message feed with markdown renderer
+│   │   ├── AiAvatar.tsx                     # Animated SVG/CSS AI icon with breathing glow
+│   │   ├── ui.tsx                           # Primitives: Button, Chip, Segmented, Banner, Switch, etc.
+│   │   ├── review/                          # Quiz components (MCQ question, results summary, word modal)
+│   │   └── words/                           # Word row, filter strip, and word stats pane
+│   │
+│   └── lib/                                 # Business Logic & Infrastructure
+│       ├── ai.ts                            # Google GenAI SDK wrapper (3x retry & fallback models)
+│       ├── prompts.ts                       # Gemini system prompts (structured card & markdown reply)
+│       ├── schemas.ts                       # Zod schemas (WordCard, QuizQuestion, API contracts)
+│       ├── srs.ts                           # Leitner 5-box SRS scheduling & weakness scoring
+│       ├── words.ts                         # Word normalizer & repeat lookup helper
+│       ├── auth.ts                          # `requireOwner` helper enforcing single-user access
+│       ├── utils.ts                         # Utility functions (`cn`, Tailwind merge)
+│       └── supabase/                        # Supabase clients (client.ts, server.ts, admin.ts)
+│
+├── supabase/
+│   └── migrations/                          # SQL migrations (schema, RLS, indexes, triggers)
+│
+├── scripts/                                 # Maintenance & Admin CLI Tools
+│   ├── create-user.ts                       # Creates Owner & E2E users via Supabase Admin API
+│   ├── seed-words.ts                        # Seeds initial vocabulary words with structured AI cards
+│   ├── verify-production.ts                 # Validates live Vercel deployment (auth, lookup, save)
+│   └── audit-production.ts                  # Runs automated Lighthouse audits on live URL
+│
+├── tests/                                   # Complete Test Suite
+│   ├── srs.test.ts, score.test.ts, etc.     # Vitest unit tests (deterministic business logic)
+│   ├── *.int.test.ts                        # Vitest integration tests (auth, lookup, words, quiz APIs)
+│   ├── e2e/                                 # Playwright E2E tests (auth, learn, words, review, a11y)
+│   └── helpers/reset.ts                     # Test isolation helper resetting E2E user data
+│
+└── .agent/                                  # Project Planning & System Memory
+    ├── PROGRESS.md                          # Current project state & session history (MUST update)
+    ├── rules/vocab.md                       # Strict architectural rules
+    └── design/                              # HTML artboards and visual specifications
+```
+
+---
+
+## Non-Negotiable Rules for Modifying the Codebase
+
+1. **Single-User Lock:**
+   - There is exactly one human user: `muhammadrony147@gmail.com`.
+   - Never build a public registration page.
+   - Every API route and proxy check MUST verify `user.email === ALLOWED_EMAIL`.
+
+2. **AI Boundary (Zero Unnecessary LLM Calls):**
+   - Gemini (`@google/genai`) is called **only** for:
+     1. Looking up a new word.
+     2. Answering a follow-up question or checking a user's practice sentence.
+     3. Generating quiz questions when a word is saved or promoted.
+   - Word selection for quizzes, SRS scheduling, and box calculations are **pure deterministic code**, never AI.
+   - Looking up an already-saved word returns the cached card from the database instantly (0s AI latency).
+
+3. **Design System & Tokens:**
+   - All styling uses design tokens in `src/app/globals.css` ("calm study desk" palette).
+   - Desktop layout uses the 2-column grid (`136px 1fr`); mobile (< 768px) stacks section headings on top with full-width content blocks underneath.
+   - Never introduce ad-hoc hex colors or unapproved font families.
+
+4. **Database & Migrations:**
+   - Database operations use Supabase Postgres with Row-Level Security (RLS) enabled on all tables.
+   - Any database schema changes must be committed as a migration file in `supabase/migrations/`.
+
+5. **Test Discipline & Verification Before Finishing:**
+   Before declaring any task or modification complete, you must verify:
+   ```bash
+   npm run typecheck    # TypeScript strict check (0 errors)
+   npm run test         # Unit tests (42 passed)
+   npm run test:int     # Integration tests (26 passed)
+   npm run build        # Production Next.js build
+   ```
+   If modifying UI or flows, run targeted Playwright tests:
+   ```bash
+   npx playwright test tests/e2e/learn.spec.ts tests/e2e/visual.spec.ts
+   ```
+
+6. **Keep PROGRESS.md Updated:**
+   - Always append an entry to [.agent/PROGRESS.md](.agent/PROGRESS.md) summarizing changes, test results, and next steps before finishing any turn.
