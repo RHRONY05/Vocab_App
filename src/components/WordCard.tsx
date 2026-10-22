@@ -4,6 +4,7 @@ import React from "react";
 import { BookmarkPlus, Check, CircleAlert, Loader2, RotateCcw } from "lucide-react";
 import { WordCard as WordCardType } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
+import { PronounceButton } from "./PronounceButton";
 
 export interface WordCardProps {
   card: WordCardType;
@@ -125,7 +126,12 @@ export function WordCard({
       >
         <div className="wc-head">
           <div className="grow">
-            <h2 className="headword">{card.word}</h2>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h2 className="headword">{card.word}</h2>
+              {card.isRealWord && (
+                <PronounceButton word={card.word} size="md" />
+              )}
+            </div>
             <div className="wc-meta">
               <span className="chip">{card.partOfSpeech}</span>
               <span className="chip">{card.register}</span>

@@ -163,17 +163,17 @@ Commits: fix(ui,ai): add thread top padding, transparent composer wrap with enha
 Problems / surprises: none. All 4 Gemini models verified and operational.
 Next: Ready for user verification.
 
-### 2026-10-22 20:05 — Antigravity — Refined README.md
-Did: Rewrote README.md following the Option A showcase structure:
-1. Header & modern tech stack badges (Next.js 16, TypeScript, Tailwind v4, Gemini, Supabase, Vercel) with live link.
-2. Problem & Solution narrative: highlighted why literal dictionary definitions fail in real professional reading/writing and how Vocab explains words with practical contexts, collocations, and Bengali nuance, replacing Notion/n8n.
-3. User capabilities breakdown: contextual word lookups, interactive chat & sentence checking, 1-click/shortcut saving, Leitner 5-box daily reviews, and targeted quizzes (weekly, monthly, all-time, weak words).
-4. Documentation note pointing to upcoming `/docs` and `.agent/` architecture files.
-5. Clean self-hosted local setup & Vercel deployment guide with annotated environment variables table.
-Tests: docs updated ✅ git pushed to origin main ✅
-Commits: docs: refine README for showcase, user capabilities, and self-hosted setup
-Problems / surprises: none.
+### 2026-10-22 20:35 — Antigravity — Native Speech Pronunciation Audio Feature
+Did: Implemented instant word pronunciation via Web Speech API (`window.speechSynthesis`):
+1. Created `PronounceButton.tsx` with animated Lucide speaker icon, ripple animation, active utterance tracking, and ESL-tuned playback (speech rate `0.88x` for crisp articulation, natural English voice selection).
+2. Integrated `PronounceButton` into `WordCard.tsx` directly beside the headword across all screens (Learn chat, Words library, Word detail, Review modal).
+3. Integrated `PronounceButton` into active recall and MCQ question explanations in `ReviewQuestion.tsx`.
+4. Added Playwright E2E assertion verifying pronunciation button visibility and click behavior in Learn flow.
+Tests: typecheck ✅ unit ✅ (42 passed) learn e2e ✅ (12 passed) build ✅
+Commits: feat(audio): add instant ESL-tuned word pronunciation button
+Problems / surprises: none. Instant 0ms speech with zero external API dependencies.
 Next: Ready for user verification.
+
 
 
 
@@ -185,17 +185,17 @@ Commits: feat(branding): add Vocab logo favicon, SVG icon, and apple-touch-icon
 Problems / surprises: none.
 Next: Ready for user verification.
 
-### 2026-10-22 20:05 — Antigravity — Refined README.md
-Did: Rewrote README.md following the Option A showcase structure:
-1. Header & modern tech stack badges (Next.js 16, TypeScript, Tailwind v4, Gemini, Supabase, Vercel) with live link.
-2. Problem & Solution narrative: highlighted why literal dictionary definitions fail in real professional reading/writing and how Vocab explains words with practical contexts, collocations, and Bengali nuance, replacing Notion/n8n.
-3. User capabilities breakdown: contextual word lookups, interactive chat & sentence checking, 1-click/shortcut saving, Leitner 5-box daily reviews, and targeted quizzes (weekly, monthly, all-time, weak words).
-4. Documentation note pointing to upcoming `/docs` and `.agent/` architecture files.
-5. Clean self-hosted local setup & Vercel deployment guide with annotated environment variables table.
-Tests: docs updated ✅ git pushed to origin main ✅
-Commits: docs: refine README for showcase, user capabilities, and self-hosted setup
-Problems / surprises: none.
+### 2026-10-22 20:35 — Antigravity — Native Speech Pronunciation Audio Feature
+Did: Implemented instant word pronunciation via Web Speech API (`window.speechSynthesis`):
+1. Created `PronounceButton.tsx` with animated Lucide speaker icon, ripple animation, active utterance tracking, and ESL-tuned playback (speech rate `0.88x` for crisp articulation, natural English voice selection).
+2. Integrated `PronounceButton` into `WordCard.tsx` directly beside the headword across all screens (Learn chat, Words library, Word detail, Review modal).
+3. Integrated `PronounceButton` into active recall and MCQ question explanations in `ReviewQuestion.tsx`.
+4. Added Playwright E2E assertion verifying pronunciation button visibility and click behavior in Learn flow.
+Tests: typecheck ✅ unit ✅ (42 passed) learn e2e ✅ (12 passed) build ✅
+Commits: feat(audio): add instant ESL-tuned word pronunciation button
+Problems / surprises: none. Instant 0ms speech with zero external API dependencies.
 Next: Ready for user verification.
+
 
 
 

@@ -12,6 +12,7 @@ import {
 import { FormattedQuizQuestion } from "@/lib/quiz/select";
 import { WordDetailModal } from "./WordDetailModal";
 import { WordCard } from "@/lib/schemas";
+import { PronounceButton } from "@/components/PronounceButton";
 
 interface ReviewQuestionProps {
   question: FormattedQuizQuestion;
@@ -215,9 +216,12 @@ export function ReviewQuestion({
             )}
           </div>
 
-          <h2 className="headword text-[40px] md:text-[48px] leading-[48px] md:leading-[56px] mt-3.5 mb-1 font-serif font-bold">
-            {question.word}
-          </h2>
+          <div className="flex items-center justify-center gap-2.5 mt-3.5 mb-1">
+            <h2 className="headword text-[40px] md:text-[48px] leading-[48px] md:leading-[56px] font-serif font-bold">
+              {question.word}
+            </h2>
+            <PronounceButton word={question.word} size="lg" />
+          </div>
           <div className="wc-meta justify-center mb-4">
             <span className="chip">{question.recall?.partOfSpeech || "word"}</span>
           </div>
@@ -331,9 +335,12 @@ export function ReviewQuestion({
           </div>
 
           {answered && (
-            <div className="explain mt-4.5 p-3.5 bg-[var(--surface-2)] border border-[var(--line)] rounded-[var(--radius-md)] text-sm leading-relaxed animate-fade-in">
-              <b className="capitalize mr-1">{question.word}:</b>
-              {question.explanation}
+            <div className="explain mt-4.5 p-3.5 bg-[var(--surface-2)] border border-[var(--line)] rounded-[var(--radius-md)] text-sm leading-relaxed animate-fade-in flex items-center gap-2 flex-wrap">
+              <div className="inline-flex items-center gap-1 font-bold">
+                <span className="capitalize">{question.word}:</span>
+                <PronounceButton word={question.word} size="sm" />
+              </div>
+              <span>{question.explanation}</span>
               <button
                 type="button"
                 onClick={() => setShowWordModal(true)}

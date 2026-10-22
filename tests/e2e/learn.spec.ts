@@ -37,6 +37,11 @@ test.describe("Learn Page", () => {
     // Check examples have highlighted headword
     const marks = page.locator("mark.w");
     await expect(marks.first()).toBeVisible();
+
+    // Check pronunciation sound button exists and can be clicked
+    const soundBtn = page.getByRole("button", { name: /listen to pronunciation of substantive/i });
+    await expect(soundBtn).toBeVisible();
+    await soundBtn.click();
   });
 
   test("follow-up 'is it formal?' renders reply bubble with currentWord", async ({ page }) => {

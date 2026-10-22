@@ -518,6 +518,23 @@ kbd {
     animation: none !important;
     opacity: 1 !important;
   }
+  .pronounce-btn .animate-pulse,
+  .pronounce-btn .animate-ping {
+    animation: none !important;
+  }
+}
+
+/* ---------- audio pronunciation button ---------- */
+.pronounce-btn {
+  position: relative;
+  border: 1px solid transparent;
+}
+.pronounce-btn:hover {
+  border-color: var(--line);
+}
+.pronounce-btn.playing {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(47, 168, 176, 0.15);
 }
 
 /* ---------- word card (WordCard) ---------- */
