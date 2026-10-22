@@ -1,61 +1,80 @@
 # Vocab
 
-A private, single-user vocabulary web application built for Muhammad Rony to replace an n8n + Notion vocabulary agent. Designed desktop-first for daily laptop reading, documentation study, coding, and client communication, with full responsive support for mobile phones (390×844).
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.4-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
+[![Google Gemini](https://img.shields.io/badge/Google_Gemini-API-orange?style=flat-square&logo=google)](https://ai.google.dev/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL_%26_Auth-3ecf8e?style=flat-square&logo=supabase)](https://supabase.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=flat-square&logo=vercel)](https://vercel.com/)
 
-- **Production URL:** [https://vocab-rony.vercel.app](https://vocab-rony.vercel.app)
-- **Allowed User:** `muhammadrony147@gmail.com`
-- **Owner Password:** Stored locally in `.env.local` under `OWNER_PASSWORD`.
+> A private, single-user vocabulary web application built for daily laptop reading, code documentation study, client communication, and active recall practice.
 
----
-
-## Features
-
-- **Fast Intelligent Lookup:** Type any English word to get immediate, structured explanations powered by Google Gemini (`gemini-3.5-flash`), including part of speech, register, natural English meaning, Bangla translation, usage guide, collocations, grammatical patterns, highlighted example sentences, and "Don't confuse with" distinctions.
-- **Repeat Lookup Detection:** Looking up an already-saved word returns the saved card immediately without consuming AI calls, while updating lookup frequency and automatically scheduling the word into today's review session if forgotten.
-- **Interactive Chat & Sentence Feedback:** Ask follow-up questions about the current word or submit sentences to test your usage and receive immediate grammar feedback and corrections.
-- **1-Click Saving:** Save words instantly via the Save button or the `Ctrl + S` (`Cmd + S`) keyboard shortcut. Automatically generates 3 active recall quiz questions upon save.
-- **Spaced Repetition Engine (Leitner 5-Box):** Spaced intervals (1d, 3d, 7d, 14d, 30d) with intelligent weakness scoring prioritizing forgotten and overdue words.
-- **Dual Review Modes:**
-  - *Daily Review:* Weakest-first session capped at 15 due words, with instant end-of-session retries for missed words.
-  - *Targeted Practice:* Filter by scope (Week, Month, All Words, Weak Words) and batch size (5, 10, 15) using Efraimidis-Spirakis weighted sampling without duplicate selections.
-- **Automated Keepalive Cron:** Daily Vercel cron invoking `/api/cron/keepalive` with bearer token authentication to prevent Supabase free-tier project auto-pausing.
+**Live Application:** [https://vocab-rony.vercel.app](https://vocab-rony.vercel.app)
 
 ---
 
-## Tech Stack
+## The Problem & The Solution
 
-- **Framework:** Next.js 16 (App Router, Turbopack, React 19, TypeScript strict mode)
-- **Styling:** Tailwind CSS v4 with custom CSS design tokens ("calm study desk" palette)
-- **Database & Auth:** Supabase (PostgreSQL, Row-Level Security policies, Supabase Auth)
-- **AI Engine:** Google Gemini API (`@google/genai`) with structured JSON schema output and Zod validation
-- **Testing:** Vitest (unit & integration), Playwright (desktop 1440×900 and mobile 390×844 e2e specs), `@axe-core/playwright` (accessibility)
-- **Hosting:** Vercel (Hobby plan)
+### The Problem
+Traditional dictionaries give rigid, literal definitions. When reading technical documentation, papers, or drafting professional client messages, knowing just the literal meaning of a word isn't enough:
+- You need to know **how it's naturally used** in real-world contexts.
+- You need to know **what words pair with it** (collocations) and what grammatical patterns follow it.
+- You need to avoid **confusing it with similar-sounding words**.
+- Previous attempts using an n8n webhook + Notion database were slow, disconnected from a daily reading workflow, and lacked an active recall system to help retain the words.
 
----
-
-## Browser Search Shortcut
-
-To look up any word directly from your browser's address bar without navigating to the app first:
-
-1. Open your browser settings:
-   - **Chrome / Brave:** Go to `Settings` → `Search engine` → `Manage search engines and site search`.
-   - **Edge:** Go to `Settings` → `Privacy, search, and services` → `Address bar and search` → `Manage search engines`.
-2. Under **Site search**, click **Add**:
-   - **Name:** `Vocab`
-   - **Shortcut:** `v`
-   - **URL with %s in place of query:** `https://vocab-rony.vercel.app/?q=%s`
-3. Click **Save**.
-
-Now simply type `v <word>` (e.g. `v cohesive` or `v inference`) into the address bar and press Enter to instantly jump to the word's card!
+### The Solution
+**Vocab** explains English words **the way you actually need them**:
+- Instead of dry dictionary entries, it breaks down each word with practical context, common collocations, real-world examples, and Bengali nuance.
+- Designed **desktop-first** for rapid keyboard lookups while working, with full responsive support on mobile.
+- Backed by an intelligent **Leitner 5-Box Spaced Repetition System (SRS)** so that looked-up words are never forgotten.
 
 ---
 
-## Local Setup
+## What You Can Do
+
+### 1. Get Practical, Contextual Word Meanings
+Type any English word (or ask for multiple words at once) to get a structured explanation:
+- **Natural Definition & Register:** Plain-English meaning with formality tone (formal, neutral, informal).
+- **Bengali Nuance:** Direct Bangla translation (`বাংলা`) to bridge understanding instantly.
+- **How It's Used:** Practical workplace, engineering, and everyday usage notes.
+- **Collocations:** High-frequency word pairings (e.g., *“sign a lease”*, *“substantive discussion”*).
+- **Grammatical Patterns & Numbered Examples:** Sentence patterns and real examples with the target word highlighted.
+- **“Don't Confuse”:** Clear distinctions between easily confused words (e.g., *substantive* vs. *substantial*).
+
+### 2. Interactive Chat & Sentence Checking
+- Ask follow-up questions about the word in a clean, conversational thread.
+- Write your own practice sentences and receive immediate grammar analysis, naturalness feedback, and suggested refinements.
+
+### 3. 1-Click & Keyboard Shortcut Saving
+- Save any looked-up word instantly with the **Save** button or via `Ctrl + S` (`Cmd + S`).
+- Repeat lookups of already-saved words display your saved card instantly with zero AI latency, while scheduling the word into today's review if you forgot it.
+
+### 4. Spaced Repetition Quizzes (SRS)
+- **Daily Review:** Practice due words every day based on the Leitner 5-box schedule (1d, 3d, 7d, 14d, 30d). Overdue and weak words are surfaced first, with instant retries for mistakes at the end of the session.
+- **Targeted Practice:** Test yourself anytime across customizable scopes:
+  - **Weekly:** Words added or practiced this week.
+  - **Monthly:** Words from the current month.
+  - **All Time:** Your entire vocabulary library.
+  - **Weak Words:** Words with low accuracy scores that need reinforcement.
+
+---
+
+## Documentation
+
+Comprehensive design specifications, prompt engineering guidelines, database schemas, and Leitner SRS algorithm details are organized under the `.agent/` folder (and upcoming `/docs` directory).
+
+---
+
+## Local Setup & Deployment
+
+If you want to run or deploy your own instance of Vocab:
 
 ### 1. Prerequisites
-- Node.js ≥ 20
-- npm ≥ 10
-- Git
+- **Node.js** ≥ 20
+- **npm** ≥ 10
+- **Git**
+- A free **[Supabase](https://supabase.com/)** account (Postgres database & Auth)
+- A **[Google AI Studio](https://aistudio.google.com/)** Gemini API Key
 
 ### 2. Clone and Install
 ```bash
@@ -64,67 +83,74 @@ cd Vocab_App
 npm install
 ```
 
-### 3. Environment Configuration
-Create a `.env.local` file in the project root:
+### 3. Environment Variables
+Create a `.env.local` file in the root of the project:
 
 ```ini
+# Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=https://<your-project-ref>.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
-SUPABASE_SERVICE_ROLE_KEY=<your-service-role-key> # Local admin scripts only, never commit or deploy
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+SUPABASE_SERVICE_ROLE_KEY=<your-supabase-service-role-key> # Local admin/migration scripts only
+
+# Google Gemini AI
 GEMINI_API_KEY=<your-gemini-api-key>
 GEMINI_MODEL=gemini-3.5-flash
-ALLOWED_EMAIL=muhammadrony147@gmail.com
-OWNER_PASSWORD=<generated-owner-password>
-CRON_SECRET=<generated-cron-secret>
+
+# Access Control & Auth
+ALLOWED_EMAIL=<your-login-email@example.com>
+OWNER_PASSWORD=<your-strong-owner-password>
+
+# App Settings
 APP_TIMEZONE=Asia/Dhaka
+CRON_SECRET=<random-secret-for-cron-keepalive>
+
+# E2E Testing (Optional - for local test suites)
 E2E_EMAIL=e2e+vocab@gmail.com
-E2E_PASSWORD=<generated-e2e-password>
+E2E_PASSWORD=<e2e-user-password>
 ```
 
-### 4. Database Setup & Seeding
-Apply migrations and seed initial vocabulary:
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL. |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase public anonymous client key. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (used only in local admin/seed scripts). |
+| `GEMINI_API_KEY` | Google Gemini API key for structured vocabulary generation. |
+| `GEMINI_MODEL` | Gemini model name (default: `gemini-3.5-flash`). |
+| `ALLOWED_EMAIL` | Single-user protection: only this email address can access the app. |
+| `OWNER_PASSWORD` | Password used to authenticate the owner account. |
+| `APP_TIMEZONE` | Timezone for SRS daily review cutoff (e.g. `Asia/Dhaka`). |
+| `CRON_SECRET` | Bearer token securing `/api/cron/keepalive` against unauthorized calls. |
+
+### 4. Database Setup
+1. Create a new project in your Supabase dashboard.
+2. Run the SQL schema migration located in `supabase/migrations/20261019031100_init.sql` using the Supabase SQL Editor.
+3. Create your user account:
 ```bash
-# Seed initial 6 words (augmentation, cohesive, inference, morph, substantial, substantive)
+npx tsx scripts/create-user.ts
+```
+4. *(Optional)* Seed initial words:
+```bash
 npx tsx scripts/seed-words.ts
 ```
 
-### 5. Running the App Locally
+### 5. Run Locally
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) and log in with your configured `ALLOWED_EMAIL` and `OWNER_PASSWORD`.
 
 ---
 
-## Scripts & Testing
+## Deployment (Vercel)
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Starts local Next.js development server with Turbopack |
-| `npm run build` | Compiles production build with TypeScript verification and static analysis |
-| `npm run start` | Starts production server locally |
-| `npm run lint` | Runs ESLint analysis |
-| `npm run typecheck` | Validates TypeScript types across the entire project (`tsc --noEmit`) |
-| `npm run test` | Runs pure unit tests (SRS machine, score algorithm, selection, date helpers) |
-| `npm run test:int` | Runs API integration tests with isolated E2E user & mocked AI fixtures |
-| `npm run test:e2e` | Runs Playwright end-to-end tests across desktop and mobile viewports |
-| `npm run test:all` | Executes full validation suite (`typecheck` + `lint` + `test` + `test:int` + `test:e2e`) |
-| `npx tsx scripts/verify-production.ts` | Validates live Vercel deployment: auth, seeded words, and live AI lookup |
-| `npx tsx scripts/audit-production.ts` | Executes Lighthouse audits on live production URL across desktop & mobile |
+1. Push your repository to GitHub.
+2. Import the repository into **[Vercel](https://vercel.com/)**.
+3. In project settings, add the environment variables defined above (exclude `SUPABASE_SERVICE_ROLE_KEY` for maximum production safety).
+4. Deploy! Next.js 16 App Router builds automatically with Turbopack.
+5. *(Optional)* Vercel Cron will automatically trigger `/api/cron/keepalive` daily to ensure the Supabase free-tier database remains active.
 
 ---
 
-## Production Lighthouse Verification
+## License
 
-Audited on [https://vocab-rony.vercel.app](https://vocab-rony.vercel.app) with authenticated session:
-
-| Page | Viewport | Performance | Accessibility | Best Practices | LCP | CLS | TBT |
-|---|---|---|---|---|---|---|---|
-| `/login` | Desktop | 99 | 100 | 100 | 0.9s | 0.00 | 0ms |
-| `/login` | Mobile | 90 | 100 | 100 | 3.6s | 0.00 | 90ms |
-| `/` | Desktop | 99 | 99 | 100 | 0.8s | 0.02 | 0ms |
-| `/` | Mobile | 87 | 99 | 100 | 3.8s | 0.07 | 49ms |
-| `/words` | Desktop | 95 | 97 | 100 | 0.9s | 0.07 | 0ms |
-| `/words` | Mobile | 83 | 100 | 100 | 4.2s | 0.03 | 55ms |
-| `/review` | Desktop | 99 | 100 | 100 | 0.8s | 0.00 | 0ms |
-| `/review` | Mobile | 96 | 100 | 100 | 2.7s | 0.00 | 29ms |
+Private repository — created by [Muhammad Rony](https://github.com/RHRONY05).
