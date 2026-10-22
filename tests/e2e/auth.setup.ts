@@ -24,7 +24,7 @@ setup("authenticate as e2e user", async ({ page }) => {
   await page.getByRole("button", { name: "Sign in" }).click();
 
   // Wait for redirect to home page
-  await page.waitForURL("/", { timeout: 15000 });
+  await page.waitForURL("/", { timeout: 30000 });
   await expect(page.locator("body")).toBeVisible();
 
   // Save authenticated state

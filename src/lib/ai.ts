@@ -89,11 +89,44 @@ async function callGeminiWithRetry<T>(
   throw new AiError(finalMsg, 502);
 }
 
+export type LookupAiWordResult = {
+  type: "word";
+  card: WordCard;
+  cards: WordCard[];
+};
+
+export type LookupAiReplyResult = {
+  type: "reply";
+  text: string;
+};
+
+export type LookupAiResultNormalized = LookupAiWordResult | LookupAiReplyResult;
+
 export async function lookupWithAi(params: {
   input: string;
   currentWord?: string;
-}): Promise<LookupAiResult> {
+}): Promise<LookupAiResultNormalized> {
   const { input, currentWord } = params;
+
+  function normalizeResult(raw: LookupAiResult): LookupAiResultNormalized {
+    if (raw.type === "word") {
+      const cards =
+        raw.cards && raw.cards.length > 0
+          ? raw.cards
+          : raw.card
+          ? [raw.card]
+          : [];
+      return {
+        type: "word",
+        card: cards[0],
+        cards,
+      };
+    }
+    return {
+      type: "reply",
+      text: raw.text,
+    };
+  }
 
   // 1. Mock path for tests
   if (process.env.AI_MOCK === "1") {
@@ -101,46 +134,48 @@ export async function lookupWithAi(params: {
     const lower = input.toLowerCase();
 
     if (lower.includes("formal")) {
-      return loadFixture<LookupAiResult>("formal_reply.json");
+      return normalizeResult(loadFixture<LookupAiResult>("formal_reply.json"));
     }
     if (lower.includes("inference from") || lower.includes("a inference")) {
-      return loadFixture<LookupAiResult>("sentence_feedback_reply.json");
+      return normalizeResult(loadFixture<LookupAiResult>("sentence_feedback_reply.json"));
     }
     if (normalised === "recieve") {
-      return loadFixture<LookupAiResult>("typo_recieve.json");
+      return normalizeResult(loadFixture<LookupAiResult>("typo_recieve.json"));
     }
     if (normalised === "substantive") {
-      return loadFixture<LookupAiResult>("substantive.json");
+      return normalizeResult(loadFixture<LookupAiResult>("substantive.json"));
     }
     if (normalised === "cohesive") {
-      return loadFixture<LookupAiResult>("cohesive.json");
+      return normalizeResult(loadFixture<LookupAiResult>("cohesive.json"));
     }
     if (normalised === "inference") {
-      return loadFixture<LookupAiResult>("inference.json");
+      return normalizeResult(loadFixture<LookupAiResult>("inference.json"));
     }
     if (normalised === "morph") {
-      return loadFixture<LookupAiResult>("morph.json");
+      return normalizeResult(loadFixture<LookupAiResult>("morph.json"));
     }
 
     // Generic fallback mock for other words
     const base = loadFixture<LookupAiResult>("substantive.json");
-    if (base.type === "word") {
+    if (base.type === "word" && base.card) {
+      const card = {
+        ...base.card,
+        word: normalised || "word",
+        meaningEn: `The meaning of ${normalised || "this word"}.`,
+        examples: [
+          `First example sentence with ${normalised || "the word"}.`,
+          `Second example sentence with ${normalised || "the word"}.`,
+          `Third example sentence with ${normalised || "the word"}.`,
+          `Fourth example sentence with ${normalised || "the word"}.`,
+        ],
+      };
       return {
         type: "word",
-        card: {
-          ...base.card,
-          word: normalised || "word",
-          meaningEn: `The meaning of ${normalised || "this word"}.`,
-          examples: [
-            `First example sentence with ${normalised || "the word"}.`,
-            `Second example sentence with ${normalised || "the word"}.`,
-            `Third example sentence with ${normalised || "the word"}.`,
-            `Fourth example sentence with ${normalised || "the word"}.`,
-          ],
-        },
+        card,
+        cards: [card],
       };
     }
-    return base;
+    return normalizeResult(base);
   }
 
   // 2. Real Gemini API call with 3 retries & model fallback
@@ -152,6 +187,71 @@ export async function lookupWithAi(params: {
   const ai = new GoogleGenAI({ apiKey });
   const userPrompt = buildLookupUserPrompt(input, currentWord);
 
+  const singleCardSchema = {
+    type: Type.OBJECT,
+    properties: {
+      word: { type: Type.STRING },
+      partOfSpeech: {
+        type: Type.STRING,
+        enum: [
+          "noun",
+          "verb",
+          "adjective",
+          "adverb",
+          "preposition",
+          "conjunction",
+          "interjection",
+          "pronoun",
+          "phrase",
+        ],
+      },
+      meaningEn: { type: Type.STRING },
+      meaningBn: { type: Type.STRING },
+      register: {
+        type: Type.STRING,
+        enum: ["formal", "neutral", "informal"],
+      },
+      howUsed: { type: Type.STRING },
+      collocations: {
+        type: Type.ARRAY,
+        items: { type: Type.STRING },
+      },
+      patterns: {
+        type: Type.ARRAY,
+        items: { type: Type.STRING },
+      },
+      examples: {
+        type: Type.ARRAY,
+        items: { type: Type.STRING },
+      },
+      dontConfuse: {
+        type: Type.ARRAY,
+        items: {
+          type: Type.OBJECT,
+          properties: {
+            word: { type: Type.STRING },
+            difference: { type: Type.STRING },
+          },
+          required: ["word", "difference"],
+        },
+      },
+      isRealWord: { type: Type.BOOLEAN },
+      suggestion: { type: Type.STRING, nullable: true },
+    },
+    required: [
+      "word",
+      "partOfSpeech",
+      "meaningEn",
+      "meaningBn",
+      "register",
+      "howUsed",
+      "collocations",
+      "patterns",
+      "examples",
+      "isRealWord",
+    ],
+  };
+
   const lookupSchema = {
     type: Type.OBJECT,
     properties: {
@@ -159,69 +259,10 @@ export async function lookupWithAi(params: {
         type: Type.STRING,
         enum: ["word", "reply"],
       },
-      card: {
-        type: Type.OBJECT,
-        properties: {
-          word: { type: Type.STRING },
-          partOfSpeech: {
-            type: Type.STRING,
-            enum: [
-              "noun",
-              "verb",
-              "adjective",
-              "adverb",
-              "preposition",
-              "conjunction",
-              "interjection",
-              "pronoun",
-              "phrase",
-            ],
-          },
-          meaningEn: { type: Type.STRING },
-          meaningBn: { type: Type.STRING },
-          register: {
-            type: Type.STRING,
-            enum: ["formal", "neutral", "informal"],
-          },
-          howUsed: { type: Type.STRING },
-          collocations: {
-            type: Type.ARRAY,
-            items: { type: Type.STRING },
-          },
-          patterns: {
-            type: Type.ARRAY,
-            items: { type: Type.STRING },
-          },
-          examples: {
-            type: Type.ARRAY,
-            items: { type: Type.STRING },
-          },
-          dontConfuse: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                word: { type: Type.STRING },
-                difference: { type: Type.STRING },
-              },
-              required: ["word", "difference"],
-            },
-          },
-          isRealWord: { type: Type.BOOLEAN },
-          suggestion: { type: Type.STRING, nullable: true },
-        },
-        required: [
-          "word",
-          "partOfSpeech",
-          "meaningEn",
-          "meaningBn",
-          "register",
-          "howUsed",
-          "collocations",
-          "patterns",
-          "examples",
-          "isRealWord",
-        ],
+      card: singleCardSchema,
+      cards: {
+        type: Type.ARRAY,
+        items: singleCardSchema,
       },
       text: { type: Type.STRING },
     },
@@ -250,7 +291,28 @@ export async function lookupWithAi(params: {
       throw new Error(`Schema validation failed: ${validated.error.message}`);
     }
 
-    return validated.data;
+    const result = validated.data;
+    if (result.type === "word") {
+      let cards: WordCard[] = [];
+      if (result.cards && result.cards.length > 0) {
+        cards = result.cards;
+      } else if (result.card) {
+        cards = [result.card];
+      }
+      if (cards.length === 0) {
+        throw new Error("Gemini returned word type without card or cards");
+      }
+      return {
+        type: "word",
+        card: cards[0],
+        cards,
+      };
+    }
+
+    return {
+      type: "reply",
+      text: result.text,
+    };
   });
 }
 

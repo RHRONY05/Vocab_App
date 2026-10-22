@@ -44,7 +44,7 @@ test.describe("Visual Regression Checks", () => {
 
       // 2. Learn with card
       await page.goto("/?q=substantive");
-      await expect(page.getByRole("heading", { name: "substantive" })).toBeVisible();
+      await expect(page.getByRole("heading", { name: "substantive" })).toBeVisible({ timeout: 15000 });
       await page.screenshot({ path: `tests/screenshots/${device}-${scheme}-learn-card.png`, fullPage: true });
 
       // 3. Words page

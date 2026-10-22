@@ -44,7 +44,8 @@ export type WordCard = z.infer<typeof wordCardSchema>;
 export const lookupAiResultSchema = z.discriminatedUnion("type", [
   z.object({
     type: z.literal("word"),
-    card: wordCardSchema,
+    card: wordCardSchema.optional(),
+    cards: z.array(wordCardSchema).optional(),
   }),
   z.object({
     type: z.literal("reply"),

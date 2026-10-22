@@ -10,7 +10,6 @@ import { resetE2EUser } from "./helpers/reset";
 import { WordCard } from "@/lib/schemas";
 
 describe("Quiz API integration (/api/quiz*)", () => {
-  let _e2eUserId: string;
   let authenticatedClient: ReturnType<typeof createSupabaseClient<Database>>;
 
   const sampleCard: WordCard = {
@@ -57,8 +56,6 @@ describe("Quiz API integration (/api/quiz*)", () => {
     if (authError || !authData.user) {
       throw new Error(`Failed to log in e2e user in test: ${authError?.message}`);
     }
-
-    _e2eUserId = authData.user.id;
 
     vi.spyOn(serverModule, "createClient").mockResolvedValue(
       authenticatedClient as unknown as Awaited<

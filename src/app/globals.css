@@ -424,11 +424,101 @@ kbd {
   background: var(--surface-2); color: var(--ink); font-size: 15px; line-height: 22px;
 }
 .bubble-reply {
-  align-self: flex-start; max-width: 88%; padding: 14px 18px; border-radius: 4px 14px 14px 14px;
+  align-self: flex-start; max-width: 88%; padding: 16px 20px; border-radius: 4px 14px 14px 14px;
   background: var(--surface); border: 1px solid var(--line); font-size: var(--text-read); line-height: var(--leading-read);
 }
-.bubble-reply p + p { margin-top: 8px; }
-.bubble-reply .who { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 12px; font-weight: 600; color: var(--ink-3); }
+.bubble-reply .who { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--teal); }
+.bubble-reply .reply-content { display: flex; flex-direction: column; gap: 8px; color: var(--ink); }
+.bubble-reply .reply-content p { margin: 0; line-height: 1.6; }
+.bubble-reply .reply-content strong,
+.bubble-reply .reply-content b { font-weight: 600; color: var(--ink); }
+.bubble-reply .reply-content h1,
+.bubble-reply .reply-content h2,
+.bubble-reply .reply-content h3,
+.bubble-reply .reply-content h4 { font-weight: 600; color: var(--ink); margin-top: 10px; margin-bottom: 2px; font-size: 15px; }
+.bubble-reply .reply-content ul { list-style-type: disc; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; margin: 4px 0; }
+.bubble-reply .reply-content ol { list-style-type: decimal; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; margin: 4px 0; }
+.bubble-reply .reply-content li { line-height: 1.5; }
+.bubble-reply .reply-content code { font-family: var(--font-mono, monospace); font-size: 0.9em; background: var(--surface-2); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--line); }
+
+/* ---------- AI animated icon & avatar ---------- */
+.ai-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+.ai-avatar-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(47, 168, 176, 0.35) 0%, rgba(227, 163, 59, 0.15) 60%, transparent 100%);
+  filter: blur(4px);
+  animation: ai-glow 3s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.ai-icon-spin {
+  animation: ai-breathe 4s ease-in-out infinite;
+  transform-origin: center;
+}
+.ai-icon-sparkle-1 {
+  animation: ai-sparkle-ping 2.5s ease-in-out infinite;
+  transform-origin: center;
+}
+.ai-icon-sparkle-2 {
+  animation: ai-sparkle-ping 2.5s ease-in-out 1.25s infinite;
+  transform-origin: center;
+}
+@keyframes ai-glow {
+  0% { transform: scale(0.85); opacity: 0.4; }
+  100% { transform: scale(1.2); opacity: 0.9; }
+}
+@keyframes ai-breathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.08) rotate(5deg); }
+}
+@keyframes ai-sparkle-ping {
+  0%, 100% { transform: scale(0.7) translateY(0); opacity: 0.4; }
+  50% { transform: scale(1.25) translateY(-1px); opacity: 1; }
+}
+
+/* ---------- animated saving dots ---------- */
+.saving-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5px;
+  margin-left: 2px;
+}
+.saving-dots span {
+  display: inline-block;
+  animation: dot-bounce 1.4s infinite ease-in-out both;
+  font-weight: 700;
+}
+.saving-dots span:nth-child(1) { animation-delay: -0.32s; }
+.saving-dots span:nth-child(2) { animation-delay: -0.16s; }
+.saving-dots span:nth-child(3) { animation-delay: 0s; }
+
+@keyframes dot-bounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  40% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-avatar-glow, .ai-icon-spin, .ai-icon-sparkle-1, .ai-icon-sparkle-2 {
+    animation: none !important;
+  }
+  .saving-dots span {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
 
 /* ---------- word card (WordCard) ---------- */
 .wc { padding: 28px 32px 24px; }

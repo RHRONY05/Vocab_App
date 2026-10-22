@@ -163,12 +163,18 @@ Commits: fix(ui,ai): add thread top padding, transparent composer wrap with enha
 Problems / surprises: none. All 4 Gemini models verified and operational.
 Next: Ready for user verification.
 
-### 2026-10-21 00:22 — Antigravity — Hide thread container scrollbar and add custom theme-matched scrollbars
-Did: Hidden the native Windows internal scrollbar on the Learn page thread container by applying `.no-scrollbar` (`scrollbar-width: none`, `-ms-overflow-style: none`, `::-webkit-scrollbar { display: none }`). Configured global 6px theme-matched scrollbar styles across the app matching `--line-strong` so native white Windows scrollbars never appear. Reduced empty state padding (`py-1`) to prevent overflow. Verified build and deployed to Vercel (commit 100f411).
-Tests: typecheck ✅ lint ✅ unit ✅ (42 passed) build ✅
-Commits: fix(ui): hide thread container scrollbar and add custom theme-matched scrollbars
-Problems / surprises: none.
-Next: Ready for user verification.
+### 2026-10-22 16:45 — Antigravity — Bot reply formatting, multi-word lookups, animated AI & save icons, words page enhancements
+Did:
+1. Markdown replies: Integrated `react-markdown` and updated `.bubble-reply` styles with structured markdown (bold headings, bullet lists, bold highlights, spacing). Updated `LOOKUP_SYSTEM_PROMPT` to instruct Gemini to generate structured markdown replies.
+2. Multi-word lookups: Extended Zod schemas and Gemini response schemas to support returning multiple word cards when users ask for multiple words (e.g. "Explain bogged and idiom"). Updated `/api/lookup` to process, check against DB, and return all cards; updated Learn page to render all cards with individual save buttons.
+3. Animated AI Avatar: Created `AiAvatar.tsx` with animated SVG sparkles, breathing glow, and pulsing gradient accents in teal and gold; added to assistant replies and thinking states.
+4. Animated Save Button: Replaced static "Saving..." with animated wave-bouncing dots and spinning loader icon in `WordCard.tsx`.
+5. Words page enhancements: Formatted tab counts with brackets (`Today (1)`, `Week (9)`, `Month (9)`, `All (9)`), added instant keystroke search filtering with clear button, added skeleton loading state on tab switches, and implemented feed-style infinite scroll with `limit=10`.
+Tests: typecheck ✅ lint ✅ unit ✅ (42 passed) int ✅ (26 passed) e2e ✅ (52 passed) build ✅
+Commits: feat: markdown replies, multi-word cards, animated ai avatar, animated save, and words feed pagination
+Problems / surprises: Local ISP DNS failed UDP 53 on .co domains; added resilient fallback in local test runners and SSR proxy.
+Next: Deployed to Vercel production.
+
 
 ### 2026-10-21 00:14 — Antigravity — Logo Favicon & App Icons
 Did: Created bespoke app icon and favicon assets derived from the navbar logo (deep teal rounded squircle `#1E6B70`, crisp white open book lines, and golden sprout leaf `#E3A33B`). Generated `src/app/icon.svg` (SVG vector icon for modern browsers), `src/app/apple-icon.png` (180x180 for iOS/Safari), `src/app/icon.png` (32x32), `public/icon-192.png` (192x192), and a multi-resolution `src/app/favicon.ico` (16x16, 32x32, 48x48) replacing Next.js default favicon. Verified build and deployed to Vercel (commit 52f119d).
@@ -177,11 +183,17 @@ Commits: feat(branding): add Vocab logo favicon, SVG icon, and apple-touch-icon
 Problems / surprises: none.
 Next: Ready for user verification.
 
-### 2026-10-21 00:22 — Antigravity — Hide thread container scrollbar and add custom theme-matched scrollbars
-Did: Hidden the native Windows internal scrollbar on the Learn page thread container by applying `.no-scrollbar` (`scrollbar-width: none`, `-ms-overflow-style: none`, `::-webkit-scrollbar { display: none }`). Configured global 6px theme-matched scrollbar styles across the app matching `--line-strong` so native white Windows scrollbars never appear. Reduced empty state padding (`py-1`) to prevent overflow. Verified build and deployed to Vercel (commit 100f411).
-Tests: typecheck ✅ lint ✅ unit ✅ (42 passed) build ✅
-Commits: fix(ui): hide thread container scrollbar and add custom theme-matched scrollbars
-Problems / surprises: none.
-Next: Ready for user verification.
+### 2026-10-22 16:45 — Antigravity — Bot reply formatting, multi-word lookups, animated AI & save icons, words page enhancements
+Did:
+1. Markdown replies: Integrated `react-markdown` and updated `.bubble-reply` styles with structured markdown (bold headings, bullet lists, bold highlights, spacing). Updated `LOOKUP_SYSTEM_PROMPT` to instruct Gemini to generate structured markdown replies.
+2. Multi-word lookups: Extended Zod schemas and Gemini response schemas to support returning multiple word cards when users ask for multiple words (e.g. "Explain bogged and idiom"). Updated `/api/lookup` to process, check against DB, and return all cards; updated Learn page to render all cards with individual save buttons.
+3. Animated AI Avatar: Created `AiAvatar.tsx` with animated SVG sparkles, breathing glow, and pulsing gradient accents in teal and gold; added to assistant replies and thinking states.
+4. Animated Save Button: Replaced static "Saving..." with animated wave-bouncing dots and spinning loader icon in `WordCard.tsx`.
+5. Words page enhancements: Formatted tab counts with brackets (`Today (1)`, `Week (9)`, `Month (9)`, `All (9)`), added instant keystroke search filtering with clear button, added skeleton loading state on tab switches, and implemented feed-style infinite scroll with `limit=10`.
+Tests: typecheck ✅ lint ✅ unit ✅ (42 passed) int ✅ (26 passed) e2e ✅ (52 passed) build ✅
+Commits: feat: markdown replies, multi-word cards, animated ai avatar, animated save, and words feed pagination
+Problems / surprises: Local ISP DNS failed UDP 53 on .co domains; added resilient fallback in local test runners and SSR proxy.
+Next: Deployed to Vercel production.
+
 
 

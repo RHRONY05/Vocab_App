@@ -123,7 +123,8 @@ export async function GET(req: NextRequest) {
     const range = searchParams.get("range") || "week";
     const q = (searchParams.get("q") || "").trim();
     const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
-    const pageSize = 30;
+    const limitRaw = searchParams.get("limit");
+    const pageSize = limitRaw ? Math.max(1, Math.min(parseInt(limitRaw, 10) || 10, 100)) : 10;
 
     const todayStart = getTodayRange().start;
     const weekStart = getWeekRange().start;

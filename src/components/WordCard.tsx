@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { BookmarkPlus, Check, CircleAlert, RotateCcw } from "lucide-react";
+import { BookmarkPlus, Check, CircleAlert, Loader2, RotateCcw } from "lucide-react";
 import { WordCard as WordCardType } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
@@ -147,8 +147,24 @@ export function WordCard({
                   disabled={saving}
                   aria-label={`Save ${card.word}`}
                 >
-                  <BookmarkPlus className="i-sm w-4 h-4" />
-                  {saving ? "Saving…" : "Save"} <kbd className="kbd">Ctrl S</kbd>
+                  {saving ? (
+                    <>
+                      <Loader2 className="i-sm w-4 h-4 animate-spin" />
+                      <span>
+                        Saving
+                        <span className="saving-dots">
+                          <span>.</span>
+                          <span>.</span>
+                          <span>.</span>
+                        </span>
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <BookmarkPlus className="i-sm w-4 h-4" />
+                      Save <kbd className="kbd">Ctrl S</kbd>
+                    </>
+                  )}
                 </button>
               )}
             </div>

@@ -155,34 +155,57 @@ function LearnPageContent() {
 
         const data = await res.json();
 
-        let assistantMsg: ChatMessage;
+        const newAssistantMessages: ChatMessage[] = [];
         if (data.type === "word") {
-          assistantMsg = {
-            id: `assistant-${Date.now()}-${Math.random()}`,
-            role: "assistant",
-            type: "word",
-            card: data.card,
-            source: data.source,
-            saved: data.saved,
-            repeatCounted: data.repeatCounted,
-            isSaved: !!data.saved,
-          };
+          const cardsList =
+            Array.isArray(data.cards) && data.cards.length > 0
+              ? data.cards
+              : [
+                  {
+                    card: data.card,
+                    source: data.source,
+                    saved: data.saved,
+                    repeatCounted: data.repeatCounted,
+                  },
+                ];
+
+          for (let i = 0; i < cardsList.length; i++) {
+            const item = cardsList[i];
+            newAssistantMessages.push({
+              id: `assistant-${Date.now()}-${i}-${Math.random()}`,
+              role: "assistant",
+              type: "word",
+              card: item.card,
+              source: item.source,
+              saved: item.saved,
+              repeatCounted: item.repeatCounted,
+              isSaved: !!item.saved,
+            });
+          }
         } else {
-          assistantMsg = {
+          newAssistantMessages.push({
             id: `assistant-${Date.now()}-${Math.random()}`,
             role: "assistant",
             type: "reply",
             text: data.text,
             currentWord,
-          };
+          });
         }
 
-        const updated = [...newMessages, assistantMsg];
+        const updated = [...newMessages, ...newAssistantMessages];
         setMessages(updated);
         saveMessagesToStorage(updated);
 
-        if (data.type === "word" && (data.saved || data.repeatCounted)) {
-          refreshStats();
+        if (data.type === "word") {
+          const anySavedOrCounted = Array.isArray(data.cards)
+            ? data.cards.some(
+                (c: { saved?: unknown; repeatCounted?: boolean }) =>
+                  c.saved || c.repeatCounted
+              )
+            : data.saved || data.repeatCounted;
+          if (anySavedOrCounted) {
+            refreshStats();
+          }
         }
       } catch (err) {
         console.error("Lookup error:", err);
@@ -268,7 +291,7 @@ function LearnPageContent() {
         );
       }
     },
-    [refreshStats]
+    [refreshStats, saveMessagesToStorage]
   );
 
   const handleRetry = () => {

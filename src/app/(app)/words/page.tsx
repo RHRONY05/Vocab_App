@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo, Suspense } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Search, RotateCcw, ChevronRight } from "lucide-react";
+import { Search, RotateCcw, ChevronRight, X, Loader2 } from "lucide-react";
 import { ProgressStrip } from "@/components/ProgressStrip";
 import { WordCard } from "@/components/WordCard";
 import { WordStats } from "@/components/WordStats";
@@ -69,6 +69,13 @@ function WordsPageContent() {
   const [words, setWords] = useState<WordRowItem[]>([]);
   const [counts, setCounts] = useState({ today: 0, week: 0, month: 0, all: 0 });
 
+  // Pagination & infinite feed state
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [loadingWords, setLoadingWords] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const observerTarget = useRef<HTMLDivElement>(null);
+
   // Selected word for desktop detail pane
   const [userSelectedId, setUserSelectedId] = useState<string | null>(null);
   const [selectedDetail, setSelectedDetail] = useState<WordDetailData | null>(null);
@@ -86,37 +93,17 @@ function WordsPageContent() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Fetch words for current tab & query
-  const fetchWords = useCallback(async () => {
-    try {
-      const params = new URLSearchParams({
-        range,
-        page: "1",
-      });
-      if (debouncedQuery.trim()) {
-        params.set("q", debouncedQuery.trim());
-      }
-
-      const res = await fetch(`/api/words?${params.toString()}`);
-      if (res.ok) {
-        const data = await res.json();
-        setWords(data.words || []);
-        if (data.counts) {
-          setCounts(data.counts);
-        }
-      }
-    } catch (err) {
-      console.warn("Failed to fetch words:", err);
-    }
-  }, [range, debouncedQuery]);
-
+  // Fetch initial batch of words when tab or debounced query changes
   useEffect(() => {
     let cancelled = false;
-    async function loadWords() {
+    async function loadInitialWords() {
       try {
+        setLoadingWords(true);
+        setPage(1);
         const params = new URLSearchParams({
           range,
           page: "1",
+          limit: "10",
         });
         if (debouncedQuery.trim()) {
           params.set("q", debouncedQuery.trim());
@@ -126,32 +113,130 @@ function WordsPageContent() {
         if (res.ok && !cancelled) {
           const data = await res.json();
           setWords(data.words || []);
+          setHasMore(!!data.hasMore);
           if (data.counts) {
             setCounts(data.counts);
           }
         }
       } catch (err) {
         console.warn("Failed to fetch words:", err);
+      } finally {
+        if (!cancelled) {
+          setLoadingWords(false);
+        }
       }
     }
 
-    loadWords();
+    loadInitialWords();
     return () => {
       cancelled = true;
     };
   }, [range, debouncedQuery]);
 
+  // Infinite scroll load more
+  const loadMoreWords = useCallback(async () => {
+    if (loadingMore || !hasMore || loadingWords) return;
+    try {
+      setLoadingMore(true);
+      const nextPage = page + 1;
+      const params = new URLSearchParams({
+        range,
+        page: String(nextPage),
+        limit: "10",
+      });
+      if (debouncedQuery.trim()) {
+        params.set("q", debouncedQuery.trim());
+      }
+
+      const res = await fetch(`/api/words?${params.toString()}`);
+      if (res.ok) {
+        const data = await res.json();
+        const incoming = data.words || [];
+        setWords((prev) => {
+          const existingIds = new Set(prev.map((w) => w.id));
+          const fresh = incoming.filter((w: WordRowItem) => !existingIds.has(w.id));
+          return [...prev, ...fresh];
+        });
+        setPage(nextPage);
+        setHasMore(!!data.hasMore);
+      }
+    } catch (err) {
+      console.warn("Failed to load more words:", err);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [loadingMore, hasMore, loadingWords, page, range, debouncedQuery]);
+
+  // IntersectionObserver for feed infinite scroll
+  useEffect(() => {
+    const target = observerTarget.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loadingMore && !loadingWords) {
+          loadMoreWords();
+        }
+      },
+      { threshold: 0.1, rootMargin: "100px" }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [hasMore, loadingMore, loadingWords, loadMoreWords]);
+
+  // Refresh words (e.g. after deletion)
+  const fetchWords = useCallback(async () => {
+    try {
+      setLoadingWords(true);
+      const params = new URLSearchParams({
+        range,
+        page: "1",
+        limit: "10",
+      });
+      if (debouncedQuery.trim()) {
+        params.set("q", debouncedQuery.trim());
+      }
+
+      const res = await fetch(`/api/words?${params.toString()}`);
+      if (res.ok) {
+        const data = await res.json();
+        setWords(data.words || []);
+        setHasMore(!!data.hasMore);
+        setPage(1);
+        if (data.counts) {
+          setCounts(data.counts);
+        }
+      }
+    } catch (err) {
+      console.warn("Failed to fetch words:", err);
+    } finally {
+      setLoadingWords(false);
+    }
+  }, [range, debouncedQuery]);
+
+  // Instant in-memory search filtering on loaded words
+  const displayedWords = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return words;
+    return words.filter(
+      (w) =>
+        w.word.toLowerCase().includes(q) ||
+        w.meaningEn.toLowerCase().includes(q)
+    );
+  }, [words, searchQuery]);
+
   // Derive active selected word ID
   const paramId = searchParams.get("selected");
   const activeSelectedId = useMemo(() => {
-    if (userSelectedId && words.some((w) => w.id === userSelectedId)) {
+    if (userSelectedId && displayedWords.some((w) => w.id === userSelectedId)) {
       return userSelectedId;
     }
-    if (paramId && words.some((w) => w.id === paramId)) {
+    if (paramId && displayedWords.some((w) => w.id === paramId)) {
       return paramId;
     }
-    return words[0]?.id || null;
-  }, [userSelectedId, paramId, words]);
+    return displayedWords[0]?.id || null;
+  }, [userSelectedId, paramId, displayedWords]);
 
   // Fetch detail for active selected word
   useEffect(() => {
@@ -186,16 +271,16 @@ function WordsPageContent() {
       ? selectedDetail
       : null;
 
-  // Group words by date group label
+  // Group words by date group label using instantly filtered words
   const groupedWords = useMemo(() => {
     const groups: { [label: string]: WordRowItem[] } = {};
-    for (const w of words) {
+    for (const w of displayedWords) {
       const label = getDateGroupLabel(w.createdAt);
       if (!groups[label]) groups[label] = [];
       groups[label].push(w);
     }
     return groups;
-  }, [words]);
+  }, [displayedWords]);
 
   const handleDeleteWord = async () => {
     if (!activeSelectedId || !currentDetail) return;
@@ -253,7 +338,7 @@ function WordsPageContent() {
         <div className="grid grid-cols-1 md:grid-cols-[var(--list-w)_1fr] gap-5 items-start">
           {/* List Pane */}
           <section className="card p-3">
-            {/* Segmented Range Tabs */}
+            {/* Segmented Range Tabs with bracketed counts */}
             <div className="seg full mb-2.5" role="tablist">
               <button
                 type="button"
@@ -262,7 +347,7 @@ function WordsPageContent() {
                 className={range === "today" ? "on" : ""}
                 onClick={() => setRange("today")}
               >
-                Today <span className="num">{counts.today}</span>
+                Today <span className="num">({counts.today})</span>
               </button>
               <button
                 type="button"
@@ -271,7 +356,7 @@ function WordsPageContent() {
                 className={range === "week" ? "on" : ""}
                 onClick={() => setRange("week")}
               >
-                Week <span className="num">{counts.week}</span>
+                Week <span className="num">({counts.week})</span>
               </button>
               <button
                 type="button"
@@ -280,7 +365,7 @@ function WordsPageContent() {
                 className={range === "month" ? "on" : ""}
                 onClick={() => setRange("month")}
               >
-                Month <span className="num">{counts.month}</span>
+                Month <span className="num">({counts.month})</span>
               </button>
               <button
                 type="button"
@@ -289,26 +374,51 @@ function WordsPageContent() {
                 className={range === "all" ? "on" : ""}
                 onClick={() => setRange("all")}
               >
-                All <span className="num">{counts.all}</span>
+                All <span className="num">({counts.all})</span>
               </button>
             </div>
 
-            {/* Search Input */}
-            <div className="input-icon mb-1.5">
+            {/* Search Input with Instant Typing & Clear Button */}
+            <div className="input-icon mb-1.5 relative">
               <Search className="w-4 h-4" />
               <input
-                className="input"
+                className="input pr-8"
                 type="search"
                 placeholder="Search words"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+              {searchQuery && (
+                <button
+                  type="button"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--ink-3)] hover:text-[var(--ink)] cursor-pointer"
+                  onClick={() => setSearchQuery("")}
+                  aria-label="Clear search"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
 
-            {/* Word List Content */}
-            {words.length === 0 ? (
+            {/* Word List Content with Loading State & Infinite Scroll */}
+            {loadingWords ? (
+              <div className="flex flex-col gap-2 p-2" aria-label="Loading words">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-[var(--surface-2)]/40 animate-pulse"
+                  >
+                    <div className="w-2.5 h-2.5 rounded-full bg-[var(--line-strong)]" />
+                    <div className="flex flex-col gap-2 grow">
+                      <div className="h-4 w-28 rounded bg-[var(--line)]" />
+                      <div className="h-3 w-44 rounded bg-[var(--line)]/70" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : displayedWords.length === 0 ? (
               <div className="p-6 text-center text-[var(--ink-3)] text-sm">
-                {debouncedQuery
+                {searchQuery
                   ? "No words match your search."
                   : "No words in this period."}
               </div>
@@ -367,6 +477,15 @@ function WordsPageContent() {
                     })}
                   </div>
                 ))}
+
+                {/* Infinite scroll sentinel & loader */}
+                <div ref={observerTarget} className="h-4 w-full" />
+                {loadingMore && (
+                  <div className="flex items-center justify-center p-3 text-xs text-[var(--ink-3)] gap-2 animate-pulse">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-[var(--teal)]" />
+                    <span>Loading more words…</span>
+                  </div>
+                )}
               </div>
             )}
           </section>

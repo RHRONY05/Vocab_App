@@ -32,6 +32,9 @@ export default defineConfig({
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://localhost:3000",
     trace: "on-first-retry",
+    launchOptions: {
+      args: ["--host-resolver-rules=MAP vnadntttnwylvarcqwhe.supabase.co 172.64.149.246"],
+    },
   },
   projects: [
     {
@@ -62,7 +65,7 @@ export default defineConfig({
   webServer: {
     command: "npm run dev -- -p 3000",
     url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 120000,
     env: {
       ALLOWED_EMAIL: e2eEmail,

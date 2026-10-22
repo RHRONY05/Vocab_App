@@ -58,16 +58,27 @@ export async function POST(req: NextRequest) {
           .update(updatePayload)
           .eq("id", existingWord.id);
 
+        const primaryCard = existingWord.card as unknown as WordCard;
+        const savedInfo = {
+          id: existingWord.id,
+          lookupCount: rule.lookupCount,
+          box: rule.box,
+          createdAt: existingWord.created_at,
+        };
+
         return NextResponse.json({
           type: "word",
-          card: existingWord.card as unknown as WordCard,
+          card: primaryCard,
+          cards: [
+            {
+              card: primaryCard,
+              source: "saved",
+              saved: savedInfo,
+              repeatCounted: rule.repeatCounted,
+            },
+          ],
           source: "saved",
-          saved: {
-            id: existingWord.id,
-            lookupCount: rule.lookupCount,
-            box: rule.box,
-            createdAt: existingWord.created_at,
-          },
+          saved: savedInfo,
           repeatCounted: rule.repeatCounted,
         });
       }
@@ -84,61 +95,85 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Flow 3: AI returned a word card. Check if this card's headword was already saved
-    const normalizedAiWord = normaliseWord(aiResult.card.word);
-    const { data: matchedSavedWord } = await supabase
-      .from("words")
-      .select("*")
-      .eq("word", normalizedAiWord)
-      .maybeSingle();
+    // Flow 3: AI returned word card(s). Check if each card's headword was already saved
+    const incomingCards: WordCard[] =
+      aiResult.cards && aiResult.cards.length > 0
+        ? aiResult.cards
+        : aiResult.card
+        ? [aiResult.card]
+        : [];
 
-    if (matchedSavedWord) {
-      const rule = applyRepeatLookupRule({
-        lookupCount: matchedSavedWord.lookup_count,
-        lastLookedUpAt: matchedSavedWord.last_looked_up_at,
-        box: matchedSavedWord.box,
-      });
+    const processedCards = await Promise.all(
+      incomingCards.map(async (rawCard) => {
+        const normalizedAiWord = normaliseWord(rawCard.word);
+        const { data: matchedSavedWord } = await supabase
+          .from("words")
+          .select("*")
+          .eq("word", normalizedAiWord)
+          .maybeSingle();
 
-      const updatePayload: {
-        lookup_count: number;
-        last_looked_up_at: string;
-        box: number;
-        next_review_at?: string;
-      } = {
-        lookup_count: rule.lookupCount,
-        last_looked_up_at: rule.lastLookedUpAt,
-        box: rule.box,
-      };
-      if (rule.nextReviewAt) {
-        updatePayload.next_review_at = rule.nextReviewAt;
-      }
+        if (matchedSavedWord) {
+          const rule = applyRepeatLookupRule({
+            lookupCount: matchedSavedWord.lookup_count,
+            lastLookedUpAt: matchedSavedWord.last_looked_up_at,
+            box: matchedSavedWord.box,
+          });
 
-      await supabase
-        .from("words")
-        .update(updatePayload)
-        .eq("id", matchedSavedWord.id);
+          const updatePayload: {
+            lookup_count: number;
+            last_looked_up_at: string;
+            box: number;
+            next_review_at?: string;
+          } = {
+            lookup_count: rule.lookupCount,
+            last_looked_up_at: rule.lastLookedUpAt,
+            box: rule.box,
+          };
+          if (rule.nextReviewAt) {
+            updatePayload.next_review_at = rule.nextReviewAt;
+          }
 
-      return NextResponse.json({
-        type: "word",
-        card: matchedSavedWord.card as unknown as WordCard,
-        source: "saved",
-        saved: {
-          id: matchedSavedWord.id,
-          lookupCount: rule.lookupCount,
-          box: rule.box,
-          createdAt: matchedSavedWord.created_at,
-        },
-        repeatCounted: rule.repeatCounted,
-      });
-    }
+          await supabase
+            .from("words")
+            .update(updatePayload)
+            .eq("id", matchedSavedWord.id);
 
-    // New word looked up
-    return NextResponse.json({
-      type: "word",
-      card: aiResult.card,
-      source: "ai",
+          return {
+            card: matchedSavedWord.card as unknown as WordCard,
+            source: "saved" as const,
+            saved: {
+              id: matchedSavedWord.id,
+              lookupCount: rule.lookupCount,
+              box: rule.box,
+              createdAt: matchedSavedWord.created_at,
+            },
+            repeatCounted: rule.repeatCounted,
+          };
+        }
+
+        return {
+          card: rawCard,
+          source: "ai" as const,
+          saved: null,
+          repeatCounted: false,
+        };
+      })
+    );
+
+    const primary = processedCards[0] || {
+      card: incomingCards[0],
+      source: "ai" as const,
       saved: null,
       repeatCounted: false,
+    };
+
+    return NextResponse.json({
+      type: "word",
+      card: primary.card,
+      source: primary.source,
+      saved: primary.saved,
+      repeatCounted: primary.repeatCounted,
+      cards: processedCards,
     });
   } catch (err: unknown) {
     if (err instanceof AuthError) {
