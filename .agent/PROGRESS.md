@@ -163,16 +163,13 @@ Commits: fix(ui,ai): add thread top padding, transparent composer wrap with enha
 Problems / surprises: none. All 4 Gemini models verified and operational.
 Next: Ready for user verification.
 
-### 2026-10-22 20:35 — Antigravity — Native Speech Pronunciation Audio Feature
-Did: Implemented instant word pronunciation via Web Speech API (`window.speechSynthesis`):
-1. Created `PronounceButton.tsx` with animated Lucide speaker icon, ripple animation, active utterance tracking, and ESL-tuned playback (speech rate `0.88x` for crisp articulation, natural English voice selection).
-2. Integrated `PronounceButton` into `WordCard.tsx` directly beside the headword across all screens (Learn chat, Words library, Word detail, Review modal).
-3. Integrated `PronounceButton` into active recall and MCQ question explanations in `ReviewQuestion.tsx`.
-4. Added Playwright E2E assertion verifying pronunciation button visibility and click behavior in Learn flow.
-Tests: typecheck ✅ unit ✅ (42 passed) learn e2e ✅ (12 passed) build ✅
-Commits: feat(audio): add instant ESL-tuned word pronunciation button
-Problems / surprises: none. Instant 0ms speech with zero external API dependencies.
+### 2026-10-22 20:40 — Antigravity — Added MIT License
+Did: Created `LICENSE` file (MIT License © 2026 Muhammad Rony), added the License badge to the `README.md` header, and updated the license footer to link directly to the new `LICENSE` file.
+Tests: docs updated ✅ git pushed to origin main ✅
+Commits: docs: add MIT license and update README badge
+Problems / surprises: none.
 Next: Ready for user verification.
+
 
 
 
@@ -185,16 +182,13 @@ Commits: feat(branding): add Vocab logo favicon, SVG icon, and apple-touch-icon
 Problems / surprises: none.
 Next: Ready for user verification.
 
-### 2026-10-22 20:35 — Antigravity — Native Speech Pronunciation Audio Feature
-Did: Implemented instant word pronunciation via Web Speech API (`window.speechSynthesis`):
-1. Created `PronounceButton.tsx` with animated Lucide speaker icon, ripple animation, active utterance tracking, and ESL-tuned playback (speech rate `0.88x` for crisp articulation, natural English voice selection).
-2. Integrated `PronounceButton` into `WordCard.tsx` directly beside the headword across all screens (Learn chat, Words library, Word detail, Review modal).
-3. Integrated `PronounceButton` into active recall and MCQ question explanations in `ReviewQuestion.tsx`.
-4. Added Playwright E2E assertion verifying pronunciation button visibility and click behavior in Learn flow.
-Tests: typecheck ✅ unit ✅ (42 passed) learn e2e ✅ (12 passed) build ✅
-Commits: feat(audio): add instant ESL-tuned word pronunciation button
-Problems / surprises: none. Instant 0ms speech with zero external API dependencies.
+### 2026-10-22 20:40 — Antigravity — Added MIT License
+Did: Created `LICENSE` file (MIT License © 2026 Muhammad Rony), added the License badge to the `README.md` header, and updated the license footer to link directly to the new `LICENSE` file.
+Tests: docs updated ✅ git pushed to origin main ✅
+Commits: docs: add MIT license and update README badge
+Problems / surprises: none.
 Next: Ready for user verification.
+
 
 
 
