@@ -163,12 +163,18 @@ Commits: fix(ui,ai): add thread top padding, transparent composer wrap with enha
 Problems / surprises: none. All 4 Gemini models verified and operational.
 Next: Ready for user verification.
 
-### 2026-10-22 17:35 — Antigravity — Mobile WordCard layout adjustment
-Did: Stacked WordCard section labels and content vertically on mobile view (< 768px). The section tag/heading now sits on top and the content block (How it's used text, collocations chips, pattern lists, numbered example sentences, don't confuse warning blocks) spans the full width underneath. Preserved the 2-column grid (`136px 1fr`) on desktop (≥ 768px). Updated visual regression screenshots for mobile and desktop.
-Tests: typecheck ✅ unit ✅ (42 passed) int ✅ (26 passed) visual e2e ✅ (5 passed: desktop + mobile) learn e2e ✅ (12 passed) build ✅
-Commits: fix(ui): stack word card sections vertically on mobile view
-Problems / surprises: none. Layout now provides full-width breathing room for content on mobile screens.
+### 2026-10-22 20:05 — Antigravity — Refined README.md
+Did: Rewrote README.md following the Option A showcase structure:
+1. Header & modern tech stack badges (Next.js 16, TypeScript, Tailwind v4, Gemini, Supabase, Vercel) with live link.
+2. Problem & Solution narrative: highlighted why literal dictionary definitions fail in real professional reading/writing and how Vocab explains words with practical contexts, collocations, and Bengali nuance, replacing Notion/n8n.
+3. User capabilities breakdown: contextual word lookups, interactive chat & sentence checking, 1-click/shortcut saving, Leitner 5-box daily reviews, and targeted quizzes (weekly, monthly, all-time, weak words).
+4. Documentation note pointing to upcoming `/docs` and `.agent/` architecture files.
+5. Clean self-hosted local setup & Vercel deployment guide with annotated environment variables table.
+Tests: docs updated ✅ git pushed to origin main ✅
+Commits: docs: refine README for showcase, user capabilities, and self-hosted setup
+Problems / surprises: none.
 Next: Ready for user verification.
+
 
 
 
@@ -179,12 +185,18 @@ Commits: feat(branding): add Vocab logo favicon, SVG icon, and apple-touch-icon
 Problems / surprises: none.
 Next: Ready for user verification.
 
-### 2026-10-22 17:35 — Antigravity — Mobile WordCard layout adjustment
-Did: Stacked WordCard section labels and content vertically on mobile view (< 768px). The section tag/heading now sits on top and the content block (How it's used text, collocations chips, pattern lists, numbered example sentences, don't confuse warning blocks) spans the full width underneath. Preserved the 2-column grid (`136px 1fr`) on desktop (≥ 768px). Updated visual regression screenshots for mobile and desktop.
-Tests: typecheck ✅ unit ✅ (42 passed) int ✅ (26 passed) visual e2e ✅ (5 passed: desktop + mobile) learn e2e ✅ (12 passed) build ✅
-Commits: fix(ui): stack word card sections vertically on mobile view
-Problems / surprises: none. Layout now provides full-width breathing room for content on mobile screens.
+### 2026-10-22 20:05 — Antigravity — Refined README.md
+Did: Rewrote README.md following the Option A showcase structure:
+1. Header & modern tech stack badges (Next.js 16, TypeScript, Tailwind v4, Gemini, Supabase, Vercel) with live link.
+2. Problem & Solution narrative: highlighted why literal dictionary definitions fail in real professional reading/writing and how Vocab explains words with practical contexts, collocations, and Bengali nuance, replacing Notion/n8n.
+3. User capabilities breakdown: contextual word lookups, interactive chat & sentence checking, 1-click/shortcut saving, Leitner 5-box daily reviews, and targeted quizzes (weekly, monthly, all-time, weak words).
+4. Documentation note pointing to upcoming `/docs` and `.agent/` architecture files.
+5. Clean self-hosted local setup & Vercel deployment guide with annotated environment variables table.
+Tests: docs updated ✅ git pushed to origin main ✅
+Commits: docs: refine README for showcase, user capabilities, and self-hosted setup
+Problems / surprises: none.
 Next: Ready for user verification.
+
 
 
 
