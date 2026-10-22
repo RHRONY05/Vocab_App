@@ -521,18 +521,19 @@ kbd {
 }
 
 /* ---------- word card (WordCard) ---------- */
-.wc { padding: 28px 32px 24px; }
+/* Mobile-first base styles (stacked sections: label on top, full-width block below) */
+.wc { padding: 20px 18px 18px; }
 .wc-head { display: flex; align-items: flex-start; gap: 16px; }
-.headword { font-family: var(--font-serif); font-size: var(--text-word); line-height: var(--leading-word); font-weight: 600; letter-spacing: -.015em; }
+.headword { font-family: var(--font-serif); font-size: 30px; line-height: 36px; font-weight: 600; letter-spacing: -.015em; }
 .wc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.meaning { margin-top: 16px; font-size: var(--text-lg); line-height: var(--leading-lg); font-weight: 500; }
+.meaning { margin-top: 12px; font-size: 17px; line-height: 26px; font-weight: 500; }
 .bangla { margin-top: 6px; display: flex; gap: 10px; align-items: baseline; font-family: var(--font-bn); font-size: 17px; line-height: 28px; color: var(--ink-2); }
 .bangla .tag { font-family: var(--font-bn); font-size: 12px; font-weight: 600; color: var(--ink-2); padding: 0 6px; border-radius: 6px; background: var(--surface-2); line-height: 22px; }
 .wc-body { margin-top: 20px; padding-top: 4px; border-top: 1px solid var(--line); }
-.wc-sec { display: grid; grid-template-columns: 136px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.wc-sec { display: flex; flex-direction: column; gap: 8px; padding: 14px 0; border-bottom: 1px solid var(--line); }
 .wc-sec:last-child { border-bottom: 0; padding-bottom: 0; }
-.wc-sec > .label { padding-top: 4px; }
-.wc-sec .text { font-size: var(--text-read); line-height: var(--leading-read); color: var(--ink); }
+.wc-sec > .label { padding-top: 0; }
+.wc-sec .text { font-size: 15px; line-height: 24px; color: var(--ink); }
 .collocs { display: flex; flex-wrap: wrap; gap: 6px; }
 .collocs .chip { background: var(--accent-soft); color: var(--accent-text); font-weight: 500; }
 .patterns { list-style: none; display: flex; flex-direction: column; gap: 6px; }
@@ -540,7 +541,7 @@ kbd {
 .patterns li::before { content: ""; position: absolute; left: 0; top: 9px; width: 5px; height: 5px; border-radius: 2px; background: var(--line-strong); }
 .patterns em { font-style: normal; color: var(--ink-3); }
 .examples { list-style: none; counter-reset: ex; display: flex; flex-direction: column; gap: 10px; }
-.examples li { counter-increment: ex; display: grid; grid-template-columns: 22px 1fr; font-size: var(--text-read); line-height: var(--leading-read); }
+.examples li { counter-increment: ex; display: grid; grid-template-columns: 22px 1fr; font-size: 15px; line-height: 24px; }
 .examples li::before { content: counter(ex); font-size: 12px; font-weight: 600; color: var(--ink-3); padding-top: 1px; }
 mark.w { color: inherit; font-weight: 650; padding: 0 2px; border-radius: 3px; background: linear-gradient(transparent 58%, var(--highlight-soft) 58%); }
 .confuse { display: flex; flex-direction: column; gap: 8px; }
@@ -548,11 +549,41 @@ mark.w { color: inherit; font-weight: 650; padding: 0 2px; border-radius: 3px; b
 .confuse .pair b { color: var(--warn-text); font-weight: 650; }
 .wc-foot { margin-top: 18px; display: flex; align-items: center; gap: 8px; color: var(--ink-3); font-size: 13px; }
 
-/* compact word card (mobile): sections stack */
+/* Desktop word card (>= 768px): 2-column side-by-side unless explicitly compact */
+@media (min-width: 768px) {
+  .wc:not(.compact) {
+    padding: 28px 32px 24px;
+  }
+  .wc:not(.compact) .headword {
+    font-size: var(--text-word);
+    line-height: var(--leading-word);
+  }
+  .wc:not(.compact) .meaning {
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+    margin-top: 16px;
+  }
+  .wc:not(.compact) .wc-sec {
+    display: grid;
+    grid-template-columns: 136px 1fr;
+    gap: 20px;
+    padding: 16px 0;
+  }
+  .wc:not(.compact) .wc-sec > .label {
+    padding-top: 4px;
+  }
+  .wc:not(.compact) .wc-sec .text,
+  .wc:not(.compact) .examples li {
+    font-size: var(--text-read);
+    line-height: var(--leading-read);
+  }
+}
+
+/* Explicit compact override (modals or narrow contexts at any breakpoint) */
 .wc.compact { padding: 20px 18px 18px; }
 .wc.compact .headword { font-size: 30px; line-height: 36px; }
 .wc.compact .meaning { font-size: 17px; line-height: 26px; margin-top: 12px; }
-.wc.compact .wc-sec { grid-template-columns: 1fr; gap: 8px; padding: 14px 0; }
+.wc.compact .wc-sec { display: flex; flex-direction: column; gap: 8px; padding: 14px 0; }
 .wc.compact .wc-sec > .label { padding-top: 0; }
 .wc.compact .wc-sec .text, .wc.compact .examples li { font-size: 15px; line-height: 24px; }
 

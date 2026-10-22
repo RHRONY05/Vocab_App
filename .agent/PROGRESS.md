@@ -163,17 +163,13 @@ Commits: fix(ui,ai): add thread top padding, transparent composer wrap with enha
 Problems / surprises: none. All 4 Gemini models verified and operational.
 Next: Ready for user verification.
 
-### 2026-10-22 16:45 — Antigravity — Bot reply formatting, multi-word lookups, animated AI & save icons, words page enhancements
-Did:
-1. Markdown replies: Integrated `react-markdown` and updated `.bubble-reply` styles with structured markdown (bold headings, bullet lists, bold highlights, spacing). Updated `LOOKUP_SYSTEM_PROMPT` to instruct Gemini to generate structured markdown replies.
-2. Multi-word lookups: Extended Zod schemas and Gemini response schemas to support returning multiple word cards when users ask for multiple words (e.g. "Explain bogged and idiom"). Updated `/api/lookup` to process, check against DB, and return all cards; updated Learn page to render all cards with individual save buttons.
-3. Animated AI Avatar: Created `AiAvatar.tsx` with animated SVG sparkles, breathing glow, and pulsing gradient accents in teal and gold; added to assistant replies and thinking states.
-4. Animated Save Button: Replaced static "Saving..." with animated wave-bouncing dots and spinning loader icon in `WordCard.tsx`.
-5. Words page enhancements: Formatted tab counts with brackets (`Today (1)`, `Week (9)`, `Month (9)`, `All (9)`), added instant keystroke search filtering with clear button, added skeleton loading state on tab switches, and implemented feed-style infinite scroll with `limit=10`.
-Tests: typecheck ✅ lint ✅ unit ✅ (42 passed) int ✅ (26 passed) e2e ✅ (52 passed) build ✅
-Commits: feat: markdown replies, multi-word cards, animated ai avatar, animated save, and words feed pagination
-Problems / surprises: Local ISP DNS failed UDP 53 on .co domains; added resilient fallback in local test runners and SSR proxy.
-Next: Deployed to Vercel production.
+### 2026-10-22 17:35 — Antigravity — Mobile WordCard layout adjustment
+Did: Stacked WordCard section labels and content vertically on mobile view (< 768px). The section tag/heading now sits on top and the content block (How it's used text, collocations chips, pattern lists, numbered example sentences, don't confuse warning blocks) spans the full width underneath. Preserved the 2-column grid (`136px 1fr`) on desktop (≥ 768px). Updated visual regression screenshots for mobile and desktop.
+Tests: typecheck ✅ unit ✅ (42 passed) int ✅ (26 passed) visual e2e ✅ (5 passed: desktop + mobile) learn e2e ✅ (12 passed) build ✅
+Commits: fix(ui): stack word card sections vertically on mobile view
+Problems / surprises: none. Layout now provides full-width breathing room for content on mobile screens.
+Next: Ready for user verification.
+
 
 
 ### 2026-10-21 00:14 — Antigravity — Logo Favicon & App Icons
@@ -183,17 +179,13 @@ Commits: feat(branding): add Vocab logo favicon, SVG icon, and apple-touch-icon
 Problems / surprises: none.
 Next: Ready for user verification.
 
-### 2026-10-22 16:45 — Antigravity — Bot reply formatting, multi-word lookups, animated AI & save icons, words page enhancements
-Did:
-1. Markdown replies: Integrated `react-markdown` and updated `.bubble-reply` styles with structured markdown (bold headings, bullet lists, bold highlights, spacing). Updated `LOOKUP_SYSTEM_PROMPT` to instruct Gemini to generate structured markdown replies.
-2. Multi-word lookups: Extended Zod schemas and Gemini response schemas to support returning multiple word cards when users ask for multiple words (e.g. "Explain bogged and idiom"). Updated `/api/lookup` to process, check against DB, and return all cards; updated Learn page to render all cards with individual save buttons.
-3. Animated AI Avatar: Created `AiAvatar.tsx` with animated SVG sparkles, breathing glow, and pulsing gradient accents in teal and gold; added to assistant replies and thinking states.
-4. Animated Save Button: Replaced static "Saving..." with animated wave-bouncing dots and spinning loader icon in `WordCard.tsx`.
-5. Words page enhancements: Formatted tab counts with brackets (`Today (1)`, `Week (9)`, `Month (9)`, `All (9)`), added instant keystroke search filtering with clear button, added skeleton loading state on tab switches, and implemented feed-style infinite scroll with `limit=10`.
-Tests: typecheck ✅ lint ✅ unit ✅ (42 passed) int ✅ (26 passed) e2e ✅ (52 passed) build ✅
-Commits: feat: markdown replies, multi-word cards, animated ai avatar, animated save, and words feed pagination
-Problems / surprises: Local ISP DNS failed UDP 53 on .co domains; added resilient fallback in local test runners and SSR proxy.
-Next: Deployed to Vercel production.
+### 2026-10-22 17:35 — Antigravity — Mobile WordCard layout adjustment
+Did: Stacked WordCard section labels and content vertically on mobile view (< 768px). The section tag/heading now sits on top and the content block (How it's used text, collocations chips, pattern lists, numbered example sentences, don't confuse warning blocks) spans the full width underneath. Preserved the 2-column grid (`136px 1fr`) on desktop (≥ 768px). Updated visual regression screenshots for mobile and desktop.
+Tests: typecheck ✅ unit ✅ (42 passed) int ✅ (26 passed) visual e2e ✅ (5 passed: desktop + mobile) learn e2e ✅ (12 passed) build ✅
+Commits: fix(ui): stack word card sections vertically on mobile view
+Problems / surprises: none. Layout now provides full-width breathing room for content on mobile screens.
+Next: Ready for user verification.
+
 
 
 
